@@ -40,11 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'plantilla',
     "api",
     "corsheaders",
 ]
-
 
 REST_FRAMEWORK ={
     'DEFAULT_AUTHENTICATION_CLASSES':(
@@ -53,13 +51,10 @@ REST_FRAMEWORK ={
     )
 }
 
-
 SIMPLE_JWT ={
     'ACCESS_TOKEN_LIFETIME':timedelta(minutes=60),
     'REFRESH_TOKEN_LIFETIME':timedelta(days=1),
 }
-
-
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -99,7 +94,7 @@ WSGI_APPLICATION = 'plantilla.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'plantilla',
+        'NAME': 'emplea_tico',
         'USER': 'root',
         'PASSWORD':'1234',
         'HOST': '127.0.0.1',
