@@ -1,6 +1,7 @@
 
 
 import Routing from "./routes/routing"
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
 
