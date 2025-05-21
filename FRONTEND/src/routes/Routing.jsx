@@ -2,9 +2,9 @@ import React from 'react'
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-
+import Inicio from '../pages/Inicio';
 import Administrador from '../pages/Administrador';
-import LibrosCrudPage from '../pages/LibrosCrudPage';
+
 import Login from '../pages/Login';
 import Register from '../pages/Register';
 
@@ -19,7 +19,7 @@ function Routing() {
             <Route  path='/admin' element={<Administrador/>}/>
             <Route  path='/login' element={<Login/>}/>
             <Route  path='/register' element={<Register/>}/>
-            <Route  path='/libros' element={<LibrosCrudPage/>}/>
+            <Route  path='/Inicio' element={<Inicio/>}/>
         </Routes>
     </Router>
   
