@@ -1,15 +1,19 @@
-from .models import Autor, Libros, LibrosCategorias, Categorias
+from .models import Intereses
 from rest_framework import serializers
 
-class AutorSerializer(serializers.ModelSerializer):
+class InteresesSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Autor
+        model = Intereses
         fields = '__all__'
+        
     def validate_nombre(self,value):
         if len(value) <= 5:
             raise serializers.ValidationError("El nombre del autor tiene que tener mas de 5 caracteres")
         return value
     
+
+
+
 
 class CategoriasSerializer(serializers.ModelSerializer):
     class Meta:
