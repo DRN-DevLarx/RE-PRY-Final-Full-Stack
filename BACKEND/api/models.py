@@ -3,14 +3,10 @@ from django.core.validators import MinLengthValidator, MinValueValidator, EmailV
 
 class Intereses(models.Model):
     intereses_ID = models.IntegerField(primary_key=True)
-    turismo_y_hoteleria = models.BooleanField(default=False)
-    comercio_y_ventas = models.BooleanField(default=False)
-    eduacion_y_salud = models.BooleanField(default=False)
-    construccion = models.BooleanField(default=False)
-    tecnologia = models.BooleanField(default=False)
-    servicios = models.BooleanField(default=False)
-    pesca_y_agricultura = models.BooleanField(default=False)
+    nombre_interes = models.CharField(max_length=30)
 
+    def __str__(self):
+        return " ".join(vars(self).values())
 
 class Usuarios (models.Model):
     usuario_ID = models.IntegerField(primary_key=True)
@@ -20,7 +16,7 @@ class Usuarios (models.Model):
     apellido_usuario = models.CharField(max_length=30, validators=[MinLengthValidator(3)])
     usuario_usuario = models.CharField(max_length=30, validators=[MinLengthValidator(3)])
     contraseña_usuario = models.CharField(max_length=30, validators=[MinLengthValidator(3)])
-    telefono_usuario = models.CharField(max_length=20, blank=True, nuñll=True)
+    telefono_usuario = models.CharField(max_length=20, blank=True, null=True)
     correo_usuario = models.EmailField(unique=True, validators=[EmailValidator()])
     fecha_registro_usuario = models.DateTimeField(auto_now_add=True)
     referenciaIMG_usuario = models.CharField(max_length=30)
@@ -38,21 +34,22 @@ class InteresesUsuarios(models.Model):
     identificacion_usuario = models.ForeignKey(Usuarios, on_delete=models.CASCADE)
     intereses_ID = models.ForeignKey(Intereses, on_delete=models.CASCADE)
 
-
-
+    def __str__(self):
+        return " ".join(vars(self).values())
 
 
 class OfertasDisponibles (models.Model):
     oferta_ID = models.IntegerField()
     titulo_oferta = models.CharField(max_length=30, validators=[MinLengthValidator(3)])
     nombre_puesto_ofertaD = models.CharField(max_length=30, validators=[MinLengthValidator(3)])
+    
     categoria_ofertaD = models.CharField(max_length=30, validators=[MinLengthValidator(3)])
+    
     vacantes_ofertaD = models.IntegerField()
     ubicacion_ofertaD = models.TextField()
     fecha_ofertaD = models.DateTimeField(auto_now_add=True)
     salario_ofertaD = models.CharField(max_length=30)
     descripcion_ofertaD = models.TextField()
-    requisitos_ofertaD = models.TextField()
     referenciaIMG_ofertaD = models.CharField(max_length=30)
     estado_ofertaD = models.CharField(max_length=30)
     # identificacion = models.ForeignKey("app.Model", verbose_name=_(""), on_delete=models.CASCADE)
@@ -68,7 +65,6 @@ class categorias(models.Model):
 class Empresas(models.Model):
     identificacion_empresa = models.IntegerField()
     nombre_empresa = models.CharField(max_length=30, validators=[MinLengthValidator(5)])
-    apellido_empresa = models.CharField(max_length=30, validators=[MinLengthValidator(3)])
     usuario = models.CharField(max_length=30, validators=[MinLengthValidator(3)])
     contraseña_empresa = models.CharField(max_length=30, validators=[MinLengthValidator(8)])
     telefono_empresa = models.CharField(max_length=30, validators=[MinLengthValidator(8)])
@@ -86,6 +82,8 @@ class OfertasEmpresas(models.Model):
     ofertaD = models.ForeignKey(OfertasDisponibles, on_delete=models.CASCADE)
     identificacion_empresa = models.ForeignKey(Empresas, on_delete=models.CASCADE)
     
+    def __str__(self):
+        return " ".join(vars(self).values())
 
 class Postulaciones(models.Model):
     postulacion_ID = models.IntegerField(primary_key=True)
@@ -93,16 +91,14 @@ class Postulaciones(models.Model):
     ofertaD = models.ForeignKey(OfertasDisponibles, on_delete=models.CASCADE)
     fecha_postulacion =models.DateTimeField(auto_now_add=True)
     
+    def __str__(self):
+        return " ".join(vars(self).values())
+    
 class OfertasDesactivadas(models.Model):
     oferta_desact_ID = models.IntegerField(primary_key=True)
     ofertaD_ID = models.ForeignKey(OfertasDisponibles, on_delete=models.CASCADE)
     motivo = models.TextField()
     fecha_desactiva = models.DateTimeField (auto_now_add=True)
-    
-    
-class relacion_OfertasDesact(models.Model):
-    relacion_OfertasDesact_ID = models.IntegerField(primary_key=True)
-    ofertaD = models.ForeignKey(OfertasDisponibles, on_delete=models.CASCADE)
-    oferta_desact_ID = models.ForeignKey(OfertasDesactivadas, on_delete=models.CASCADE)
-    motivo = models.CharField(max_length=100)
-   
+
+    def __str__(self):
+        return " ".join(vars(self).values())

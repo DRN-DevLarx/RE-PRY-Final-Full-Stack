@@ -1,4 +1,4 @@
-from .models import Intereses
+from .models import Intereses, Usuarios, InteresesUsuarios, OfertasDisponibles, categorias, Empresas, OfertasEmpresas, Postulaciones, OfertasDesactivadas, relacion_OfertasDesact
 from rest_framework import serializers
 
 class InteresesSerializer(serializers.ModelSerializer):
@@ -10,25 +10,49 @@ class InteresesSerializer(serializers.ModelSerializer):
         if len(value) <= 5:
             raise serializers.ValidationError("El nombre del autor tiene que tener mas de 5 caracteres")
         return value
-    
 
 
+class UsuariosSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Usuarios
+        fields = '__all__'
 
+class InteresesUsuariosSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = InteresesUsuarios
+        fields = '__all__'
 
-# class CategoriasSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Categorias
-#         fields = ['id', 'nombre']  
+class OfertasDisponiblesSerializer(serializers.Modelserializer):
+    class Meta:
+        model = OfertasDisponibles
+        fields = '__all__'
 
-# class LibrosCategoriasSerializer(serializers.ModelSerializer):
-  
-#     class Meta:
-#         model = LibrosCategorias
-#         fields = '__all__'
+class categoriasSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = categorias
+        fields = '__all__'
 
-# class LibrosSerializer(serializers.ModelSerializer):
-
-
-#     class Meta:
-#         model = Libros
-#         fields = ['id', 'titulo', 'fecha_publicacion', 'disponible', 'autor']
+class EmpresasSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Empresas
+        fields = '__all_'
+        
+class OfertasEmpresasSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = OfertasEmpresas
+        fileds = '__all__'
+        
+class PostulacionesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Postulaciones
+        fields = '__all__'
+        
+class OfertasDesactivadasSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = OfertasDesactivadas
+        fields = '__all_'
+        
+class relacion_OfertasDesactSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = relacion_OfertasDesact
+        fields = '__all__'
