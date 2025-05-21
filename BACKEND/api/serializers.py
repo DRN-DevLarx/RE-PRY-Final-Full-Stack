@@ -15,20 +15,20 @@ class InteresesSerializer(serializers.ModelSerializer):
 
 
 
-class CategoriasSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Categorias
-        fields = ['id', 'nombre']  
+# class CategoriasSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Categorias
+#         fields = ['id', 'nombre']  
 
-class LibrosCategoriasSerializer(serializers.ModelSerializer):
+# class LibrosCategoriasSerializer(serializers.ModelSerializer):
   
-    class Meta:
-        model = LibrosCategorias
-        fields = '__all__'
+#     class Meta:
+#         model = LibrosCategorias
+#         fields = '__all__'
 
-class LibrosSerializer(serializers.ModelSerializer):
+# class LibrosSerializer(serializers.ModelSerializer):
 
 
-    class Meta:
-        model = Libros
-        fields = ['id', 'titulo', 'fecha_publicacion', 'disponible', 'autor']
+#     class Meta:
+#         model = Libros
+#         fields = ['id', 'titulo', 'fecha_publicacion', 'disponible', 'autor']

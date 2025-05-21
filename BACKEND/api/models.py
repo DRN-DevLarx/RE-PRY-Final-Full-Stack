@@ -11,6 +11,7 @@ class Intereses(models.Model):
     servicios = models.BooleanField(default=False)
     pesca_y_agricultura = models.BooleanField(default=False)
 
+
 class Usuarios (models.Model):
     usuario_ID = models.IntegerField(primary_key=True)
     identificacion_usuario = models.IntegerField()
