@@ -20,7 +20,7 @@ class Usuarios (models.Model):
     apellido_usuario = models.CharField(max_length=30, validators=[MinLengthValidator(3)])
     usuario_usuario = models.CharField(max_length=30, validators=[MinLengthValidator(3)])
     contraseña_usuario = models.CharField(max_length=30, validators=[MinLengthValidator(3)])
-    telefono_usuario = models.CharField(max_length=20, blank=True, null=True)
+    telefono_usuario = models.CharField(max_length=20, blank=True, nuñll=True)
     correo_usuario = models.EmailField(unique=True, validators=[EmailValidator()])
     fecha_registro_usuario = models.DateTimeField(auto_now_add=True)
     referenciaIMG_usuario = models.CharField(max_length=30)
