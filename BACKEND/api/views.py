@@ -1,71 +1,106 @@
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, CreateAPIView
+from rest_framework.permissions import AllowAny, IsAuthenticated, BasePermission
+from .models import (
+    Usuarios, Intereses, InteresesUsuarios, Ofertas, Empresas,
+    OfertasEmpresas, Postulaciones, auditoriaOfertas
+)
+from .serializers import (
+    UsuariosSerializer, InteresesSerializer, InteresesUsuariosSerializer, 
+    OfertasSerializer, EmpresasSerializer, OfertasEmpresasSerializer,
+    PostulacionesSerializer, AuditoriaOfertasSerializer
+)
 
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
-from .models import Libros, Autor, Categorias, LibrosCategorias
-from .serializers import LibrosSerializer, AutorSerializer, CategoriasSerializer, LibrosCategoriasSerializer
-
-from rest_framework.permissions import BasePermission, IsAuthenticated
-
-
+# ------------------- Permisos personalizados -------------------
 class IsAdminUserGroup(BasePermission):
     def has_permission(self, request, view):
         return request.user and request.user.groups.filter(name="admin").exists()
 
-
-class IsLectorUserGroup(BasePermission):
+class IsEmpresaUser(BasePermission):
     def has_permission(self, request, view):
-        return request.user and request.user.groups.filter(name="lector").exists()
+        return request.user and request.user.groups.filter(name="empresa").exists()
 
-
-class IsBibliotecarioUserGroup(BasePermission):
+class IsUsuarioUser(BasePermission):
     def has_permission(self, request, view):
-        return request.user and request.user.groups.filter(name="bibliotecario").exists()
+        return request.user and request.user.groups.filter(name="usuario").exists()
+
+# ------------------- Vistas Usuarios -------------------
+class RegisterUserView(CreateAPIView):
+    queryset = Usuarios.objects.all()
+    serializer_class = UsuariosSerializer
+    permission_classes = [AllowAny]
+
+class UsuariosListCreateView(ListCreateAPIView):
+    permission_classes = [IsAuthenticated, IsAdminUserGroup]
+    queryset = Usuarios.objects.all()
+    serializer_class = UsuariosSerializer
+
+class UsuariosDetailView(RetrieveUpdateDestroyAPIView):
+    permission_classes = [IsAuthenticated, IsAdminUserGroup]
+    queryset = Usuarios.objects.all()
+    serializer_class = UsuariosSerializer
+
+# ------------------- Vistas Intereses -------------------
+class InteresesListCreateView(ListCreateAPIView):
+    queryset = Intereses.objects.all()
+    serializer_class = InteresesSerializer
+
+class InteresesDetailView(RetrieveUpdateDestroyAPIView):
+    queryset = Intereses.objects.all()
+    serializer_class = InteresesSerializer
+
+# ------------------- Vistas InteresesUsuarios -------------------
+class InteresesUsuariosListCreateView(ListCreateAPIView):
+    queryset = InteresesUsuarios.objects.all()
+    serializer_class = InteresesUsuariosSerializer
+
+class InteresesUsuariosDetailView(RetrieveUpdateDestroyAPIView):
+    queryset = InteresesUsuarios.objects.all()
+    serializer_class = InteresesUsuariosSerializer
+
+# ------------------- Vistas OfertasDisponibles -------------------
+class OfertasListCreateView(ListCreateAPIView):
+    queryset = Ofertas.objects.all()
+    serializer_class = OfertasSerializer
+
+class OfertasDetailView(RetrieveUpdateDestroyAPIView):
+    queryset = Ofertas.objects.all()
+    serializer_class = OfertasSerializer
+
+# ------------------- Vistas Empresas -------------------
+class EmpresasListCreateView(ListCreateAPIView):
+    permission_classes = [IsAuthenticated, IsEmpresaUser]
+    queryset = Empresas.objects.all()
+    serializer_class = EmpresasSerializer
+
+class EmpresasDetailView(RetrieveUpdateDestroyAPIView):
+    permission_classes = [IsAuthenticated, IsEmpresaUser]
+    queryset = Empresas.objects.all()
+    serializer_class = EmpresasSerializer
+
+# ------------------- Vistas OfertasEmpresas -------------------
+class OfertasEmpresasListCreateView(ListCreateAPIView):
+    queryset = OfertasEmpresas.objects.all()
+    serializer_class = OfertasEmpresasSerializer
+
+class OfertasEmpresasDetailView(RetrieveUpdateDestroyAPIView):
+    queryset = OfertasEmpresas.objects.all()
+    serializer_class = OfertasEmpresasSerializer
+
+# ------------------- Vistas Postulaciones -------------------
+class PostulacionesListCreateView(ListCreateAPIView):
+    queryset = Postulaciones.objects.all()
+    serializer_class = PostulacionesSerializer
+
+class PostulacionesDetailView(RetrieveUpdateDestroyAPIView):
+    queryset = Postulaciones.objects.all()
+    serializer_class = PostulacionesSerializer
 
 
-class LibrosListCreateView(ListCreateAPIView):
-    permission_classes = [IsAdminUserGroup, IsAuthenticated,IsLectorUserGroup]
-    queryset = Libros.objects.all()
-    serializer_class = LibrosSerializer
-
-
-class LibrosDetailView(RetrieveUpdateDestroyAPIView):
-    permission_classes = [IsAdminUserGroup, IsAuthenticated]
-    queryset = Libros.objects.all()
-    serializer_class = LibrosSerializer
-
-
-class AutorListCreateView (ListCreateAPIView):
-    permission_classes = [IsAdminUserGroup, IsAuthenticated,
-                          IsLectorUserGroup, IsBibliotecarioUserGroup]
-    queryset = Autor.objects.all()
-    serializer_class = AutorSerializer
-
-
-class AutorDetailView(RetrieveUpdateDestroyAPIView):
-    permission_classes = [IsAdminUserGroup, IsAuthenticated]
-    queryset = Autor.objects.all()
-    serializer_class = AutorSerializer
-
-
-class CategoriasListCreateView(ListCreateAPIView):
-    permission_classes = [IsAdminUserGroup, IsAuthenticated,
-                          IsLectorUserGroup, IsBibliotecarioUserGroup]
-    queryset = Categorias.objects.all()
-    serializer_class = CategoriasSerializer
-
-
-class CategoriasDetailView(RetrieveUpdateDestroyAPIView):
-    permission_classes = [IsAdminUserGroup, IsAuthenticated, IsLectorUserGroup]
-    queryset = Categorias.objects.all()
-    serializer_class = CategoriasSerializer
-
-
-class LibrosCategoriasListCreateView(ListCreateAPIView):
-    permission_classes = [IsAdminUserGroup, IsAuthenticated, IsLectorUserGroup]
-    queryset = LibrosCategorias.objects.all()
-    serializer_class = LibrosCategoriasSerializer
-
-
-class LibrosCategoriasDetailView(RetrieveUpdateDestroyAPIView):
-    permission_classes = [IsAdminUserGroup, IsAuthenticated]
-    queryset = LibrosCategorias.objects.all()
-    serializer_class = LibrosCategoriasSerializer
+class AuditoriaOfertasListCreateView(ListCreateAPIView):
+    queryset = auditoriaOfertas.objects.all()
+    serializer_class = AuditoriaOfertasSerializer
+    
+class AuditoriaOfertasDetailView(RetrieveUpdateDestroyAPIView):
+    queryset = auditoriaOfertas
+    serializer_class = AuditoriaOfertasSerializer
+    
