@@ -57,8 +57,7 @@ class InteresesUsuariosSerializer(serializers.ModelSerializer):
 
 class OfertasSerializer(serializers.ModelSerializer):
     titulo_oferta = serializers.CharField(validators=[MinLengthValidator(3)])
-    nombre_puesto_ofertaD = serializers.CharField(validators=[MinLengthValidator(3)])
-    categoria_ofertaD = serializers.CharField(validators=[MinLengthValidator(3)])
+    nombre_puesto_oferta = serializers.CharField(validators=[MinLengthValidator(3)])
 
     class Meta:
         model = Ofertas

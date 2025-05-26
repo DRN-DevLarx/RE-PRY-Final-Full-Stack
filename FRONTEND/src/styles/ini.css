@@ -15,6 +15,43 @@
     font-weight: bold;
 }
 
+.navbar-nav {
+    display: flex;
+    align-items: center;
+    gap: -10px;
+}
+
+.btn-second {
+    color: white;
+    text-decoration: none;
+    border: solid 1px #2ae2b6;
+    padding: 6px 15px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-second:hover {
+    background-color: #2ae2b6;
+    color: black;
+    font-weight: bold;
+}   
+
+.btn-prim {
+    text-decoration: none;
+    font-weight: bold;
+    background-color: #2ae2b6;
+    border: solid 1px #2ae2b6;
+    color: black;
+    font-weight: bold;  
+    padding: 6px 15px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-prim:hover {
+    color: white;
+    border: solid 1px #2ae2b6;
+    background-color: transparent;
+}
+
 #btnregi, #btninic {
     background-color: #2ae2b6;
     color: white;
@@ -44,7 +81,6 @@
     background-position: center;
     margin: 0;
     z-index: -1;
-    height: 100vh;
 }
 
 .fondo img {
@@ -55,7 +91,7 @@
 .contenedorInicial{
     position: relative;
     width: 100%;
-    height: 100vh;
+    height: 90vh;
 
     background-image: url(../public/fondo.webp);
     background-repeat: no-repeat;
@@ -96,12 +132,17 @@
     width: 100%;
     transform: skew(-20deg);
     color: aliceblue;
-    padding: 2px 8px; 
     display: flex;
     gap: 30px;
+    font-size: 17px;
     align-items: center;
     justify-content: center;
     border-radius: 5px;
+}
+
+.Inicio {
+    background-color: #2ae2b6;
+    padding: 0 10px;
 }
 
 .capa2 a {
@@ -122,12 +163,18 @@
     text-decoration: none;
 }
 
+.Inicio:hover {
+    background-color: #2ae2b6;
+    color: black;
+    font-weight: bold;
+}
+
 .contenedor_texto_central{
     position: absolute;
     top: 73%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 30%;
+    width: 40%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -139,11 +186,8 @@
     border-radius: 30px;
     text-align: center;
     padding: 20px;
-    color: black;
-    font-weight: bold;
     width: 100%;
-    box-sizing: border-box;
-    user-select: none;
+    color: black;
 }
 
 #btnoferta{
@@ -158,6 +202,8 @@
     transition: background-color 0.3s ease;
     font-weight: bold;
     display: block;
+    text-decoration: none;
+
 }
 
 #btnoferta:hover{
@@ -165,73 +211,51 @@
     color: #2ae2b6;
 }
 
-
-#divcategorias {
-    width: 100%;
-    position: absolute;
-    transform: translateY(-50px);
-    display: flex;
-}
- 
 #contP {
-    margin: 0 auto;
     display: flex;
     justify-content: center;
 }
 
 #containerCat {
-    width: 50%;
-    background-color: #2ae2b6;
+    width: 100%;
     display: flex;
-    gap: 10px;
     flex-wrap: wrap;
-    padding: 20px;
+    padding: 10px;
     justify-content: center;
-}
-
-#containerCat2 {
-    
-    width: 18%;
     background-color: #2ae2b6;
-    text-align: center;
-    padding: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: center;    
 }
 
 #containerCat article {
-    width: 30%;
-    background-color: gray;
-    padding: 5px;
+    background-color: rgba(128, 128, 128, 0.6);
     text-align: center;
-    
+    padding: 0 20px;
+    width: 100%;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
-
-#containerCat2 article {
-    background-color: gray;
-    padding: 4px;
-    
-
-}
-
 
 #about {
     height: 600px;
     background-color: #222838;
     padding: 30px;
-    padding-top: 70px;
-   
+    color: white;
 }
+
+#about h1 {
+    text-align: center;
+}
+
 .hh{
     border:solid #2ae2b6;
-
 }
+
 .text {
-    border: solid red;
-    width: 80%;
+    width: 70%;
+    line-height: 40px;
     margin: auto;
-    font-size: 20px;
+    font-size: 22px;
     text-align: right;
   
 }
@@ -239,6 +263,111 @@
   padding-right: 20px;
   font-style: italic;
   text-align: right;
+}
+
+
+#trabajosD {
+    text-align: center;
+    background-color:  #222838;
+    padding: 30px;
+}
+#trabajosD h1 {
+    text-align: center;
+    color: white;
+}
+.filtros{
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
+.filtros select, .filtros input, .filtros input::placeholder {
+    background-color: gray;
+    color: aquamarine;
+    padding: 5px;
+}
+
+#SectOfertas {
+    width: 100%;
+}
+
+#containerOf {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    padding: 20px 0;
+    row-gap: 20px;
+}
+
+
+#containerOf article {
+    background-color: #147a63;
+    border-radius: 20px;
+    padding: 30px;
+    width: 45%;
+}
+
+#containerOf article:hover {
+    background-color: #2ae2b6;
+}
+
+#footer{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    background-color:#929393;
+    padding: 15px 30px;
+    padding-bottom: 0;
+}
+
+
+.FooterLeft h1 {
+    text-align: center;
+    color: white;
+}
+
+
+.FooterRight h1 {
+    text-align: center;
+    color: white;
+}
+
+.infoLeft {
+    text-align: center;
+    color: white;
+    width: 80%;
+    margin: auto;
+}
+
+.infoLeft a {
+    color: white;
+    text-decoration: none;
+}
+
+.infoRight {
+    line-height: 25px;
+    width: 90%;
+    margin: auto;
+    text-align: left;
+}
+
+.FooterLeft p {
+    text-align: left;
+    color: white;   
+}
+
+.FooterRight p {
+    text-align: center;
+    color: white;
+}
+
+.footer_footer {
+    grid-column: span 2;
+    display: flex;  
+    justify-content: center;
+    align-items: center;
+    padding-top: 5px;
 }
 
 
@@ -269,57 +398,3 @@
         width: 100%;
     }
 }
-#bloq2{
-    text-align: center;
-    height: 600px;  /* Quitar */
-    background-color:  #222838;
-    padding: 30px;
-   
-}
-.filtros{
-    padding: 20px;
-    display: flex;
-    justify-content: center;
-    gap: 30px;
-}
-
-.filtros select, .filtros input, .filtros input::placeholder {
-    background-color: gray;
-    color: aquamarine;
-    padding: 5px;
-}
-
-.derech{
-    
-    display: flex;
-    justify-content: space-around;
-    background-color:#929393;
-    
-   
-}
-.foor{
-   
-    height: 200px;
-}
-.for{
-    
-    height: 200px;
-}
-.t1, .t2{
-    margin: 10px;
-}
-.lin,.li{
-   
-    border:solid black;
-    margin: 0;
-    height: 6px;
-    background-color: black;
-
-}
-
-
-
-
-
-
-

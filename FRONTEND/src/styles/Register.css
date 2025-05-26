@@ -1,0 +1,86 @@
+@import url('https://fonts.googleapis.com/css2?family=Shrikhand&display=swap');
+
+#bodyRegister {
+    background-color: #222838;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#cont{
+    background-color: #545454;
+    width: 50%;
+    padding: 3% 10%;
+    border-radius: 20px;
+    position: relative;
+}
+
+#cont header {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+}
+
+#cont h1 {
+    text-align: center;
+    margin-bottom: -10px;
+    color: #2ae2b6;
+    font-family: "Shrikhand", serif;
+    font-style: normal;
+    margin-bottom: 20px;
+}
+
+.DIVbtnR {
+    margin-top: 20px;
+    width: 100%;
+    text-align: center;
+}
+
+#cont span {
+    color: red;
+}
+
+#cont input {
+    padding: 7px;
+    padding-left: 20px;
+    width: 100%;
+    border-radius: 10px;
+    border: solid 2px rgba(255, 255, 255, 0.636);
+    background-color: #222838;
+    color: #2ae2b6;
+}
+
+#cont input:focus {
+    border: solid #2ae2b6;
+    color: #2ae2b6;
+}
+
+#btnsRegister {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.btnROferente {
+    background-color: #2ae2b6;
+}
+
+#btnsRegister button {
+    width: 47%;
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.btnNextRegister {
+    background-color: #d9d9d9;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    padding: 5px 15px;
+    margin: auto;
+}

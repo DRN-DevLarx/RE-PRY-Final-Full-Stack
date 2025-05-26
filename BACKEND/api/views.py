@@ -57,7 +57,7 @@ class InteresesUsuariosDetailView(RetrieveUpdateDestroyAPIView):
     queryset = InteresesUsuarios.objects.all()
     serializer_class = InteresesUsuariosSerializer
 
-# ------------------- Vistas OfertasDisponibles -------------------
+# ------------------- Vistas Ofertas -------------------
 class OfertasListCreateView(ListCreateAPIView):
     queryset = Ofertas.objects.all()
     serializer_class = OfertasSerializer

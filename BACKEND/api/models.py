@@ -5,8 +5,6 @@ from django.contrib.auth.password_validation import validate_password
 class Intereses(models.Model):
     nombre_interes = models.CharField(max_length=30)
 
-    def __str__(self):
-        return " ".join(vars(self).values())
 
 class Usuarios (models.Model):
     identificacion_usuario = models.IntegerField()
@@ -46,8 +44,8 @@ class Empresas(models.Model):
     referenciaIMG_empresa = models.CharField(max_length=30)
     estado_empresa = models.CharField(max_length=30)
     
-    def __str__(self):
-        return " ".join(vars(self).values())
+    # def __str__(self):
+    #     return " ".join(vars(self).values())
     
 
 class Ofertas(models.Model):
