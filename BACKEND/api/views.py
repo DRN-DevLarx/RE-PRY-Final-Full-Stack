@@ -2,7 +2,7 @@ from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIV
 from rest_framework.permissions import AllowAny, IsAuthenticated, BasePermission
 from .models import (
     Usuarios, Intereses, InteresesUsuarios, Ofertas, Empresas,
-    OfertasEmpresas, Postulaciones, auditoriaOfertas
+    OfertasEmpresas, Postulaciones, AuditoriaOfertas
 )
 from .serializers import (
     UsuariosSerializer, InteresesSerializer, InteresesUsuariosSerializer, 
@@ -30,7 +30,7 @@ class RegisterUserView(CreateAPIView):
     permission_classes = [AllowAny]
 
 class UsuariosListCreateView(ListCreateAPIView):
-    permission_classes = [IsAuthenticated, IsAdminUserGroup]
+    # permission_classes = [IsAuthenticated, IsAdminUserGroup]
     queryset = Usuarios.objects.all()
     serializer_class = UsuariosSerializer
 
@@ -97,10 +97,10 @@ class PostulacionesDetailView(RetrieveUpdateDestroyAPIView):
 
 
 class AuditoriaOfertasListCreateView(ListCreateAPIView):
-    queryset = auditoriaOfertas.objects.all()
+    queryset = AuditoriaOfertas.objects.all()
     serializer_class = AuditoriaOfertasSerializer
     
 class AuditoriaOfertasDetailView(RetrieveUpdateDestroyAPIView):
-    queryset = auditoriaOfertas
+    queryset = AuditoriaOfertas
     serializer_class = AuditoriaOfertasSerializer
     

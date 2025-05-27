@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Shrikhand&display=swap');
 
-#bodyRegister {
+#bodyRegisterEmpresas {
     background-color: #222838;
     height: 100vh;
     display: flex;
@@ -8,7 +8,7 @@
     justify-content: center;
 }
 
-#contRegister{
+#contRegisterEmpresas{
     background-color: #545454;
     width: 50%;
     border-radius: 20px;
@@ -16,13 +16,13 @@
     padding: 3% 10%;
 }
 
-#contRegister header {
+#contRegisterEmpresas header {
     position: absolute;
     top: 15px;
     right: 15px;
 }
 
-#contRegister h1 {
+#contRegisterEmpresas h1 {
     text-align: center;
     margin-bottom: -10px;
     color: #2ae2b6;
@@ -31,17 +31,17 @@
     margin-bottom: 20px;
 }
 
-.DIVbtnR {
+.DIVbtnREmpresas {
     margin-top: 20px;
     width: 100%;
     text-align: center;
 }
 
-#contRegister span {
+#contRegisterEmpresas span {
     color: red;
 }
 
-.inputs1 {
+.inputs1Empresas {
     padding: 7px;
     padding-left: 20px;
     width: 100%;
@@ -51,23 +51,23 @@
     color: #2ae2b6;
 }
 
-#contRegister input:focus {
+#contRegisterEmpresas input:focus {
     border: solid #2ae2b6;
     color: #2ae2b6;
 }
 
-#contRegister label {
+#contRegisterEmpresas label {
     color: white;
 }
 
-#btnsRegister {
+#btnsRegisterEmpresas {
     width: 100%;
     display: flex;
     justify-content: space-between;
     margin-bottom: 20px;
 }
 
-.btnROferente {
+.btnREmpresa {
     background-color: #2ae2b6;
 }
 
@@ -77,7 +77,7 @@
     font-weight: bold;
 }
 
-#btnsRegister button {
+#btnsRegisterEmpresas button {
     width: 47%;
     border: none;
     border-radius: 10px;
@@ -117,7 +117,7 @@
     width: 100%;
 }
 
-#contRegister{
+#contRegisterEmpresas{
     background-color: #545454;
     width: 50%;
     border-radius: 20px;
@@ -125,19 +125,19 @@
     padding: 3% 5%;
 }
 
-#contRegister h2 {
+#contRegisterEmpresas h2 {
     margin-bottom: 20px;
     color: white;
     border-bottom: solid 3px #2ae2b6;
     font-style: italic;
 }
 
-#ContIntereses {
+#ContInteresesEmpresas {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
 }   
 
-.ItemInteres {
+.ItemInteresEmpresas {
     background-color: #222838;
     color: #2ae2b6;
     padding: 10px 15px;
@@ -147,7 +147,7 @@
     gap: 5px;
 }
 
-.ItemInteres input {
+.ItemInteresEmpresas input {
     width: 20px;
     height: 20px;
     cursor: pointer;

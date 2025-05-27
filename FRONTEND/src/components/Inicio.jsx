@@ -47,45 +47,8 @@ function Inicio() {
 
   return (
     <div>
-      <header>
-        <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-          <div className="container-fluid">
-            <img className="logo" src="../public/Iconlogo.png" alt="Logo" />
-            <h2 id="tituloNav"><b>EmpleaTico</b></h2>
-            <button
-              className="navbar-toggler"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#menuPrincipal"
-              aria-controls="menuPrincipal"
-              aria-expanded="false"
-              aria-label="Toggle navigation"
-            >
-              <span className="navbar-toggler-icon"></span>
-            </button>
 
-            <div className="collapse navbar-collapse" id="menuPrincipal">
-              <ul className="navbar-nav ms-auto">
-                <li className="nav-item">
-                  <Link to="/register1" className="btn-second">
-                    Registrarse
-                  </Link>
-                </li>
-
-                  <li className="nav-item">
-                  <Link to="/register2  " className="btn-prim">
-                    Iniciar sesión
-                  </Link>
-                </li>
-              </ul>
-              
-            </div>
-
-          </div>
-        </nav>
-      </header>
-
-
+    {/* --- Main --- */}
       <main>
         <div className="contenedorInicial">
           <div className="derecha">
@@ -114,7 +77,7 @@ function Inicio() {
           </div>
         </div>
 
-
+        {/* Componente  - Intereses*/}
         <div>
 
           <div id='contP'>
@@ -133,6 +96,7 @@ function Inicio() {
 
         </div>
 
+            {/* Pertenece al componente de Main */}
         <div id='about'>
           <div>
             <h1>Sobre Nosotros</h1>
@@ -156,19 +120,19 @@ function Inicio() {
           <h1 className='b'>Ofertas Disponibles</h1>
           <hr className='hh' />
 
+            
+          {/* Componente Área de Trabajo - Oferta */}
 
           <div className='filtros'>
-            <select name="" id="">
-              <option  value="">Area de Trabajo</option>
-              <option value="">Turismo y Hoteleria</option>
-              <option value="">Comercio y Ventas</option>
-              <option value="">Educación y Salud</option>
-              <option value="">Construcción</option>
-              <option value="">Tecnologia</option>
-              <option value="">Servicios</option>
-              <option value="">Pesca y Agricultura</option>
-            </select>
-
+            
+              <select name="" id="">
+              <option value="">Area de trabajo</option>
+            {Intereses.map((interes, index) => (
+                <option key={index} value={interes.nombre_interes}>
+                  {interes.nombre_interes}
+                  </option>
+            ))}
+              </select>
             <select name="" id="">
               <option value="">Ubicacion</option>
             </select>
@@ -232,7 +196,7 @@ function Inicio() {
 
       </main>
 
-  
+      {/* Tercer componente */}
       <footer  id='footer'>
         <div className='FooterLeft'>
           <h1 className='t1'>Contacto del Creador</h1>

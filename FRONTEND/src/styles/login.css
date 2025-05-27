@@ -1,0 +1,80 @@
+@import url('https://fonts.googleapis.com/css2?family=Shrikhand&display=swap');
+
+#bodyLogin {
+    background-color: #222838;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#contLogin{
+    background-color: #545454;
+    width: 50%;
+    padding: 3% 10%;
+    border-radius: 20px;
+    position: relative;
+}
+
+#contLogin header {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+}
+
+#contLogin h1 {
+    text-align: center;
+    margin-bottom: -10px;
+    color: #2ae2b6;
+    font-family: "Shrikhand", serif;
+    font-style: normal;
+    margin-bottom: 20px;
+}
+
+.DIVbtnR {
+    margin-top: 20px;
+    width: 100%;
+    text-align: center;
+}
+
+#contLogin span {
+    color: red;
+}
+
+#contLogin input {
+    padding: 7px;
+    padding-left: 20px;
+    width: 90%;
+    border-radius: 10px;
+    border: solid 2px rgba(255, 255, 255, 0.636);
+    background-color: #222838;
+    color: #2ae2b6;
+}
+
+#contLogin input:focus {
+    border: solid #2ae2b6;
+    color: #2ae2b6;
+}
+
+#contLogin label {
+    color: white;
+}
+
+.pRR {
+    color: white;
+}
+
+.LINK {
+    color: #2ae2b6;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.btnLogin {
+    background-color: #d9d9d9;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    padding: 5px 15px;
+    margin: auto;
+}

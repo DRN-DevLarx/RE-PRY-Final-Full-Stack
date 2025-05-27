@@ -7,17 +7,17 @@ class Intereses(models.Model):
 
 
 class Usuarios (models.Model):
-    identificacion_usuario = models.IntegerField()
-    rol_usuario = models.CharField(max_length=30)
-    nombre_usuario = models.CharField(max_length=30, unique=True, validators=[MinLengthValidator(3)])
-    apellido_usuario = models.CharField(max_length=30, validators=[MinLengthValidator(3)])
+    identificacion_oferente = models.IntegerField()
+    rol_oferente = models.CharField(max_length=30)
+    nombre_oferente = models.CharField(max_length=30, unique=True, validators=[MinLengthValidator(3)])
+    apellido_oferente = models.CharField(max_length=30, validators=[MinLengthValidator(3)])
     usuario = models.CharField(max_length=30, validators=[MinLengthValidator(3)])
-    contrasena_usuario = models.CharField(max_length=30)
-    telefono_usuario = models.CharField(unique=True, max_length=20, blank=True, null=True)
-    correo_usuario = models.EmailField(unique=True, validators=[EmailValidator()])
-    fecha_registro_usuario = models.DateTimeField(auto_now_add=True)
-    referenciaIMG_usuario = models.CharField(max_length=30)
-    estado_usuario = models.CharField(max_length=30)
+    contrasena_oferente = models.CharField(max_length=30)
+    telefono_oferente = models.CharField(unique=True, max_length=20, blank=True, null=True)
+    correo_oferente = models.EmailField(unique=True, validators=[EmailValidator()])
+    fecha_registro_oferente = models.DateTimeField(auto_now_add=True)
+    referenciaIMG_oferente = models.CharField(max_length=30)
+    estado_oferente = models.CharField(max_length=30)
     
     intereses = models.ManyToManyField(Intereses, through='InteresesUsuarios')
     
@@ -81,7 +81,7 @@ class Postulaciones(models.Model):
     def __str__(self):
         return " ".join(vars(self).values())
     
-class auditoriaOfertas(models.Model):
+class AuditoriaOfertas(models.Model):
     oferta = models.ForeignKey(Ofertas, on_delete=models.CASCADE)
     motivo = models.TextField()
     fecha_auditoria = models.DateTimeField (auto_now_add=True)
