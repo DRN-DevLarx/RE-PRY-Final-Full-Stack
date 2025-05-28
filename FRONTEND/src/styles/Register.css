@@ -19,7 +19,7 @@
 #contRegister header {
     position: absolute;
     top: 15px;
-    right: 15px;
+    left: 15px;
 }
 
 #contRegister h1 {
@@ -71,10 +71,8 @@
     background-color: #2ae2b6;
 }
 
-.LinkRegister {
-    color: black;
-    text-decoration: none;
-    font-weight: bold;
+.btnRE{
+    background-color: gray;
 }
 
 #btnsRegister button {

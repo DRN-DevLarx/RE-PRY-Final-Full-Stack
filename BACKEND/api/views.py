@@ -10,6 +10,13 @@ from .serializers import (
     PostulacionesSerializer, AuditoriaOfertasSerializer
 )
 
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate
+from rest_framework.response import Response
+from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework import status
+from rest_framework.views import APIView
+
 # ------------------- Permisos personalizados -------------------
 class IsAdminUserGroup(BasePermission):
     def has_permission(self, request, view):
@@ -25,7 +32,7 @@ class IsUsuarioUser(BasePermission):
 
 # ------------------- Vistas Usuarios -------------------
 class RegisterUserView(CreateAPIView):
-    queryset = Usuarios.objects.all()
+    queryset = User.objects.all()
     serializer_class = UsuariosSerializer
     permission_classes = [AllowAny]
 
@@ -36,8 +43,59 @@ class UsuariosListCreateView(ListCreateAPIView):
 
 class UsuariosDetailView(RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthenticated, IsAdminUserGroup]
-    queryset = Usuarios.objects.all()
+    queryset = User.objects.all()
     serializer_class = UsuariosSerializer
+
+
+class UserLoginView(APIView):
+    
+    def post(self, request):
+        username = request.data.get("username")
+        password = request.data.get("password")
+
+        user = authenticate(username=username, password=password)
+
+        if user:
+            refresh = RefreshToken.for_user(user)
+            response = Response({
+                "user": {
+                    "first_name": user.first_name,
+                    "last_name": user.last_name,
+                    "email": user.email,
+                }
+            }, status=status.HTTP_200_OK)
+
+            # Configurar cookie
+            response.set_cookie(
+                key="jwt_token",
+                value=str(refresh.access_token),
+                httponly=True, 
+                secure=False,
+                samesite="Lax",
+            )
+            response["Access-Control-Allow-Credentials"] = "true"
+            return response
+        
+        else:
+            return Response({"error": "Credenciales incorrectas"}, status=status.HTTP_401_UNAUTHORIZED)
+
+
+class UserDataView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        if request.user.is_authenticated:
+            return Response({
+                "message": "Datos protegidos",
+                "user": {
+                    "first_name": request.user.first_name,
+                    "last_name": request.user.last_name,
+                    "email": request.user.email,
+                }
+            })
+        return Response({"error": "No autorizado"}, status=status.HTTP_401_UNAUTHORIZED)
+
+
 
 # ------------------- Vistas Intereses -------------------
 class InteresesListCreateView(ListCreateAPIView):

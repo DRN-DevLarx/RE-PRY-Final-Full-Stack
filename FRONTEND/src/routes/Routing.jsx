@@ -9,7 +9,8 @@ import Login from '../pages/LoginPage';
 import RegisterOferentes from '../pages/RegisterPageOferentes';
 import RegisterEmpresas from '../pages/RegisterPageEmpresas';
 import CYS from '../components/CYS';
-
+import RestablecerPage from '../pages/RestablecerPage';
+import RestablecerPageConfirmar from '../pages/RestablecerPageConfirmar';
 
 
 function Routing() {
@@ -19,11 +20,13 @@ function Routing() {
     <Router>
         <Routes >
             <Route  path='/' element={<Inicio/>}/>
-            <Route  path='/admin' element={<Administrador/>}/>
-            <Route  path='/login' element={<Login/>}/>
-            <Route  path='/register1' element={<RegisterOferentes/>}/>
-            <Route  path='/register2' element={<RegisterEmpresas/>}/>
             <Route  path='/cys' element={<CYS/>}/>
+            <Route  path='/register1' element={<RegisterOferentes/>}/>
+            <Route  path='/registrarEmpresa' element={<RegisterEmpresas/>}/>
+            <Route  path='/login' element={<Login/>}/>
+            <Route  path='/restablecer' element={<RestablecerPage/>}/>
+            <Route  path='/restablecer/confirmar' element={<RestablecerPageConfirmar/>}/>
+            <Route  path='/admin' element={<Administrador/>}/>
         </Routes>
     </Router>
   

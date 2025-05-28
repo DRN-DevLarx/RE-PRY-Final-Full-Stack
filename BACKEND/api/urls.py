@@ -8,8 +8,9 @@ from .views import (
     EmpresasListCreateView, EmpresasDetailView,
     OfertasEmpresasListCreateView, OfertasEmpresasDetailView,
     PostulacionesListCreateView, PostulacionesDetailView,
-    AuditoriaOfertasListCreateView, AuditoriaOfertasDetailView
+    AuditoriaOfertasListCreateView, AuditoriaOfertasDetailView, UserDataView, UserLoginView
 )
+
 
 router = DefaultRouter()
 
@@ -18,6 +19,9 @@ urlpatterns = [
     
     path("usuarios/", UsuariosListCreateView.as_view(), name="usuarios-list"),
     path("usuarios/<int:pk>/", UsuariosDetailView.as_view(), name="usuarios-detail"),
+    
+     path('usuarios/', UsuariosListCreateView.as_view(), name='usuarios-lista-crear'),
+     path('usuarios/<int:pk>/', UsuariosDetailView.as_view(), name='usuarios-editar-actualizar'),
     
     path("intereses/", InteresesListCreateView.as_view(), name="intereses-list"),
     path("intereses/<int:pk>/", InteresesDetailView.as_view(), name="intereses-detail"),

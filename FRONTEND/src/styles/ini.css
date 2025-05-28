@@ -94,8 +94,6 @@
     height: 90vh;
 
     background-image: url(../public/fondo.webp);
-    background-repeat: no-repeat;
-    width: 100%;
     background-position: center;
     background-size: cover;
 }

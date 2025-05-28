@@ -5,7 +5,6 @@ from django.contrib.auth.password_validation import validate_password
 class Intereses(models.Model):
     nombre_interes = models.CharField(max_length=30)
 
-
 class Usuarios (models.Model):
     identificacion_oferente = models.IntegerField()
     rol_oferente = models.CharField(max_length=30)

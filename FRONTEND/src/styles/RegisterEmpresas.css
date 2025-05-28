@@ -19,7 +19,7 @@
 #contRegisterEmpresas header {
     position: absolute;
     top: 15px;
-    right: 15px;
+    left: 15px;
 }
 
 #contRegisterEmpresas h1 {
@@ -31,7 +31,7 @@
     margin-bottom: 20px;
 }
 
-.DIVbtnREmpresas {
+.DIVbtnREmpresa {
     margin-top: 20px;
     width: 100%;
     text-align: center;
@@ -67,15 +67,16 @@
     margin-bottom: 20px;
 }
 
-.btnREmpresa {
+.btnROferenteE {
+    background-color: gray;
+}
+
+.btnREmpresa{
     background-color: #2ae2b6;
 }
 
-.LinkRegister {
-    color: black;
-    text-decoration: none;
-    font-weight: bold;
-}
+
+
 
 #btnsRegisterEmpresas button {
     width: 47%;
@@ -86,7 +87,7 @@
     font-weight: bold;
 }
 
-.btnNextRegister {
+.btnNextRegisterEmpresas {
     background-color: #d9d9d9;
     border: none;
     border-radius: 10px;
