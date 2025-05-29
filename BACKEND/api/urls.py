@@ -1,7 +1,7 @@
 from django.urls import path
 from rest_framework.routers import DefaultRouter
 from .views import (
-    RegisterUserView, UsuariosListCreateView, UsuariosDetailView,
+    RegisterUserView, UserDetailView, UsuariosListCreateView, UsuariosDetailView,
     InteresesListCreateView, InteresesDetailView,
     InteresesUsuariosListCreateView, InteresesUsuariosDetailView,
     OfertasListCreateView, OfertasDetailView,
@@ -16,12 +16,10 @@ router = DefaultRouter()
 
 urlpatterns = [
     path("register/", RegisterUserView.as_view(), name="register-user"),
-    
+    path("register/<int:pk>/", UserDetailView.as_view(), name="usuarios-detail"),
+
     path("usuarios/", UsuariosListCreateView.as_view(), name="usuarios-list"),
     path("usuarios/<int:pk>/", UsuariosDetailView.as_view(), name="usuarios-detail"),
-    
-     path('usuarios/', UsuariosListCreateView.as_view(), name='usuarios-lista-crear'),
-     path('usuarios/<int:pk>/', UsuariosDetailView.as_view(), name='usuarios-editar-actualizar'),
     
     path("intereses/", InteresesListCreateView.as_view(), name="intereses-list"),
     path("intereses/<int:pk>/", InteresesDetailView.as_view(), name="intereses-detail"),

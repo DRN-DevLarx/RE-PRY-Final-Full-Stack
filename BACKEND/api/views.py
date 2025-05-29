@@ -5,7 +5,7 @@ from .models import (
     OfertasEmpresas, Postulaciones, AuditoriaOfertas
 )
 from .serializers import (
-    UsuariosSerializer, InteresesSerializer, InteresesUsuariosSerializer, 
+    UsuariosSerializer, UsersSerializer, InteresesSerializer, InteresesUsuariosSerializer, 
     OfertasSerializer, EmpresasSerializer, OfertasEmpresasSerializer,
     PostulacionesSerializer, AuditoriaOfertasSerializer
 )
@@ -33,8 +33,16 @@ class IsUsuarioUser(BasePermission):
 # ------------------- Vistas Usuarios -------------------
 class RegisterUserView(CreateAPIView):
     queryset = User.objects.all()
-    serializer_class = UsuariosSerializer
+    serializer_class = UsersSerializer
     permission_classes = [AllowAny]
+
+class UserDetailView(RetrieveUpdateDestroyAPIView):
+    # permission_classes = [IsAuthenticated]
+
+    queryset = User.objects.all()
+    serializer_class = UsersSerializer
+    
+
 
 class UsuariosListCreateView(ListCreateAPIView):
     # permission_classes = [IsAuthenticated, IsAdminUserGroup]
@@ -42,8 +50,8 @@ class UsuariosListCreateView(ListCreateAPIView):
     serializer_class = UsuariosSerializer
 
 class UsuariosDetailView(RetrieveUpdateDestroyAPIView):
-    permission_classes = [IsAuthenticated, IsAdminUserGroup]
-    queryset = User.objects.all()
+    # permission_classes = [IsAuthenticated, IsAdminUserGroup]
+    queryset = Usuarios.objects.all()
     serializer_class = UsuariosSerializer
 
 

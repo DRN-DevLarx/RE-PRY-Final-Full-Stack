@@ -3,8 +3,8 @@ import  "../styles/Register.css";
 import { Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import InteresesServices from '../services/interesesServices';
-import UsuariosServices from "../services/UsuariosServices"
-
+import usuariosServices from "../services/usuariosServices";
+import UsersServices from "../services/usersServices";
 
 function RegisterForm1() {
 
@@ -40,6 +40,7 @@ function RegisterForm1() {
       const fetch = async () => {
           try {
               const DatosIntereses = await InteresesServices.GetIntereses();
+              
 
               if (isMounted) {
                   setIntereses(DatosIntereses);
@@ -199,21 +200,28 @@ function RegisterForm1() {
       
       
 
+      // const datosRegistro = {
+      //   identificacion_oferente: Identificacion,
+      //   rol_oferente: "Oferente",
+      //   nombre_oferente: Nombre,
+      //   apellido_oferente: Apellido,
+      //   usuario: Usuario,
+      //   contrasena_oferente: contraseña,
+      //   telefono_oferente: Telefono,
+      //   correo_oferente: Correo,
+      //   referenciaIMG_oferente: "default.png", // Asignar una imagen por defecto
+      //   estado_oferente: "Activo",
+      //   intereses: selectedInterests
+      // };
+
       const datosRegistro = {
-        identificacion_oferente: Identificacion,
-        rol_oferente: "Oferente",
-        nombre_oferente: Nombre,
-        apellido_oferente: Apellido,
-        usuario: Usuario,
-        contrasena_oferente: contraseña,
-        telefono_oferente: Telefono,
-        correo_oferente: Correo,
-        referenciaIMG_oferente: "default.png", // Asignar una imagen por defecto
-        estado_oferente: "Activo",
-        intereses: selectedInterests
+        password: contraseña,
+        username: Usuario,
+        first_name: Nombre,
+        last_name: Apellido,
       };
 
-      const respuestaServer = await UsuariosServices.PostUsuario(datosRegistro)
+      const respuestaServer = await UsersServices.PostUser(datosRegistro)
       console.log(respuestaServer)
     
       Swal.fire({

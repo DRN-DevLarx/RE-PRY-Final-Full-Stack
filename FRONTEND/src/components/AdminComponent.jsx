@@ -1,7 +1,6 @@
 import React from 'react'
 'react'
 import  "../styles/admin.css";
-import 'boxicons/css/boxicons.min.css';
 
 function AdminComponent() {
   return (
