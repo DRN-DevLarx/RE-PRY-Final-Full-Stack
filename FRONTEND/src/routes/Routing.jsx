@@ -3,7 +3,7 @@ import React from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import Inicio from '../pages/InicioPage';
-import Administrador from '../pages/AdministradorPage';
+import Administrador from '../pages/AdminPage';
 
 import Login from '../pages/LoginPage';
 import RegisterOferentes from '../pages/RegisterPageOferentes';
@@ -11,6 +11,8 @@ import RegisterEmpresas from '../pages/RegisterPageEmpresas';
 import CYS from '../components/CYS';
 import RestablecerPage from '../pages/RestablecerPage';
 import RestablecerPageConfirmar from '../pages/RestablecerPageConfirmar';
+import Publicar from '../pages/PublicarPage'
+import PublicarPage from '../pages/PublicarPage';
 
 
 function Routing() {
@@ -27,6 +29,7 @@ function Routing() {
             <Route  path='/restablecer' element={<RestablecerPage/>}/>
             <Route  path='/restablecer/confirmar' element={<RestablecerPageConfirmar/>}/>
             <Route  path='/admin' element={<Administrador/>}/>
+            <Route  path='/public' element={<PublicarPage/>}/>
         </Routes>
     </Router>
   
