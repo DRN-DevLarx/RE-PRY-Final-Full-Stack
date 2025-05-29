@@ -2,19 +2,17 @@ from rest_framework import serializers
 from django.core.validators import MinLengthValidator, EmailValidator, RegexValidator
 from django.contrib.auth.password_validation import validate_password
 from .models import Usuarios, Intereses, InteresesUsuarios, Ofertas, Empresas, OfertasEmpresas, Postulaciones, AuditoriaOfertas
+from django.contrib.auth.models import User
+
 
 class InteresesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Intereses
         fields = "__all__"
 
-class UsuariosSerializer(serializers.ModelSerializer):
-    contrasena_oferente = serializers.CharField(
-        max_length=30,
-        write_only=True,  # Evita mostrar la contraseña en respuestas de la API
-    )
 
-    correo_oferente = serializers.EmailField(validators=[EmailValidator()])
+
+class UsuariosSerializer(serializers.ModelSerializer):
 
     telefono_oferente = serializers.CharField(
         max_length=20,
@@ -23,25 +21,25 @@ class UsuariosSerializer(serializers.ModelSerializer):
         validators=[RegexValidator(regex=r'^\d{8,12}$', message="Debe contener entre 8 y 12 dígitos numéricos.")]
     )
 
-    nombre_oferente = serializers.CharField(
-        max_length=30,
-        validators=[MinLengthValidator(3), RegexValidator(regex=r'^[A-Za-z\s]+$', message="Solo letras y espacios permitidos.")]
-    )
-
-    apellido_oferente = serializers.CharField(
-        max_length=30,
-        validators=[MinLengthValidator(3), RegexValidator(regex=r'^[A-Za-z\s]+$', message="Solo letras y espacios permitidos.")]
-    )
-
     intereses = serializers.PrimaryKeyRelatedField(queryset=Intereses.objects.all(), many=True)
-
-    def validate_contrasena_oferente(self, value):
-        validate_password(value)
-        return value
 
     class Meta:
         model = Usuarios
         fields = "__all__"
+
+class UsersSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = "__all__"
+        extra_kwargs = {'password': {'write_only': True}}
+
+    def create(self, validated_data):
+        user = User.objects.create_user(**validated_data)
+        return user
+
+
+
+
 
 class InteresesUsuariosSerializer(serializers.ModelSerializer):
     usuario = serializers.PrimaryKeyRelatedField(queryset=Usuarios.objects.all())

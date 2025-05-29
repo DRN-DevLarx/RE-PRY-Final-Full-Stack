@@ -7,14 +7,7 @@ class Intereses(models.Model):
 
 class Usuarios (models.Model):
     identificacion_oferente = models.IntegerField()
-    rol_oferente = models.CharField(max_length=30)
-    nombre_oferente = models.CharField(max_length=30, unique=True, validators=[MinLengthValidator(3)])
-    apellido_oferente = models.CharField(max_length=30, validators=[MinLengthValidator(3)])
-    usuario = models.CharField(max_length=30, validators=[MinLengthValidator(3)])
-    contrasena_oferente = models.CharField(max_length=30)
     telefono_oferente = models.CharField(unique=True, max_length=20, blank=True, null=True)
-    correo_oferente = models.EmailField(unique=True, validators=[EmailValidator()])
-    fecha_registro_oferente = models.DateTimeField(auto_now_add=True)
     referenciaIMG_oferente = models.CharField(max_length=30)
     estado_oferente = models.CharField(max_length=30)
     
@@ -22,8 +15,7 @@ class Usuarios (models.Model):
     
 
     def __str__(self):
-        return f"{self.nombre_usuario} {self.apellido_usuario} {self.usuario_usuario} - {self.contrasea_usuario}"
-
+        return 
 class InteresesUsuarios(models.Model):
     usuario = models.ForeignKey(Usuarios, on_delete=models.CASCADE)
     intereses = models.ForeignKey(Intereses, on_delete=models.CASCADE)
