@@ -15,8 +15,8 @@ from .views import (
 router = DefaultRouter()
 
 urlpatterns = [
-    path("register/", RegisterUserView.as_view(), name="register-user"),
-    path("register/<int:pk>/", UserDetailView.as_view(), name="usuarios-detail"),
+    path("users/", RegisterUserView.as_view(), name="register-user"),
+    path("users/<int:pk>/", UserDetailView.as_view(), name="usuarios-detail"),
 
     path("usuarios/", UsuariosListCreateView.as_view(), name="usuarios-list"),
     path("usuarios/<int:pk>/", UsuariosDetailView.as_view(), name="usuarios-detail"),

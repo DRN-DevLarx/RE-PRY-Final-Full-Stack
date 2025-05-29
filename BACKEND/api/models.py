@@ -11,11 +11,13 @@ class Usuarios (models.Model):
     referenciaIMG_oferente = models.CharField(max_length=30)
     estado_oferente = models.CharField(max_length=30)
     
-    intereses = models.ManyToManyField(Intereses, through='InteresesUsuarios')
+    intereses = models.ManyToManyField(Intereses, through='InteresesUsuarios', related_name='Usuarios')
     
 
     def __str__(self):
-        return 
+        return " ".join(vars(self).values())
+    
+    
 class InteresesUsuarios(models.Model):
     usuario = models.ForeignKey(Usuarios, on_delete=models.CASCADE)
     intereses = models.ForeignKey(Intereses, on_delete=models.CASCADE)
@@ -35,8 +37,8 @@ class Empresas(models.Model):
     referenciaIMG_empresa = models.CharField(max_length=30)
     estado_empresa = models.CharField(max_length=30)
     
-    # def __str__(self):
-    #     return " ".join(vars(self).values())
+    def __str__(self):
+        return " ".join(vars(self).values())
     
 
 class Ofertas(models.Model):
@@ -51,6 +53,7 @@ class Ofertas(models.Model):
     referenciaIMG_oferta = models.CharField(max_length=30)
     estado_oferta = models.CharField(max_length=30)
     empresa = models.ForeignKey(Empresas, on_delete=models.CASCADE)
+    
 
 
     def __str__(self):

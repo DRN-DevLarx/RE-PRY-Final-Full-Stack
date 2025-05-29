@@ -3,8 +3,8 @@ import  "../styles/Register.css";
 import { Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import InteresesServices from '../services/interesesServices';
-import usuariosServices from "../services/usuariosServices";
 import UsersServices from "../services/usersServices";
+import usuariosServices from "../services/usuariosServices";
 
 function RegisterForm1() {
 
@@ -199,38 +199,31 @@ function RegisterForm1() {
       
       
       
-
-      // const datosRegistro = {
-      //   identificacion_oferente: Identificacion,
-      //   rol_oferente: "Oferente",
-      //   nombre_oferente: Nombre,
-      //   apellido_oferente: Apellido,
-      //   usuario: Usuario,
-      //   contrasena_oferente: contraseña,
-      //   telefono_oferente: Telefono,
-      //   correo_oferente: Correo,
-      //   referenciaIMG_oferente: "default.png", // Asignar una imagen por defecto
-      //   estado_oferente: "Activo",
-      //   intereses: selectedInterests
-      // };
-
-      const datosRegistro = {
+      const datosRegistroUsers = {
         password: contraseña,
         username: Usuario,
         first_name: Nombre,
         last_name: Apellido,
       };
 
-      const respuestaServer = await UsersServices.PostUser(datosRegistro)
+      const respuestaServer = await UsersServices.PostUser(datosRegistroUsers)
       console.log(respuestaServer)
+
+      // const datosRegistro = {
+      //   identificacion_oferente: Identificacion,
+      //   telefono_oferente: Telefono,
+      //   referenciaIMG_oferente: "default.png",
+      //   estado_oferente: "Activo",
+      //   intereses: selectedInterests
+      // };
+
     
       Swal.fire({
         icon: "success",
-        text: "Registro exitoso. Por favor, inicia sesión.",
-        confirmButtonColor: "#2ae2b6",
+        text: "Registro exitoso.",
         background: "#1a1a1a",
         color: "#ffffff",
-        confirmButtonText: "Aceptar",
+        showConfirmButton: false,
       }).then(() => {
         navigate('/login');
       });
