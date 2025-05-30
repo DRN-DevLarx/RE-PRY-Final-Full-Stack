@@ -1,7 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Shrikhand&display=swap');
 
 #bodyLogin {
-    background-color: #222838;
+    background-image: url('../assets/wallpaperLogin.jfif');
+    background-size: cover;
     height: 100vh;
     display: flex;
     align-items: center;
@@ -9,7 +10,8 @@
 }
 
 #contLogin{
-    background-color: #545454;
+    background-color: transparent;
+    border: solid 1px gray;
     width: 50%;
     padding: 3% 10%;
     border-radius: 20px;

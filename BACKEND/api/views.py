@@ -31,7 +31,7 @@ class IsUsuarioUser(BasePermission):
         return request.user and request.user.groups.filter(name="usuario").exists()
 
 # ------------------- Vistas Usuarios -------------------
-class RegisterUserView(CreateAPIView):
+class RegisterUserView(ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = UsersSerializer
     permission_classes = [AllowAny]
@@ -42,7 +42,6 @@ class UserDetailView(RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
     serializer_class = UsersSerializer
     
-
 
 class UsuariosListCreateView(ListCreateAPIView):
     # permission_classes = [IsAuthenticated, IsAdminUserGroup]
@@ -89,7 +88,7 @@ class UserLoginView(APIView):
 
 
 class UserDataView(APIView):
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
 
     def get(self, request):
         if request.user.is_authenticated:
@@ -134,12 +133,12 @@ class OfertasDetailView(RetrieveUpdateDestroyAPIView):
 
 # ------------------- Vistas Empresas -------------------
 class EmpresasListCreateView(ListCreateAPIView):
-    permission_classes = [IsAuthenticated, IsEmpresaUser]
+    # permission_classes = [IsAuthenticated, IsEmpresaUser]
     queryset = Empresas.objects.all()
     serializer_class = EmpresasSerializer
 
 class EmpresasDetailView(RetrieveUpdateDestroyAPIView):
-    permission_classes = [IsAuthenticated, IsEmpresaUser]
+    # permission_classes = [IsAuthenticated, IsEmpresaUser]
     queryset = Empresas.objects.all()
     serializer_class = EmpresasSerializer
 

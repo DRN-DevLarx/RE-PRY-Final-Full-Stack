@@ -56,6 +56,13 @@ SIMPLE_JWT ={
     'REFRESH_TOKEN_LIFETIME':timedelta(days=1),
 }
 
+SIMPLE_JWT = {
+    'AUTH_COOKIE': 'jwt_token',  # Nombre de la cookie
+    'AUTH_COOKIE_SECURE': False,  # Cambiar a True si usas HTTPS
+    'AUTH_COOKIE_HTTP_ONLY': True,  
+    'AUTH_COOKIE_SAMESITE': 'Lax',
+}
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -66,6 +73,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
 ]
+
 
 ROOT_URLCONF = 'plantilla.urls'
 

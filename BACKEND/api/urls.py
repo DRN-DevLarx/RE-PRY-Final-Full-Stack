@@ -30,15 +30,19 @@ urlpatterns = [
     path("ofertas/", OfertasListCreateView.as_view(), name="ofertas-disponibles-list"),
     path("ofertas/<int:pk>/", OfertasDetailView.as_view(), name="ofertas-disponibles-detail"),
     
-    path("empresas/", EmpresasListCreateView.as_view(), name="empresas-list"),
-    path("empresas/<int:pk>/", EmpresasDetailView.as_view(), name="empresas-detail"),
+    path('login/', UserLoginView.as_view(), name='login'),
     
-    path("ofertas-empresas/", OfertasEmpresasListCreateView.as_view(), name="ofertas-empresas-list"),
-    path("ofertas-empresas/<int:pk>/", OfertasEmpresasDetailView.as_view(), name="ofertas-empresas-detail"),
+    # path("user-data/", UserDataView.as_view(), name="user-data"),
     
-    path("postulaciones/", PostulacionesListCreateView.as_view(), name="postulaciones-list"),
-    path("postulaciones/<int:pk>/", PostulacionesDetailView.as_view(), name="postulaciones-detail"),
+    # path("empresas/", EmpresasListCreateView.as_view(), name="empresas-list"),
+    # path("empresas/<int:pk>/", EmpresasDetailView.as_view(), name="empresas-detail"),
     
-    path("auditoria-ofertas/", AuditoriaOfertasListCreateView.as_view(), name="auditoria-ofertas-list"),
-    path("auditoria-ofertas/<int:pk>/", AuditoriaOfertasDetailView.as_view(), name="auditoria-ofertas-detail"),
+    # path("ofertas-empresas/", OfertasEmpresasListCreateView.as_view(), name="ofertas-empresas-list"),
+    # path("ofertas-empresas/<int:pk>/", OfertasEmpresasDetailView.as_view(), name="ofertas-empresas-detail"),
+    
+    # path("postulaciones/", PostulacionesListCreateView.as_view(), name="postulaciones-list"),
+    # path("postulaciones/<int:pk>/", PostulacionesDetailView.as_view(), name="postulaciones-detail"),
+    
+    # path("auditoria-ofertas/", AuditoriaOfertasListCreateView.as_view(), name="auditoria-ofertas-list"),
+    # path("auditoria-ofertas/<int:pk>/", AuditoriaOfertasDetailView.as_view(), name="auditoria-ofertas-detail"),
 ]

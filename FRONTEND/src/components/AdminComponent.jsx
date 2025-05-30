@@ -1,8 +1,19 @@
-import React from 'react'
-'react'
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import  "../styles/admin.css";
 
 function AdminComponent() {
+  const navigate = useNavigate();
+
+  function IrDashboar() {
+      navigate("/dashboard");
+  }
+
+  function IrPublicar() {
+      navigate("/public");
+  }
+  
   return (
     <div id='contbodyadmin'>
 
@@ -30,8 +41,8 @@ function AdminComponent() {
 
       <div>
         <div className="contBtnsActiones">
-          <button>Administrar</button>
-          <button>Publicar</button>
+          <button onClick={IrDashboar}> Administrar </button>
+          <button onClick={IrPublicar}> Publicar </button>
         </div>
       </div>
 

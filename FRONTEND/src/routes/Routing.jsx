@@ -11,9 +11,8 @@ import RegisterEmpresas from '../pages/RegisterPageEmpresas';
 import CYS from '../components/CYS';
 import RestablecerPage from '../pages/RestablecerPage';
 import RestablecerPageConfirmar from '../pages/RestablecerPageConfirmar';
-import Publicar from '../pages/PublicarPage'
-import PublicarPage from '../pages/PublicarPage';
-
+import Publicar from '../pages/PublicarPage';
+import DashboardPage from '../pages/DashboardPage';
 
 function Routing() {
   return (
@@ -29,7 +28,9 @@ function Routing() {
             <Route  path='/restablecer' element={<RestablecerPage/>}/>
             <Route  path='/restablecer/confirmar' element={<RestablecerPageConfirmar/>}/>
             <Route  path='/admin' element={<Administrador/>}/>
-            <Route  path='/public' element={<PublicarPage/>}/>
+            <Route  path='/public' element={<Publicar/>}/>
+            <Route  path='/dashboard' element={<DashboardPage/>}/>
+
         </Routes>
     </Router>
   

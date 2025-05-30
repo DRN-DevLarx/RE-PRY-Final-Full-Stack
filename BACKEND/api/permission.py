@@ -1,9 +1,13 @@
-
 from rest_framework.permissions import BasePermission
 
-#Esta clase es para verificar el permiso de admin
-
-
 class IsAdminUserGroup(BasePermission):
-     def has_permission(self, request, view):
-          return request.user and request.user.group.filter(name="admin").exists()
+    def has_permission(self, request, view):
+        return request.user and request.user.groups.filter(name="admin").exists()
+
+class IsEmpresaUser(BasePermission):
+    def has_permission(self, request, view):
+        return request.user and request.user.groups.filter(name="empresa").exists()
+
+class IsUsuarioUser(BasePermission):
+    def has_permission(self, request, view):
+        return request.user and request.user.groups.filter(name="usuario").exists()

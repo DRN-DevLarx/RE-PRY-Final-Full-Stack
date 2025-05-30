@@ -1,0 +1,78 @@
+
+#ContPerfilAdmin {
+    height: 100vh;
+    width: 80%;
+}
+
+.headerPerfilAdmin {
+    display: flex;
+    justify-content: space-around;
+    color: white;
+    background-color: #9293936a;
+    padding: 17px;
+    text-align: center;
+}
+.headerPerfilAdmin h3 {
+    width: 90%;
+}
+
+.headerPerfilAdmin svg:hover {
+    transform: scale(1.2);
+}
+
+#PerfilAdmin {
+    color: white;
+
+    display: flex;
+    width: 100%;
+    margin: 50px auto;
+    padding: 10px 100px;
+}
+
+.itemPerfil {
+    width: 50%;
+    padding: 30px;
+}
+
+.itemPerfil label {
+    color: #2ae2b798;
+    font-weight: bold;
+}
+
+.SubContPerfilAdmin1 img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border: solid;
+}
+
+.SubContPerfilAdmin1 {
+    border-radius: 20px 0 0 20px;
+    background-color: rgba(0, 0, 0, 0.355);
+}
+
+.SubContPerfilAdmin2 {
+    border-radius: 0 20px 20px 0;
+    background-color: rgba(0, 0, 0, 0.355);
+    padding-top: 50px;
+}
+
+.contbtnEditar {
+    text-align: right;
+    width: 80%;
+}
+
+.contbtnEditar button {
+    background-color: #2ae2b77b;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.contbtnEditar button:hover {
+    background-color: #2ae2b7;
+    color: black;
+    font-weight: bold;
+}

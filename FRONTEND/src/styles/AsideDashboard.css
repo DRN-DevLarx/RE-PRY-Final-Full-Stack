@@ -1,0 +1,40 @@
+#asideDashboard {
+    width: 20%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: #2ae2b798;
+    text-align: center;
+}
+
+#asideDashboard h3 {
+    padding-top: 10px;
+}
+
+.perfilDashboard {
+    width: 100%;
+}
+
+.perfilDashboard img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: solid;
+}
+
+.contenedor {
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-weight: bold;
+    border-bottom: solid 0.5px;
+}
+
+.contenedor.activo {
+    background-color: #222838;
+    color: white;
+    font-weight: bold;
+}

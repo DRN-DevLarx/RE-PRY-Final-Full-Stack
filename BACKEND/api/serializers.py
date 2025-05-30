@@ -11,7 +11,6 @@ class InteresesSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-
 class UsuariosSerializer(serializers.ModelSerializer):
 
     telefono_oferente = serializers.CharField(

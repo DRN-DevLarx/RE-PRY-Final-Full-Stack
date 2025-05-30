@@ -1,12 +1,56 @@
-import React from 'react'
-import  "../styles/Login.css";
-import {Link, useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useNavigate } from "react-router-dom";
+import Swal from 'sweetalert2';
+import '../styles/login.css';
 
 function LoginForm() {
 
+  const [ValueUser, setValueUser] = useState('');
+  const [ValuePass, setValuePass] = useState('');
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
+  async function IniciarSesion() {
+
+    const obj = {
+      username: ValueUser,
+      password: ValuePass,
+    }
+
+    try {
+      
+      const response = await fetch("http://127.0.0.1:8000/api/login/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify(obj)
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        navigate("/admin");
+
+        Swal.fire({
+          icon: "success",
+          title: "Bienvenido",
+          text: `${data.user.first_name} ${data.user.last_name}`,
+          showConfirmButton: false,
+          timer: 1500,
+        });
+
+
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: data.error,
+        });
+      }
+    } catch (error) {
+      console.error("Error en login", error);
+    }
+  }
   function volver() {
     setTimeout(() => {
         navigate(-1)            
@@ -26,15 +70,15 @@ function LoginForm() {
         <h1>Iniciar sesión</h1>
 
         <label htmlFor=""> <span>*</span> Ingresa el usuario o correo electronico</label><br />
-        <input type="text" /><br /><br />
+        <input value={ValueUser} onChange={(e) => setValueUser(e.target.value)} type="text" /><br /><br />
 
         <label htmlFor=""> <span>*</span> Contraseña</label><br />
-        <input type="password" />
+        <input value={ValuePass} onChange={(e) => setValuePass(e.target.value)} type="password" />
 
         <p align="center"> <Link className='Restablecer' to="/restablecer"> ¿Olvidastes la contraseña?</Link></p>
 
         <div className='DIVbtnR'>
-          <button className='btnLogin'>Iniciar sesión</button>
+          <button onClick={IniciarSesion} className='btnLogin'>Iniciar sesión</button>
         </div>
         <br />  
         <p className='pRR' align="center">¿No tienes una cuenta?, <Link className='LINK' to="/register1"> Registrarse</Link></p>

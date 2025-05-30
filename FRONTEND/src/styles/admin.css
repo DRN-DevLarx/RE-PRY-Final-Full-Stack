@@ -62,8 +62,14 @@
     border: none;
     border-radius: 10px;
     background-color: #D9D9D9;
+
 }
 .contBtnsActiones button:hover{
    background-color: #2AE2B6;
 }
 
+.LinkDashboard {
+    color: black;
+    text-decoration: none;
+    font-weight: bold;
+}

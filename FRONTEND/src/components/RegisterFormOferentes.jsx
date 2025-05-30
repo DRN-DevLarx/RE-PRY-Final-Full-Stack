@@ -11,8 +11,12 @@ function RegisterForm1() {
   const navigate = useNavigate()
   const [Contenedor2, setContenedor2] = useState(false);
   const [Contenedor3, setContenedor3] = useState(false);
+
   const [Intereses, setIntereses] = useState([]);
   const [ErrorIntereses, setErrorIntereses] = useState(null);
+  
+  const [Usuarios, setUsuarios] = useState([]);
+  const [ErrorUsuarios, setErrorUsuarios] = useState(null);
 
   const [Identificacion, setIdentificacion] = useState("");
   const [ConfirmacionID, setConfirmacionID] = useState("");
@@ -32,22 +36,85 @@ function RegisterForm1() {
     "{", "}", ":", ";", "'", '"', "<", ">", "/", "\\", "|", "=", "+"
   ];
 
+  // const correoValido = [".com", ".cr", ".org", ".net", ".edu", ".gov", ".co", ".io", ".info"];
+
+  const dominiosCR = [
+    // Proveedores de correo globales
+    "@gmail.com",
+    "@outlook.com",
+    "@yahoo.com",
+    "@hotmail.com",
+    "@icloud.com",
+    "@aol.com",
+    "@live.com",
+    "@protonmail.com",
+    "@zoho.com",
+    "@mail.com",
+    "@tutanota.com",
+    "@gmx.com",
+    "@yandex.com",
+
+    // Dominios específicos de Costa Rica
+    "@crmail.com",
+    "@nic.cr",
+    "@co.cr",
+    "@ac.cr",
+    "@go.cr",
+    "@or.cr",
+
+    // Empresas costarricenses y multinacionales con presencia en CR
+    "@bancopopular.fi.cr",
+    "@baccredomatic.cr",
+    "@scotiabankcr.com",
+    "@bncr.fi.cr",
+    "@ice.go.cr",
+    "@gruponacion.com",
+    "@telecablecr.com",
+    "@kolbi.cr",
+    "@racsa.go.cr",
+    "@universidadcr.ac.cr",
+    "@movistar.cr",
+    "@claro.cr",
+    "@tigo.cr",
+
+    // Multinacionales y empresas con operaciones en Costa Rica
+    "@dhl.com",
+    "@amazon.com",
+    "@intel.com",
+    "@cargill.com",
+    "@procterandgamble.com",
+    "@bayer.com",
+    "@pfizer.com",
+    "@coca-cola.com",
+    "@nestle.com",
+    "@unilever.com",
+    "@walmart.com",
+
+    // Otros dominios relacionados con Costa Rica
+    "@costarica.com",
+    "@puravida.com"
+  ];
+
+
   const palabrasProhibidas = [
-    "admin", "root", "superuser", "guest", "password", "1234", "qwerty", "puta", "madre","pendejo", "mierda", "caca", "culo", "verga", "coño", "chingar", "pendeja", "puto", "cabrón", "cabron", "gilipollas", "maricón", "bollera", "zorra", "putita", "putón", "pendejita", "pendejito","prostituta", "prostituto", "putas", "putos", "pendejos", "pendejas", "cago", "cagó", "cagada", "cagado", "cagarse", "cagón", "cagones", "cagar", "cagando", "como", "vagina", "pene", "meto", "cojo", "cojer"];
+    "admin", "superuser", "password", "puta", "madre","pendejo", "mierda", "caca", "culo", "verga", "coño", "chingar", "pendeja", "puto", "cabrón", "cabron", "gilipollas", "maricón", "bollera", "zorra", "putita", "putón", "pendejita", "pendejito","prostituta", "prostituto", "putas", "putos", "pendejos", "pendejas", "cago", "cagó", "cagada", "cagado", "cagarse", "cagón", "cagones", "cagar", "cagando", "como", "vagina", "pene", "meto", "cojo", "cojer"];
 
   useEffect(() => {
       let isMounted = true; 
       const fetch = async () => {
           try {
               const DatosIntereses = await InteresesServices.GetIntereses();
+              const DatosUsuarios = await UsersServices.GetUser();
               
-
               if (isMounted) {
                   setIntereses(DatosIntereses);
+                  setUsuarios(DatosUsuarios);
               }
+
           } catch (error) {
               if (isMounted) {
                   setErrorIntereses(error.message);
+                  setErrorUsuarios(error.message);
               }
           }
       };
@@ -108,6 +175,53 @@ function RegisterForm1() {
 
   function btnSiguiente2() {
 
+    if (Usuarios.find((user) => user.username === Usuario)) {
+      Swal.fire({
+        icon: "error",
+        text: "El usuario ya existe, por favor elige otro.",
+        confirmButtonColor: "#2ae2b6",
+        background: "#1a1a1a",
+        color: "#ffffff",
+        confirmButtonText: "Aceptar",
+      })
+      return;
+    }
+
+    for (let index = 0; index < dominiosCR.length; index++) {
+      const element = dominiosCR[index];
+      
+      if (Correo.includes(element)) {
+
+        if (Usuarios.find((user) => user.email === Correo)) {
+          Swal.fire({
+            icon: "error",
+            text: "El correo ya está registrado, por favor utiliza otro o inicia sesión",
+            confirmButtonColor: "#2ae2b6",
+            background: "#1a1a1a",
+            color: "#ffffff",
+            confirmButtonText: "Aceptar",
+          })
+          return;
+        }
+         break;
+      }
+      else {
+        console.log(element);
+
+        Swal.fire({
+          icon: "error",
+          text: "El correo electrónico no es válido, por favor verifica e intenta nuevamente.",
+          confirmButtonColor: "#2ae2b6",
+          background: "#1a1a1a",
+          color: "#ffffff",
+          confirmButtonText: "Aceptar",
+        })
+        return;
+      }
+      
+    }
+
+
     // Validar que los campos no contengan simbolos no permitidos
     if( Nombre === "" || Apellido === "" || Usuario === "" || Telefono === "" || Correo === "" || Fecha_Nacimiento === "" || contraseña === "" || Confirm_Contraseña === "") {
 
@@ -154,7 +268,7 @@ function RegisterForm1() {
             color: "#ffffff",
             confirmButtonText: "Aceptar",
           })
-          // break;
+          break;
         }
         else {
           setTimeout(() => {
@@ -173,6 +287,9 @@ function RegisterForm1() {
     const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
     const selectedInterests = Array.from(checkboxes).map(checkbox => checkbox.value);
     
+    console.log(selectedInterests);
+    
+
     if (selectedInterests.length < 1) {
       Swal.fire({
         icon: "error",
@@ -186,38 +303,32 @@ function RegisterForm1() {
     }
 
     else if (selectedInterests.length > 0) {
-      console.log("Intereses seleccionados:", selectedInterests);
-      console.log(Identificacion);
-      console.log(Nombre);
-      console.log(Apellido);
-      console.log(Usuario);
-      console.log(Telefono);
-      console.log(Correo);
-      console.log(Fecha_Nacimiento);
-      console.log(contraseña);
-      console.log(Confirm_Contraseña);
-      
-      
-      
+ 
       const datosRegistroUsers = {
         password: contraseña,
         username: Usuario,
         first_name: Nombre,
         last_name: Apellido,
+        email: Correo
       };
-
+      
       const respuestaServer = await UsersServices.PostUser(datosRegistroUsers)
       console.log(respuestaServer)
+
 
       // const datosRegistro = {
       //   identificacion_oferente: Identificacion,
       //   telefono_oferente: Telefono,
-      //   referenciaIMG_oferente: "default.png",
-      //   estado_oferente: "Activo",
-      //   intereses: selectedInterests
+      //   referenciaIMG_oferente: "",
+      //   estado_oferente: "activo",
+      //   intereses: selectedInterests   //Lista de intereses seleccionados
+      //   // id_usuario: respuestaServer.id  // ID del usuario creado
       // };
 
+      // const respuestaServer2 = await usuariosServices.PostUsuario(datosRegistro)
+      // console.log(respuestaServer2)
     
+
       Swal.fire({
         icon: "success",
         text: "Registro exitoso.",
@@ -329,7 +440,7 @@ function RegisterForm1() {
               <div id="ContIntereses">
                 {Intereses.map((interes, index) => (
                   <article key={index} className="ItemInteres">
-                    <input type="checkbox" id={interes.nombre_interes} value={interes.nombre_interes} />
+                    <input type="checkbox" id={interes.nombre_interes} value={interes.id} />
                     <label htmlFor={interes.nombre_interes}> {interes.nombre_interes} </label>
                   </article>
                 ))}
