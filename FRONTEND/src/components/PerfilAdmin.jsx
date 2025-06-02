@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import '../styles/PerfilAdmin.css'
 import { useNavigate } from 'react-router-dom';
 
 function PerfilAdmin() {
     
     const navigate = useNavigate();
+
 
     function exitDashboard() {
         navigate("/admin")
@@ -70,11 +71,14 @@ function PerfilAdmin() {
                     <br />
                     
                     <div style={{width: "80%", margin: "0 auto"}}>
-                        <label htmlFor="">Nombre completo</label>
-                        <input type="text" placeholder='Darien' /><br /><br />
+                        <label htmlFor="">Nombre</label>
+                        <input className='inputEdit inputEditNom' type="text" placeholder='Darien' /><br /><br />
+
+                        <label htmlFor="">Apellido</label>
+                        <input className='inputEdit inputEditNom' type="text" placeholder='Aguilar' /><br /><br />
 
                         <label htmlFor="">Acerca de mi</label><br />
-                        <input type="text" placeholder='Administrador de la plataforma' />
+                        <textarea className='textTareaEdit' rows={3} cols={35}name="" id=""placeholder='Administrador de la plataforma' ></textarea>
                     </div>
 
                 </div>
@@ -83,17 +87,17 @@ function PerfilAdmin() {
 
                 <div className='itemPerfil SubContPerfilAdmin2'>
                     <label htmlFor="">Identificación</label><br />
-                    <input type="number" placeholder='604750941' /><br /><br />
+                    <input className='inputEdit' type="number" placeholder='604750941' /><br /><br />
 
                     <label htmlFor="">Teléfono</label><br />
-                    <input type="number" placeholder='63746352' /><br /><br />
+                    <input className='inputEdit' type="number" placeholder='63746352' /><br /><br />
 
                     <label htmlFor="">Correo Electrónico</label><br />
-                    <input type="text" placeholder='darienaguiar3000@gmail.com' />
-                    <br /><br />
+                    <input className='inputEdit' type="text" placeholder='darienaguiar3000@gmail.com' />
+                    <br /><br /><br />
 
                     <div className='contbtnEditar' style={{textAlign: "right", width:"80%"}}>
-                        <button>Editar perfil</button>
+                        <button>Guardar cambios</button>
                     </div>
                 </div>
 

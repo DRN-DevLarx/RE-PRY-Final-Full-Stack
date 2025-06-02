@@ -8,7 +8,7 @@ import Administrador from '../pages/AdminPage';
 import Login from '../pages/LoginPage';
 import RegisterOferentes from '../pages/RegisterPageOferentes';
 import RegisterEmpresas from '../pages/RegisterPageEmpresas';
-import CYS from '../components/CYS';
+import CYSPage from '../pages/CYSPage';
 import RestablecerPage from '../pages/RestablecerPage';
 import RestablecerPageConfirmar from '../pages/RestablecerPageConfirmar';
 import Publicar from '../pages/PublicarPage';
@@ -21,7 +21,7 @@ function Routing() {
     <Router>
         <Routes >
             <Route  path='/' element={<Inicio/>}/>
-            <Route  path='/cys' element={<CYS/>}/>
+            <Route  path='/cys' element={<CYSPage/>}/>
             <Route  path='/register1' element={<RegisterOferentes/>}/>
             <Route  path='/registrarEmpresa' element={<RegisterEmpresas/>}/>
             <Route  path='/login' element={<Login/>}/>

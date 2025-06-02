@@ -5,6 +5,8 @@ import Swal from 'sweetalert2';
 import InteresesServices from '../services/interesesServices';
 import UsersServices from "../services/usersServices";
 import usuariosServices from "../services/usuariosServices";
+import InteUsuariosServices from "../services/interesesUsuariosServices";
+import Users_UsuariosServices from "../services/Users_UsuariosServices";
 
 function RegisterForm1() {
 
@@ -26,7 +28,6 @@ function RegisterForm1() {
   const [Usuario, setUsuario] = useState("");
   const [Telefono, setTelefono] = useState("");
   const [Correo, setCorreo] = useState("");
-  const [Fecha_Nacimiento, setFecha_Nacimiento] = useState("");
   const [contraseña, setContraseña] = useState("");
   const [Confirm_Contraseña, setConfirm_Contraseña] = useState("");
 
@@ -97,7 +98,11 @@ function RegisterForm1() {
 
 
   const palabrasProhibidas = [
-    "admin", "superuser", "password", "puta", "madre","pendejo", "mierda", "caca", "culo", "verga", "coño", "chingar", "pendeja", "puto", "cabrón", "cabron", "gilipollas", "maricón", "bollera", "zorra", "putita", "putón", "pendejita", "pendejito","prostituta", "prostituto", "putas", "putos", "pendejos", "pendejas", "cago", "cagó", "cagada", "cagado", "cagarse", "cagón", "cagones", "cagar", "cagando", "como", "vagina", "pene", "meto", "cojo", "cojer"];
+    "admin", "superuser", "password", "puta", "madre","pendejo", "mierda", "caca", "culo", "verga", "coño",
+    "chingar", "pendeja", "puto", "cabrón", "cabron", "gilipollas", "maricón", "bollera", "zorra", "pene",  
+    "putón", "pendejita", "pendejito","prostituta", "prostituto", "putas", "putos", "pendejos", "pendejas", 
+    "cago", "cagó", "cagada", "cagado", "cagarse", "cagón", "cagones", "cagar", "cagando", "como", "vagina", 
+    "putita", "meto", "cojo", "cojer"];
 
   useEffect(() => {
       let isMounted = true; 
@@ -221,7 +226,7 @@ function RegisterForm1() {
 
 
     // Validar que los campos no contengan simbolos no permitidos
-    if( Nombre === "" || Apellido === "" || Usuario === "" || Telefono === "" || Correo === "" || Fecha_Nacimiento === "" || contraseña === "" || Confirm_Contraseña === "") {
+    if( Nombre === "" || Apellido === "" || Usuario === "" || Telefono === "" || Correo === "" || contraseña === "" || Confirm_Contraseña === "") {
 
       Swal.fire({
         icon: "error",
@@ -256,7 +261,7 @@ function RegisterForm1() {
     }
     else {
       for (let p = 0; p < palabrasProhibidas.length; p++) {
-        if (Nombre.toLowerCase().includes(palabrasProhibidas[p]) || Apellido.toLowerCase().includes(palabrasProhibidas[p]) || Usuario.toLowerCase().includes(palabrasProhibidas[p]) || Telefono.toLowerCase().includes(palabrasProhibidas[p]) || Correo.toLowerCase().includes(palabrasProhibidas[p]) || Fecha_Nacimiento.toLowerCase().includes(palabrasProhibidas[p]) || contraseña.toLowerCase().includes(palabrasProhibidas[p]) || Confirm_Contraseña.toLowerCase().includes(palabrasProhibidas[p])) {
+        if (Nombre.toLowerCase().includes(palabrasProhibidas[p]) || Apellido.toLowerCase().includes(palabrasProhibidas[p]) || Usuario.toLowerCase().includes(palabrasProhibidas[p]) || Telefono.toLowerCase().includes(palabrasProhibidas[p]) || Correo.toLowerCase().includes(palabrasProhibidas[p]) || contraseña.toLowerCase().includes(palabrasProhibidas[p]) || Confirm_Contraseña.toLowerCase().includes(palabrasProhibidas[p])) {
 
           Swal.fire({
             icon: "error",
@@ -285,8 +290,6 @@ function RegisterForm1() {
     const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
     const selectedInterests = Array.from(checkboxes).map(checkbox => checkbox.value);
     
-    console.log(selectedInterests);
-    
 
     if (selectedInterests.length == 0) {
       Swal.fire({
@@ -301,51 +304,75 @@ function RegisterForm1() {
     }
 
     else {
- 
-      const datosRegistroUsers = {
-        password: contraseña,
-        username: Usuario,
-        first_name: Nombre,
-        last_name: Apellido,
-        email: Correo
-      };
-      
-      const respuestaServer = await UsersServices.PostUser(datosRegistroUsers)
-      console.log(respuestaServer)
+      try {
+        // Post a la tabla auth_user
+        const datosRegistroUsers = {
+          password: contraseña,
+          username: Usuario,
+          first_name: Nombre,
+          last_name: Apellido,
+          email: Correo,
+        };
+        const respuestaServer = await UsersServices.PostUser(datosRegistroUsers);
 
-      const datosRegistro = {
+
+        // Post a la tabla Usuarios
+        const datosRegistro = {
           identificacion_oferente: Identificacion,
           telefono_oferente: Telefono,
           referenciaIMG_oferente: "",
           estado_oferente: "activo",
-          intereses: [1,10]
-      };
+        };
+        const respuestaServer2 = await usuariosServices.PostUsuario(datosRegistro);
 
-      console.log("Datos enviados:", datosRegistro);
 
-      try {
-        const respuesta = await usuariosServices.PostUsuario(datosRegistro);
-        console.log("Respuesta OK:", respuesta);
-      } catch (error) {
-        if (error.response) {
-          console.error("Detalle del error:", error.response.data);
-        } else {
-          console.error("Error inesperado:", error);
+        // Post a la tabla intermedia de Usuarios e intereses
+        for (let index = 0; index < selectedInterests.length; index++) {
+          const INTERES = selectedInterests[index];
+
+          const datos_A_InteUsuarios = {
+            usuario: respuestaServer2.id,
+            intereses: INTERES,
+          };
+          await InteUsuariosServices.PostIntereses(datos_A_InteUsuarios);
         }
+
+
+        // Post a la tabla intermedia de auth_user y Usuarios
+
+        const datos_A_UsersUsuarios = {
+          user: respuestaServer.id,
+          usuario: respuestaServer2.id,
+        };
+        await Users_UsuariosServices.PostUserUsuario(datos_A_UsersUsuarios);
+
+        
+        Swal.fire({
+          icon: "success",
+          text: "Registro exitoso.",
+          background: "#1a1a1a",
+          color: "#ffffff",
+          showConfirmButton: false,
+        });
+
+        setTimeout(() => {
+          Swal.close();
+          navigate("/login");
+        }, 700);
+
+      } catch (error) {
+        console.error("Error en el proceso de registro:", error);
+
+        Swal.fire({
+          icon: "error",
+          text: "Hubo un problema con el registro.",
+          background: "#1a1a1a",
+          color: "#ffffff",
+          showConfirmButton: true,
+        });
       }
-
-
-
-      Swal.fire({
-        icon: "success",
-        text: "Registro exitoso.",
-        background: "#1a1a1a",
-        color: "#ffffff",
-        showConfirmButton: false,
-      }).then(() => {
-        navigate('/login');
-      });
     }
+
 
   }
 
@@ -408,21 +435,19 @@ function RegisterForm1() {
           <h1>Registrarse</h1>
           
           <div className="contInputs">
-            <input value={Nombre} onChange={(e) => setNombre(e.target.value)} className="inputs" type="text" placeholder="Nombre" />
+            <input value={Nombre} onChange={(e) => setNombre(e.target.value)} className="inputsR" type="text" placeholder="Nombre" />
 
-            <input value={Apellido} onChange={(e) => setApellido(e.target.value)} className="inputs" type="text" placeholder="Apellido" /><br /><br />
+            <input value={Apellido} onChange={(e) => setApellido(e.target.value)} className="inputsR" type="text" placeholder="Apellido" />
 
-            <input value={Usuario} onChange={(e) => setUsuario(e.target.value)} className="inputs" type="text" placeholder="Usuario" />
+            <input value={Usuario} onChange={(e) => setUsuario(e.target.value)} className="inputsR" type="text" placeholder="Usuario" />
 
-            <input value={Telefono} onChange={(e) => setTelefono(e.target.value)} className="inputs" type="number" placeholder="Telefono" /><br /><br />
+            <input value={Telefono} onChange={(e) => setTelefono(e.target.value)} className="inputsR" type="number" placeholder="Telefono" />
 
-            <input value={Correo} onChange={(e) => setCorreo(e.target.value)} className="inputs" type="email" placeholder="Correo electrónico" />
+            <input value={Correo} onChange={(e) => setCorreo(e.target.value)} className="inputsR inptCorreo" type="email" placeholder="Correo electrónico" />
 
-            <input value={Fecha_Nacimiento} onChange={(e) => setFecha_Nacimiento(e.target.value)} className="inputs" type="date" placeholder="Fecha de nacimiento" /><br /><br />
+            <input value={contraseña} onChange={(e) => setContraseña(e.target.value)} className="inputsR" type="password" placeholder="Constraseña" />
 
-            <input value={contraseña} onChange={(e) => setContraseña(e.target.value)} className="inputs" type="password" placeholder="Constraseña" />
-
-            <input value={Confirm_Contraseña} onChange={(e) => setConfirm_Contraseña(e.target.value)} className="inputs" type="password" placeholder="Confirmar constraseña" /><br /><br />
+            <input value={Confirm_Contraseña} onChange={(e) => setConfirm_Contraseña(e.target.value)} className="inputsR" type="password" placeholder="Confirmar constraseña" />
           </div>
 
           <div className='DIVbtnR'>

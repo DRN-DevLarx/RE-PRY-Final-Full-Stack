@@ -3,5 +3,5 @@
 #bodydashboard {
     display: flex;
     background-image: url('../assets/wallpaperDashboard.avif');
-    background-size: cover;
+    background-size: 100% 100%;
 }

@@ -76,3 +76,27 @@
     color: black;
     font-weight: bold;
 }
+
+
+.inputEditNom {
+    width: 70%;
+    margin-left: 20px;
+}
+
+
+.inputEdit {
+    background-color: transparent;
+    border: solid 1px white;
+    color: white;
+    padding: 7px;
+    border-radius: 10px;
+}
+
+.textTareaEdit {
+    background-color: transparent;
+    border: solid 1px white;
+    color: white;
+    padding: 7px;
+    border-radius: 10px;
+    resize: none;
+}
