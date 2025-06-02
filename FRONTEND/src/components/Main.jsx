@@ -2,16 +2,9 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import "../styles/ini.css";
-import InteresesServices from '../services/interesesServices';
-import OfertasServices from '../services/ofertasServices';
-
 
 
 function Inicio() {
-
-
-
-
 
   return (
     <div>
@@ -45,10 +38,7 @@ function Inicio() {
           </div>
         </div>
 
-        {/* Componente  - Intereses*/}
 
-
-            {/* Pertenece al componente de Main */}
         <div id='about'>
           <div>
             <h1>Sobre Nosotros</h1>

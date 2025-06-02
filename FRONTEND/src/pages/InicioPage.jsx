@@ -4,6 +4,7 @@ import Inicio from '../components/Main'
 import Intereses from '../components/Intereses'
 import Ofertas from '../components/Ofertas'
 import Footer from '../components/Footer'
+import "../styles/InicioPage.css"
 
 function InicioPage() {
   return (

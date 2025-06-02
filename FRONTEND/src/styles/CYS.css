@@ -1,29 +1,26 @@
 
 #bodyCYS {
-    background-color: #222838;
+    background-image: url(../assets/wallpaperOffers.jfif);
+    background-size: cover;
     color: white;
     font-family: 'Poppins', sans-serif;
     height: 100vh;
 }
 
 #headerCYS{
-    padding: 40px 100px 0 100px;
+    padding: 20px 100px 0 100px;
     color: #2ae2b6;
 
     display: flex;
     justify-content: space-between;
 }
 
-
-
-
 #subMainCYS {
     display: flex;
 }
 
 #form {
-    padding: 50px 100px;
-    padding-top: 30px;
+    padding: 0px 100px;
     width: 50%;
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -32,17 +29,18 @@
 }
 
 #IMG {
-    padding: 50px;
-    padding-top: 30px;
-
+    padding: 0 50px;
     width: 50%;
 }
 
 #form input, #form textarea {
     padding: 10px;
     border-radius: 10px;
-    border: navajowhite;
+    border: none;
+    background-color: transparent;
+    border: solid 1px white;
     padding-left: 20px;
+    color: white;
 }
 
 #form input:nth-child(3) {

@@ -21,44 +21,84 @@ function PerfilAdmin() {
             </svg>
         </div>
  
+        <main>
+            <div id='PerfilAdmin'>
 
-        <main id='PerfilAdmin'>
+                <div className='itemPerfil SubContPerfilAdmin1'>
+                    <div align="center">
+                        <img src="/public/Iconlogo.png" alt="" />
+                    </div>
+                    <br />
+                    
+                    <div style={{width: "80%", margin: "0 auto"}}>
+                        <label htmlFor="">Nombre completo</label>
+                        <p>Darien</p>
 
-            <div className='itemPerfil SubContPerfilAdmin1'>
-                <div align="center">
-                    <img src="/public/Iconlogo.png" alt="" />
+                        <label htmlFor="">Acerca de mi</label>
+                        <p>Administrador de la plataforma</p>
+                    </div>
+
                 </div>
-                <br />
-                
-                <div style={{width: "80%", margin: "0 auto"}}>
-                    <label htmlFor="">Nombre completo</label>
-                    <p>Darien</p>
 
-                    <label htmlFor="">Acerca de mi</label>
-                    <p>Administrador de la plataforma</p>
+
+
+                <div className='itemPerfil SubContPerfilAdmin2'>
+                    <label htmlFor="">Identificación</label>
+                    <p>604750941</p>
+
+                    <label htmlFor="">Teléfono</label>
+                    <p>63746352</p>
+
+                    <label htmlFor="">Correo Electrónico</label>
+                    <p>darienaguiar3000@gmail.com</p>
+                    <br /><br />
+
+                    <div className='contbtnEditar' style={{textAlign: "right", width:"80%"}}>
+                        <button>Editar perfil</button>
+                    </div>
                 </div>
+
 
             </div>
 
+            <div id='PerfilAdmin'>
 
+                <div className='itemPerfil SubContPerfilAdmin1'>
+                    <div align="center">
+                        <img src="/public/Iconlogo.png" alt="" />
+                    </div>
+                    <br />
+                    
+                    <div style={{width: "80%", margin: "0 auto"}}>
+                        <label htmlFor="">Nombre completo</label>
+                        <input type="text" placeholder='Darien' /><br /><br />
 
-            <div className='itemPerfil SubContPerfilAdmin2'>
-                <label htmlFor="">Identificación</label>
-                <p>604750941</p>
+                        <label htmlFor="">Acerca de mi</label><br />
+                        <input type="text" placeholder='Administrador de la plataforma' />
+                    </div>
 
-                <label htmlFor="">Teléfono</label>
-                <p>63746352</p>
-
-                <label htmlFor="">Correo Electrónico</label>
-                <p>darienaguiar3000@gmail.com</p>
-                <br /><br />
-
-                <div className='contbtnEditar' style={{textAlign: "right", width:"80%"}}>
-                    <button>Editar perfil</button>
                 </div>
+
+
+
+                <div className='itemPerfil SubContPerfilAdmin2'>
+                    <label htmlFor="">Identificación</label><br />
+                    <input type="number" placeholder='604750941' /><br /><br />
+
+                    <label htmlFor="">Teléfono</label><br />
+                    <input type="number" placeholder='63746352' /><br /><br />
+
+                    <label htmlFor="">Correo Electrónico</label><br />
+                    <input type="text" placeholder='darienaguiar3000@gmail.com' />
+                    <br /><br />
+
+                    <div className='contbtnEditar' style={{textAlign: "right", width:"80%"}}>
+                        <button>Editar perfil</button>
+                    </div>
+                </div>
+
+
             </div>
-
-
         </main>
     </div>
   )

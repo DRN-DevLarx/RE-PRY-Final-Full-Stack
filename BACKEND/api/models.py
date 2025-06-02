@@ -8,7 +8,7 @@ class Intereses(models.Model):
 class Usuarios (models.Model):
     identificacion_oferente = models.IntegerField(unique=True)
     telefono_oferente = models.CharField(unique=True, max_length=20, blank=True, null=True)
-    referenciaIMG_oferente = models.CharField(max_length=30)
+    referenciaIMG_oferente = models.CharField(max_length=30, blank=True, null=True)
     estado_oferente = models.CharField(max_length=30)
     
     intereses = models.ManyToManyField(Intereses, through='InteresesUsuarios', related_name='Usuarios')
@@ -21,9 +21,8 @@ class InteresesUsuarios(models.Model):
     usuario = models.ForeignKey(Usuarios, on_delete=models.CASCADE)
     intereses = models.ForeignKey(Intereses, on_delete=models.CASCADE)
 
-    def __str__(self):
-        return " ".join(vars(self).values())
-
+    class Meta:
+        unique_together = ("usuario", "intereses")  # Asegura que no haya duplicados
 
 class Empresas(models.Model):
     identificacion_empresa = models.IntegerField(unique=True)

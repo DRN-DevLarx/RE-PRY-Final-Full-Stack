@@ -206,8 +206,6 @@ function RegisterForm1() {
          break;
       }
       else {
-        console.log(element);
-
         Swal.fire({
           icon: "error",
           text: "El correo electrónico no es válido, por favor verifica e intenta nuevamente.",
@@ -290,7 +288,7 @@ function RegisterForm1() {
     console.log(selectedInterests);
     
 
-    if (selectedInterests.length < 1) {
+    if (selectedInterests.length == 0) {
       Swal.fire({
         icon: "error",
         text: "Por favor, selecciona al menos un interés.",
@@ -302,7 +300,7 @@ function RegisterForm1() {
       return;
     }
 
-    else if (selectedInterests.length > 0) {
+    else {
  
       const datosRegistroUsers = {
         password: contraseña,
@@ -315,19 +313,28 @@ function RegisterForm1() {
       const respuestaServer = await UsersServices.PostUser(datosRegistroUsers)
       console.log(respuestaServer)
 
+      const datosRegistro = {
+          identificacion_oferente: Identificacion,
+          telefono_oferente: Telefono,
+          referenciaIMG_oferente: "",
+          estado_oferente: "activo",
+          intereses: [1,10]
+      };
 
-      // const datosRegistro = {
-      //   identificacion_oferente: Identificacion,
-      //   telefono_oferente: Telefono,
-      //   referenciaIMG_oferente: "",
-      //   estado_oferente: "activo",
-      //   intereses: selectedInterests   //Lista de intereses seleccionados
-      //   // id_usuario: respuestaServer.id  // ID del usuario creado
-      // };
+      console.log("Datos enviados:", datosRegistro);
 
-      // const respuestaServer2 = await usuariosServices.PostUsuario(datosRegistro)
-      // console.log(respuestaServer2)
-    
+      try {
+        const respuesta = await usuariosServices.PostUsuario(datosRegistro);
+        console.log("Respuesta OK:", respuesta);
+      } catch (error) {
+        if (error.response) {
+          console.error("Detalle del error:", error.response.data);
+        } else {
+          console.error("Error inesperado:", error);
+        }
+      }
+
+
 
       Swal.fire({
         icon: "success",

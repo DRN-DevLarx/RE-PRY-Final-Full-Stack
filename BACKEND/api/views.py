@@ -1,5 +1,13 @@
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, CreateAPIView
-from rest_framework.permissions import AllowAny, IsAuthenticated, BasePermission
+from rest_framework import viewsets
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from django.contrib.auth import authenticate
+from rest_framework.response import Response
+from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework import status
+from rest_framework.views import APIView
+from rest_framework.generics import CreateAPIView
+from django.contrib.auth.models import User
+
 from .models import (
     Usuarios, Intereses, InteresesUsuarios, Ofertas, Empresas,
     OfertasEmpresas, Postulaciones, AuditoriaOfertas
@@ -10,52 +18,16 @@ from .serializers import (
     PostulacionesSerializer, AuditoriaOfertasSerializer
 )
 
-from django.contrib.auth.models import User
-from django.contrib.auth import authenticate
-from rest_framework.response import Response
-from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework import status
-from rest_framework.views import APIView
 
-# ------------------- Permisos personalizados -------------------
-class IsAdminUserGroup(BasePermission):
-    def has_permission(self, request, view):
-        return request.user and request.user.groups.filter(name="admin").exists()
-
-class IsEmpresaUser(BasePermission):
-    def has_permission(self, request, view):
-        return request.user and request.user.groups.filter(name="empresa").exists()
-
-class IsUsuarioUser(BasePermission):
-    def has_permission(self, request, view):
-        return request.user and request.user.groups.filter(name="usuario").exists()
-
-# ------------------- Vistas Usuarios -------------------
-class RegisterUserView(ListCreateAPIView):
+# ------------------- Registro de Usuario -------------------
+class RegisterUserView(CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UsersSerializer
     permission_classes = [AllowAny]
 
-class UserDetailView(RetrieveUpdateDestroyAPIView):
-    # permission_classes = [IsAuthenticated]
 
-    queryset = User.objects.all()
-    serializer_class = UsersSerializer
-    
-
-class UsuariosListCreateView(ListCreateAPIView):
-    # permission_classes = [IsAuthenticated, IsAdminUserGroup]
-    queryset = Usuarios.objects.all()
-    serializer_class = UsuariosSerializer
-
-class UsuariosDetailView(RetrieveUpdateDestroyAPIView):
-    # permission_classes = [IsAuthenticated, IsAdminUserGroup]
-    queryset = Usuarios.objects.all()
-    serializer_class = UsuariosSerializer
-
-
+# ------------------- Login y Cookies Seguras -------------------
 class UserLoginView(APIView):
-    
     def post(self, request):
         username = request.data.get("username")
         password = request.data.get("password")
@@ -72,12 +44,12 @@ class UserLoginView(APIView):
                 }
             }, status=status.HTTP_200_OK)
 
-            # Configurar cookie
+            # Configurar cookie segura con JWT
             response.set_cookie(
                 key="jwt_token",
                 value=str(refresh.access_token),
                 httponly=True, 
-                secure=False,
+                secure=True,  
                 samesite="Lax",
             )
             response["Access-Control-Allow-Credentials"] = "true"
@@ -87,8 +59,9 @@ class UserLoginView(APIView):
             return Response({"error": "Credenciales incorrectas"}, status=status.HTTP_401_UNAUTHORIZED)
 
 
+# ------------------- Obtener Datos del Usuario Autenticado -------------------
 class UserDataView(APIView):
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     def get(self, request):
         if request.user.is_authenticated:
@@ -103,69 +76,42 @@ class UserDataView(APIView):
         return Response({"error": "No autorizado"}, status=status.HTTP_401_UNAUTHORIZED)
 
 
+# ------------------- ViewSets para gestión de modelos -------------------
+class UsuariosViewSet(viewsets.ModelViewSet):
+    queryset = Usuarios.objects.all()
+    serializer_class = UsuariosSerializer
+    # permission_classes = [IsAuthenticated]
 
-# ------------------- Vistas Intereses -------------------
-class InteresesListCreateView(ListCreateAPIView):
+class UsersViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UsersSerializer
+    permission_classes = [AllowAny]
+
+class InteresesViewSet(viewsets.ModelViewSet):
     queryset = Intereses.objects.all()
     serializer_class = InteresesSerializer
 
-class InteresesDetailView(RetrieveUpdateDestroyAPIView):
-    queryset = Intereses.objects.all()
-    serializer_class = InteresesSerializer
-
-# ------------------- Vistas InteresesUsuarios -------------------
-class InteresesUsuariosListCreateView(ListCreateAPIView):
+class InteresesUsuariosViewSet(viewsets.ModelViewSet):
     queryset = InteresesUsuarios.objects.all()
     serializer_class = InteresesUsuariosSerializer
 
-class InteresesUsuariosDetailView(RetrieveUpdateDestroyAPIView):
-    queryset = InteresesUsuarios.objects.all()
-    serializer_class = InteresesUsuariosSerializer
-
-# ------------------- Vistas Ofertas -------------------
-class OfertasListCreateView(ListCreateAPIView):
+class OfertasViewSet(viewsets.ModelViewSet):
     queryset = Ofertas.objects.all()
     serializer_class = OfertasSerializer
 
-class OfertasDetailView(RetrieveUpdateDestroyAPIView):
-    queryset = Ofertas.objects.all()
-    serializer_class = OfertasSerializer
-
-# ------------------- Vistas Empresas -------------------
-class EmpresasListCreateView(ListCreateAPIView):
-    # permission_classes = [IsAuthenticated, IsEmpresaUser]
+class EmpresasViewSet(viewsets.ModelViewSet):
     queryset = Empresas.objects.all()
     serializer_class = EmpresasSerializer
+    permission_classes = [IsAuthenticated]
 
-class EmpresasDetailView(RetrieveUpdateDestroyAPIView):
-    # permission_classes = [IsAuthenticated, IsEmpresaUser]
-    queryset = Empresas.objects.all()
-    serializer_class = EmpresasSerializer
-
-# ------------------- Vistas OfertasEmpresas -------------------
-class OfertasEmpresasListCreateView(ListCreateAPIView):
+class OfertasEmpresasViewSet(viewsets.ModelViewSet):
     queryset = OfertasEmpresas.objects.all()
     serializer_class = OfertasEmpresasSerializer
 
-class OfertasEmpresasDetailView(RetrieveUpdateDestroyAPIView):
-    queryset = OfertasEmpresas.objects.all()
-    serializer_class = OfertasEmpresasSerializer
-
-# ------------------- Vistas Postulaciones -------------------
-class PostulacionesListCreateView(ListCreateAPIView):
+class PostulacionesViewSet(viewsets.ModelViewSet):
     queryset = Postulaciones.objects.all()
     serializer_class = PostulacionesSerializer
 
-class PostulacionesDetailView(RetrieveUpdateDestroyAPIView):
-    queryset = Postulaciones.objects.all()
-    serializer_class = PostulacionesSerializer
-
-
-class AuditoriaOfertasListCreateView(ListCreateAPIView):
+class AuditoriaOfertasViewSet(viewsets.ModelViewSet):
     queryset = AuditoriaOfertas.objects.all()
     serializer_class = AuditoriaOfertasSerializer
-    
-class AuditoriaOfertasDetailView(RetrieveUpdateDestroyAPIView):
-    queryset = AuditoriaOfertas
-    serializer_class = AuditoriaOfertasSerializer
-    

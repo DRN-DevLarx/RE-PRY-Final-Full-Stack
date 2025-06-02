@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import "../styles/ini.css";
+import "../styles/ofertas.css";
 import InteresesServices from '../services/interesesServices';
 import OfertasServices from '../services/ofertasServices';
 

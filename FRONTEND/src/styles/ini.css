@@ -220,11 +220,11 @@
     flex-wrap: wrap;
     padding: 10px;
     justify-content: center;
-    background-color: #2ae2b6;
+    background-color: transparent;
 }
 
 #containerCat article {
-    background-color: rgba(128, 128, 128, 0.6);
+    background-color: #2ae2b6;
     text-align: center;
     padding: 0 20px;
     width: 100%;
@@ -239,6 +239,8 @@
     background-color: #222838;
     padding: 30px;
     color: white;
+    background-color: transparent;
+
 }
 
 #about h1 {
@@ -264,109 +266,8 @@
 }
 
 
-#trabajosD {
-    text-align: center;
-    background-color:  #222838;
-    padding: 30px;
-}
-#trabajosD h1 {
-    text-align: center;
-    color: white;
-}
-.filtros{
-    padding: 20px;
-    display: flex;
-    justify-content: center;
-    gap: 30px;
-}
-
-.filtros select, .filtros input, .filtros input::placeholder {
-    background-color: gray;
-    color: aquamarine;
-    padding: 5px;
-}
-
-#SectOfertas {
-    width: 100%;
-}
-
-#containerOf {
-    width: 100%;
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    padding: 20px 0;
-    row-gap: 20px;
-}
 
 
-#containerOf article {
-    background-color: #147a63;
-    border-radius: 20px;
-    padding: 30px;
-    width: 45%;
-}
-
-#containerOf article:hover {
-    background-color: #2ae2b6;
-}
-
-#footer{
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    background-color:#929393;
-    padding: 15px 30px;
-    padding-bottom: 0;
-}
-
-
-.FooterLeft h1 {
-    text-align: center;
-    color: white;
-}
-
-
-.FooterRight h1 {
-    text-align: center;
-    color: white;
-}
-
-.infoLeft {
-    text-align: center;
-    color: white;
-    width: 80%;
-    margin: auto;
-}
-
-.infoLeft a {
-    color: white;
-    text-decoration: none;
-}
-
-.infoRight {
-    line-height: 25px;
-    width: 90%;
-    margin: auto;
-    text-align: left;
-}
-
-.FooterLeft p {
-    text-align: left;
-    color: white;   
-}
-
-.FooterRight p {
-    text-align: center;
-    color: white;
-}
-
-.footer_footer {
-    grid-column: span 2;
-    display: flex;  
-    justify-content: center;
-    align-items: center;
-    padding-top: 5px;
-}
 
 
 

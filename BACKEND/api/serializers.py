@@ -12,19 +12,31 @@ class InteresesSerializer(serializers.ModelSerializer):
 
 
 class UsuariosSerializer(serializers.ModelSerializer):
-
-    telefono_oferente = serializers.CharField(
-        max_length=20,
-        allow_null=True,
-        allow_blank=True,
-        validators=[RegexValidator(regex=r'^\d{8,12}$', message="Debe contener entre 8 y 12 dígitos numéricos.")]
+    telefono_oferente = serializers.CharField(max_length=20, allow_null=True, allow_blank=True, validators=[RegexValidator(regex=r'^\d{8,12}$', message="Debe contener entre 8 y 12 dígitos numéricos.")]
     )
-
-    intereses = serializers.PrimaryKeyRelatedField(queryset=Intereses.objects.all(), many=True)
+    intereses = InteresesSerializer(many=True, write_only=True)
+    intereses_ids = serializers.PrimaryKeyRelatedField(queryset=Intereses.objects.all(), many=True, write_only=True, source="Intereses")
 
     class Meta:
         model = Usuarios
         fields = "__all__"
+
+    def create(self, validated_data):
+        print("Datos validados que llegaron al serializer:", validated_data)
+
+        intereses_data = validated_data.pop("intereses", [])
+        print("Intereses extraídos:", intereses_data)
+
+        usuario = Usuarios.objects.create(**validated_data)
+
+        for interes in intereses_data:
+            print("Asignando interés:", interes)
+            InteresesUsuarios.objects.create(usuario=usuario, intereses=interes)
+
+        return usuario
+
+
+
 
 class UsersSerializer(serializers.ModelSerializer):
     class Meta:
@@ -35,9 +47,6 @@ class UsersSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         user = User.objects.create_user(**validated_data)
         return user
-
-
-
 
 
 class InteresesUsuariosSerializer(serializers.ModelSerializer):
@@ -57,20 +66,13 @@ class OfertasSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 class EmpresasSerializer(serializers.ModelSerializer):
-    contrasena_empresa = serializers.CharField(
-        max_length=30,
-        write_only=True,
-        validators=[MinLengthValidator(8)]
+    contrasena_empresa = serializers.CharField(max_length=30, write_only=True, validators=[MinLengthValidator(8)]
     )
 
-    nombre_empresa = serializers.CharField(
-        max_length=30,
-        validators=[MinLengthValidator(5)]
+    nombre_empresa = serializers.CharField(max_length=30, validators=[MinLengthValidator(5)]
     )
 
-    telefono_empresa = serializers.CharField(
-        max_length=30,
-        validators=[MinLengthValidator(8)]
+    telefono_empresa = serializers.CharField(max_length=30, validators=[MinLengthValidator(8)]
     )
 
     correo_empresa = serializers.EmailField(validators=[EmailValidator()])

@@ -1,0 +1,49 @@
+#trabajosD {
+    text-align: center;
+    background-color:  #222838;
+    padding: 30px;
+    background-color: transparent;
+}
+#trabajosD h1 {
+    text-align: center;
+    color: white;
+}
+.filtros{
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
+.filtros select, .filtros input, .filtros input::placeholder {
+    background-color: gray;
+    color: aquamarine;
+    padding: 5px;
+}
+
+#SectOfertas {
+    width: 100%;
+}
+
+#containerOf {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    padding: 20px 0;
+    row-gap: 20px;
+}
+
+
+#containerOf article {
+    background-color: #0c4d3d98;
+    border-radius: 20px;
+    padding: 30px;
+    padding-bottom: 0;
+    width: 45%;
+    color: white;
+}
+
+#containerOf article:hover {
+    background-color: #2ae2b6;
+}

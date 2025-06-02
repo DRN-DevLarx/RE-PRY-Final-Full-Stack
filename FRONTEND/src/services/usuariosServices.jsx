@@ -18,23 +18,32 @@ async function GetUsuario() {
 async function PostUsuario(obj) {
     try {
         const response = await fetch("http://127.0.0.1:8000/api/usuarios/", {
-            method: 'POST',
+            method: "POST",
             headers: {
-                'Content-Type': 'application/json',
+                "Content-Type": "application/json",
             },
-            body: JSON.stringify(obj)
+
+            body: JSON.stringify({
+                identificacion_oferente: obj.identificacion_oferente,
+                telefono_oferente: obj.telefono_oferente,
+                referenciaIMG_oferente: obj.referenciaIMG_oferente,
+                estado_oferente: obj.estado_oferente,
+                intereses: obj.intereses, // Array de IDs de intereses
+            }),
         });
 
         if (!response.ok) {
-            throw new Error('Error al crear usuario');
+            const errorData = await response.json();
+            throw new Error(`Error al crear usuario: ${errorData.error || response.statusText}`);
         }
 
         return await response.json();
     } catch (error) {
-        console.error('Error al crear usuario:', error);
+        console.error("Error al crear usuario:", error);
         throw error;
     }
 }
+
 
 async function PutUsuario(id, obj) {
     try {
