@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2';
 import '../styles/login.css';
+import autenticaciónServices from "../services/autenticaciónServices"
+
 
 function LoginForm() {
 
@@ -12,45 +14,77 @@ function LoginForm() {
 
   async function IniciarSesion() {
 
-    const obj = {
-      username: ValueUser,
-      password: ValuePass,
-    }
-
-    try {
-      
-      const response = await fetch("http://127.0.0.1:8000/api/login/", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify(obj)
+    if (!ValueUser || !ValuePass) {
+      Swal.fire({
+        icon: "warning",
+        title: "Advertencia",
+        text: "Por favor, ingresa tu usuario y contraseña.",
       });
 
-      const data = await response.json();
+    } else {
 
-      if (response.ok) {
-        navigate("/admin");
-
-        Swal.fire({
-          icon: "success",
-          title: "Bienvenido",
-          text: `${data.user.first_name} ${data.user.last_name}`,
-          showConfirmButton: false,
-          timer: 1500,
-        });
-
-
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: "Error",
-          text: data.error,
-        });
+      const obj = {
+        username: ValueUser,
+        password: ValuePass,
       }
-    } catch (error) {
-      console.error("Error en login", error);
+
+      // try {
+      //   const user = await autenticaciónServices.loginUser(obj); 
+        
+      //   Swal.fire({
+      //       icon: "success",
+      //       title: "Bienvenido",
+      //       text: `${user.first_name} ${user.last_name}`,
+      //       showConfirmButton: false,
+      //       timer: 1500,
+      //   });
+
+      //   navigate("/admin"); // Redirigir tras login exitoso
+
+      // } catch (error) {
+      //     Swal.fire({
+      //         icon: "error",
+      //         title: "Error",
+      //         text: error.message,
+      //     });
+      // }
+
+      try {
+        
+        const response = await fetch("http://127.0.0.1:8000/api/login/", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify(obj)
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          navigate("/admin");
+
+          Swal.fire({
+            icon: "success",
+            title: "Bienvenido",
+            text: `${data.user.first_name} ${data.user.last_name}`,
+            showConfirmButton: false,
+            timer: 1500,
+          });
+
+
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: data.error,
+          });
+        }
+      } catch (error) {
+        console.error("Error en login", error);
+      }
     }
   }
+  
   function volver() {
     setTimeout(() => {
         navigate(-1)            
@@ -69,7 +103,7 @@ function LoginForm() {
         
         <h1>Iniciar sesión</h1>
 
-        <label htmlFor=""> <span>*</span> Ingresa el usuario o correo electronico</label><br />
+        <label htmlFor=""> <span>*</span> Usuario</label><br />
         <input value={ValueUser} onChange={(e) => setValueUser(e.target.value)} type="text" /><br /><br />
 
         <label htmlFor=""> <span>*</span> Contraseña</label><br />

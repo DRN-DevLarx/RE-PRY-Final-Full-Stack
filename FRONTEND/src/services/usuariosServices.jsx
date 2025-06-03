@@ -23,13 +23,7 @@ async function PostUsuario(obj) {
                 "Content-Type": "application/json",
             },
 
-            body: JSON.stringify({
-                identificacion_oferente: obj.identificacion_oferente,
-                telefono_oferente: obj.telefono_oferente,
-                referenciaIMG_oferente: obj.referenciaIMG_oferente,
-                estado_oferente: obj.estado_oferente,
-                intereses: obj.intereses, // Array de IDs de intereses
-            }),
+            body: JSON.stringify(obj),
         });
 
         if (!response.ok) {

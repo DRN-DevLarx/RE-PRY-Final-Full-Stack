@@ -9,11 +9,11 @@ from rest_framework.generics import CreateAPIView
 from django.contrib.auth.models import User
 
 from .models import (
-    Usuarios, Intereses, InteresesUsuarios, Ofertas, Empresas,
+    Usuarios, Intereses, InteresesUsuarios, Users_Usuarios, Ofertas, Empresas,
     OfertasEmpresas, Postulaciones, AuditoriaOfertas
 )
 from .serializers import (
-    UsuariosSerializer, UsersSerializer, InteresesSerializer, InteresesUsuariosSerializer, 
+    UsuariosSerializer, UsersSerializer, InteresesSerializer, InteresesUsuariosSerializer, Users_UsuariosSerializer,
     OfertasSerializer, EmpresasSerializer, OfertasEmpresasSerializer,
     PostulacionesSerializer, AuditoriaOfertasSerializer
 )
@@ -94,6 +94,11 @@ class InteresesViewSet(viewsets.ModelViewSet):
 class InteresesUsuariosViewSet(viewsets.ModelViewSet):
     queryset = InteresesUsuarios.objects.all()
     serializer_class = InteresesUsuariosSerializer
+
+class Users_UsuariosViewSet(viewsets.ModelViewSet):
+    queryset = Users_Usuarios.objects.all()
+    serializer_class = Users_UsuariosSerializer
+
 
 class OfertasViewSet(viewsets.ModelViewSet):
     queryset = Ofertas.objects.all()

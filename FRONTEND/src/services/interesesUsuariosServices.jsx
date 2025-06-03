@@ -18,6 +18,7 @@ async function GetIntereses() {
 }
 
 async function PostIntereses(obj) {
+    
     try {
         const response = await fetch("http://127.0.0.1:8000/api/intereses-usuarios/", {
             method: 'POST',
@@ -32,6 +33,7 @@ async function PostIntereses(obj) {
         }
 
         return await response.json();
+
     } catch (error) {
         console.error('Error al crear intereses:', error);
         throw error;

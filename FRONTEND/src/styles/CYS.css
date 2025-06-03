@@ -1,7 +1,7 @@
 
 #bodyCYS {
     background-image: url(../assets/wallpaperOffers.jfif);
-    background-size: cover;
+    background-size: 100% 100%;
     color: white;
     font-family: 'Poppins', sans-serif;
     height: 100vh;

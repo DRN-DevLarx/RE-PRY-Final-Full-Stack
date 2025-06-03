@@ -13,7 +13,6 @@ function CYS() {
 
     }
 
-
   return (
     <div id='bodyCYS'>
         <header id='headerCYS'>

@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.core.validators import MinLengthValidator, EmailValidator, RegexValidator
 from django.contrib.auth.password_validation import validate_password
-from .models import Usuarios, Intereses, InteresesUsuarios, Ofertas, Empresas, OfertasEmpresas, Postulaciones, AuditoriaOfertas
+from .models import Usuarios, Intereses, InteresesUsuarios, Users_Usuarios,  Ofertas, Empresas, OfertasEmpresas, Postulaciones, AuditoriaOfertas
 from django.contrib.auth.models import User
 
 
@@ -14,26 +14,25 @@ class InteresesSerializer(serializers.ModelSerializer):
 class UsuariosSerializer(serializers.ModelSerializer):
     telefono_oferente = serializers.CharField(max_length=20, allow_null=True, allow_blank=True, validators=[RegexValidator(regex=r'^\d{8,12}$', message="Debe contener entre 8 y 12 dígitos numéricos.")]
     )
-    intereses = InteresesSerializer(many=True, write_only=True)
-    intereses_ids = serializers.PrimaryKeyRelatedField(queryset=Intereses.objects.all(), many=True, write_only=True, source="Intereses")
+    # intereses = InteresesSerializer(many=True, write_only=True)
+    # intereses_ids = serializers.PrimaryKeyRelatedField(queryset=Intereses.objects.all(), many=True, write_only=True, source="Intereses")
 
     class Meta:
         model = Usuarios
         fields = "__all__"
 
-    def create(self, validated_data):
-        print("Datos validados que llegaron al serializer:", validated_data)
 
-        intereses_data = validated_data.pop("intereses", [])
-        print("Intereses extraídos:", intereses_data)
+class InteresesUsuariosSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = InteresesUsuarios
+        fields = "__all__"
 
-        usuario = Usuarios.objects.create(**validated_data)
-
-        for interes in intereses_data:
-            print("Asignando interés:", interes)
-            InteresesUsuarios.objects.create(usuario=usuario, intereses=interes)
-
-        return usuario
+class Users_UsuariosSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Users_Usuarios
+        fields = "__all__"
 
 
 
@@ -47,15 +46,6 @@ class UsersSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         user = User.objects.create_user(**validated_data)
         return user
-
-
-class InteresesUsuariosSerializer(serializers.ModelSerializer):
-    usuario = serializers.PrimaryKeyRelatedField(queryset=Usuarios.objects.all())
-    intereses = serializers.PrimaryKeyRelatedField(queryset=Intereses.objects.all())
-
-    class Meta:
-        model = InteresesUsuarios
-        fields = "__all__"
 
 class OfertasSerializer(serializers.ModelSerializer):
     titulo_oferta = serializers.CharField(validators=[MinLengthValidator(3)])
