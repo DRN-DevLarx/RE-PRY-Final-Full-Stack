@@ -1,0 +1,24 @@
+#containerOf {
+  width: 80%;
+  margin: auto;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  padding: 20px 0;
+  overflow-y: auto;
+  max-height: 83vh;
+}
+
+#containerOf article {
+  background-color: #0c4d3d98;
+  border-radius: 20px;
+  padding: 30px;
+  padding-bottom: 0;
+  width: 45%;
+  color: white;
+  height: 300px;
+}
+
+#containerOf article:hover {
+  background-color: #2ae2b6;
+}

@@ -1,0 +1,53 @@
+
+
+#ContUltimasPublicaciones {
+    height: 100vh;
+    width: 80%;
+}
+
+.headerUltimasPublicaciones {
+    display: flex;
+    justify-content: space-around;
+    color: white;
+    background-color: #9293936a;
+    padding: 17px;
+    text-align: center;
+}
+.headerUltimasPublicaciones h3 {
+    width: 90%;
+}
+
+.headerUltimasPublicaciones svg:hover {
+    transform: scale(1.2);
+}
+/* Estilos para centrar el contenedor principal */
+.Cont {
+    display: grid;
+    place-items: center;
+    padding: 75px;
+}
+
+/* Contenedor de los cuadros */
+.grid-container {
+    
+    display: grid;
+    grid-template-columns: repeat(2, 400px);
+    grid-template-rows: repeat(2, 250px);
+    gap: 20px;
+    padding: 20px;
+    border: 2px solid #ccc;
+    background-color: rgba(0, 0, 0, 0.355);
+    border-radius: 10px;
+    overflow-y: scroll;
+}
+
+/* Estilos individuales para cada cuadro */
+.cuadro {
+  background-color: #6ecbb4;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  border-radius: 5px;
+}
