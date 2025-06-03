@@ -4,7 +4,7 @@ from .views import (
     UsuariosViewSet, UsersViewSet, InteresesViewSet, InteresesUsuariosViewSet, Users_UsuariosViewSet,
     OfertasViewSet, EmpresasViewSet, OfertasEmpresasViewSet,
     PostulacionesViewSet, AuditoriaOfertasViewSet,
-    RegisterUserView, UserLoginView, UserDataView
+    RegisterUserView, UserDataView
 )
 
 # Configuración del router para ViewSets
@@ -20,9 +20,15 @@ router.register(r'ofertas-empresas', OfertasEmpresasViewSet)
 router.register(r'postulaciones', PostulacionesViewSet)
 router.register(r'auditoria-ofertas', AuditoriaOfertasViewSet)
 
+
+
 # Agregar rutas personalizadas para autenticación
+# urlpatterns = router.urls + [
+#     path("register/", RegisterUserView.as_view(), name="register"),
+#     path("login/", UserLoginView.as_view(), name="login"),
+#     path("user-data/", UserDataView.as_view(), name="user-data"),
+# ]
+
 urlpatterns = router.urls + [
-    path("register/", RegisterUserView.as_view(), name="register"),
-    path("login/", UserLoginView.as_view(), name="login"),
     path("user-data/", UserDataView.as_view(), name="user-data"),
 ]

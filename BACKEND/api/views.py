@@ -1,8 +1,6 @@
 from rest_framework import viewsets
 from rest_framework.permissions import AllowAny, IsAuthenticated
-from django.contrib.auth import authenticate
 from rest_framework.response import Response
-from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.generics import CreateAPIView
@@ -25,55 +23,69 @@ class RegisterUserView(CreateAPIView):
     serializer_class = UsersSerializer
     permission_classes = [AllowAny]
 
-
 # ------------------- Login y Cookies Seguras -------------------
-class UserLoginView(APIView):
-    def post(self, request):
-        username = request.data.get("username")
-        password = request.data.get("password")
+# class UserLoginView(APIView):
+#     def post(self, request):
+#         username = request.data.get("username")
+#         password = request.data.get("password")
 
-        user = authenticate(username=username, password=password)
+#         user = authenticate(username=username, password=password)
 
-        if user:
-            refresh = RefreshToken.for_user(user)
-            response = Response({
-                "user": {
-                    "first_name": user.first_name,
-                    "last_name": user.last_name,
-                    "email": user.email,
-                }
-            }, status=status.HTTP_200_OK)
+#         if user:
+#             refresh = RefreshToken.for_user(user)
+#             response = Response({
+#                 "user": {
+#                     "first_name": user.first_name,
+#                     "last_name": user.last_name,
+#                     "email": user.email,
+#                 }
+#             }, status=status.HTTP_200_OK)
 
-            # Configurar cookie segura con JWT
-            response.set_cookie(
-                key="jwt_token",
-                value=str(refresh.access_token),
-                httponly=True, 
-                secure=True,  
-                samesite="Lax",
-            )
-            response["Access-Control-Allow-Credentials"] = "true"
-            return response
+#             # Configurar cookie segura con JWT
+#             response.set_cookie(
+#                 key="jwt_token",
+#                 value=str(refresh.access_token),
+#                 httponly=True, 
+#                 secure=True,  
+#                 samesite="Lax",
+#             )
+#             response["Access-Control-Allow-Credentials"] = "true"
+#             return response
         
-        else:
-            return Response({"error": "Credenciales incorrectas"}, status=status.HTTP_401_UNAUTHORIZED)
-
+#         else:
+#             return Response({"error": "Credenciales incorrectas"}, status=status.HTTP_401_UNAUTHORIZED)
 
 # ------------------- Obtener Datos del Usuario Autenticado -------------------
 class UserDataView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        if request.user.is_authenticated:
-            return Response({
-                "message": "Datos protegidos",
-                "user": {
-                    "first_name": request.user.first_name,
-                    "last_name": request.user.last_name,
-                    "email": request.user.email,
-                }
-            })
-        return Response({"error": "No autorizado"}, status=status.HTTP_401_UNAUTHORIZED)
+        return Response({
+            "first_name": request.user.first_name,
+            "last_name": request.user.last_name,
+            "email": request.user.email,
+        })
+
+
+
+# class UserDataView(APIView):
+#     permission_classes = [IsAuthenticated] 
+
+#     def get(self, request):
+#         user = request.user
+#         return Response({
+#             "id": user.id,
+#             "username": user.username,
+#             "first_name": user.first_name,
+#             "last_name": user.last_name,
+#             "email": user.email
+#         })
+
+
+
+
+
+
 
 
 # ------------------- ViewSets para gestión de modelos -------------------
@@ -90,10 +102,13 @@ class UsersViewSet(viewsets.ModelViewSet):
 class InteresesViewSet(viewsets.ModelViewSet):
     queryset = Intereses.objects.all()
     serializer_class = InteresesSerializer
+    permission_classes = [AllowAny]
 
 class InteresesUsuariosViewSet(viewsets.ModelViewSet):
     queryset = InteresesUsuarios.objects.all()
     serializer_class = InteresesUsuariosSerializer
+    permission_classes = [AllowAny]
+
 
 class Users_UsuariosViewSet(viewsets.ModelViewSet):
     queryset = Users_Usuarios.objects.all()
@@ -103,11 +118,11 @@ class Users_UsuariosViewSet(viewsets.ModelViewSet):
 class OfertasViewSet(viewsets.ModelViewSet):
     queryset = Ofertas.objects.all()
     serializer_class = OfertasSerializer
+    permission_classes = [AllowAny]
 
 class EmpresasViewSet(viewsets.ModelViewSet):
     queryset = Empresas.objects.all()
     serializer_class = EmpresasSerializer
-    permission_classes = [IsAuthenticated]
 
 class OfertasEmpresasViewSet(viewsets.ModelViewSet):
     queryset = OfertasEmpresas.objects.all()

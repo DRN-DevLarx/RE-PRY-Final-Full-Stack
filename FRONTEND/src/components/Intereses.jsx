@@ -5,6 +5,7 @@ import InteresesServices from '../services/interesesServices';
 function Intereses() {
 
   const [Intereses, setIntereses] = useState([]);
+  const [ErrorIntereses, setErrorIntereses] = useState([])
   
   useEffect(() => {
       let isMounted = true;

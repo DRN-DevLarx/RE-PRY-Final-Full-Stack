@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2';
 import '../styles/login.css';
-import autenticaciónServices from "../services/autenticaciónServices"
+import authService from "../services/authServices"
 
 
 function LoginForm() {
@@ -23,66 +23,35 @@ function LoginForm() {
 
     } else {
 
-      const obj = {
-        username: ValueUser,
-        password: ValuePass,
-      }
+      
 
-      // try {
-      //   const user = await autenticaciónServices.loginUser(obj); 
-        
-      //   Swal.fire({
-      //       icon: "success",
-      //       title: "Bienvenido",
-      //       text: `${user.first_name} ${user.last_name}`,
-      //       showConfirmButton: false,
-      //       timer: 1500,
-      //   });
+      const credentials = {
+          username: ValueUser,
+          password: ValuePass,
+      };
 
-      //   navigate("/admin"); // Redirigir tras login exitoso
+      const success = await authService.login(credentials);
 
-      // } catch (error) {
-      //     Swal.fire({
-      //         icon: "error",
-      //         title: "Error",
-      //         text: error.message,
-      //     });
-      // }
-
-      try {
-        
-        const response = await fetch("http://127.0.0.1:8000/api/login/", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          credentials: "include",
-          body: JSON.stringify(obj)
-        });
-
-        const data = await response.json();
-
-        if (response.ok) {
-          navigate("/admin");
-
-          Swal.fire({
-            icon: "success",
-            title: "Bienvenido",
-            text: `${data.user.first_name} ${data.user.last_name}`,
-            showConfirmButton: false,
-            timer: 1500,
-          });
-
-
-        } else {
-          Swal.fire({
-            icon: "error",
-            title: "Error",
-            text: data.error,
-          });
-        }
-      } catch (error) {
-        console.error("Error en login", error);
+      if (!success) {
+          alert("Error en autenticación");
       }
     }
+
+      //   const response = await fetch("http://127.0.0.1:8000/api/token/", {
+      //     method: "POST",
+      //     headers: { "Content-Type": "application/json" },
+      //     body: JSON.stringify(obj)
+      //   });
+
+      //   const data = await response.json();
+        
+      //   if (response.ok) {
+          
+      //       document.cookie = `access_token=${data.access}; path=/; secure; SameSite=Strict`;
+
+      //       navigate("/admin");
+      // }
+    // }
   }
   
   function volver() {
@@ -96,6 +65,7 @@ function LoginForm() {
     <div id='bodyLogin'>
       <div id='contLogin'>
         <header>
+
           <svg onClick={volver} xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="#2ae2b6" class="bi bi-arrow-left-circle" viewBox="0 0 16 16">
             <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
           </svg>

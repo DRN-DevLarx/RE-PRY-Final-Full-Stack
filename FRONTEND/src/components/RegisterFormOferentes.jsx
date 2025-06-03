@@ -37,8 +37,6 @@ function RegisterForm1() {
     "{", "}", ":", ";", "'", '"', "<", ">", "/", "\\", "|", "=", "+"
   ];
 
-  // const correoValido = [".com", ".cr", ".org", ".net", ".edu", ".gov", ".co", ".io", ".info"];
-
   const dominiosCR = [
     // Proveedores de correo globales
     "@gmail.com",
@@ -160,7 +158,7 @@ function RegisterForm1() {
         confirmButtonColor: "#2ae2b6",
         background: "#1a1a1a",
         color: "red",
-        confirmButtonText: "Aceptar",
+        confirmButtonText: "Verificar",
         iconColor: "#2ae2b6",
       })
     }
@@ -173,117 +171,177 @@ function RegisterForm1() {
         confirmButtonColor: "#2ae2b6",
         background: "#1a1a1a",
         color: "#ffffff",
-        confirmButtonText: "Aceptar",
+        confirmButtonText: "Verificar",
       })
     }
   }
 
   function btnSiguiente2() {
 
-    if (Usuarios.find((user) => user.username === Usuario)) {
+  const validarUsuarioExistente = (usuario) => {
+    
+    if (Usuarios.some((user) => user.username === usuario)) {
       Swal.fire({
         icon: "error",
         text: "El usuario ya existe, por favor elige otro.",
         confirmButtonColor: "#2ae2b6",
         background: "#1a1a1a",
         color: "#ffffff",
-        confirmButtonText: "Aceptar",
-      })
-      return;
+        confirmButtonText: "Verificar",
+      });
+      return false;
     }
+    return true;
+  };
 
-    for (let index = 0; index < dominiosCR.length; index++) {
-      const element = dominiosCR[index];
-      
-      if (Correo.includes(element)) {
-
-        if (Usuarios.find((user) => user.email === Correo)) {
-          Swal.fire({
-            icon: "error",
-            text: "El correo ya está registrado, por favor utiliza otro o inicia sesión",
-            confirmButtonColor: "#2ae2b6",
-            background: "#1a1a1a",
-            color: "#ffffff",
-            confirmButtonText: "Aceptar",
-          })
-          return;
-        }
-         break;
-      }
-      else {
-        Swal.fire({
-          icon: "error",
-          text: "El correo electrónico no es válido, por favor verifica e intenta nuevamente.",
-          confirmButtonColor: "#2ae2b6",
-          background: "#1a1a1a",
-          color: "#ffffff",
-          confirmButtonText: "Aceptar",
-        })
-        return;
-      }
-      
-    }
-
-
-    // Validar que los campos no contengan simbolos no permitidos
-    if( Nombre === "" || Apellido === "" || Usuario === "" || Telefono === "" || Correo === "" || contraseña === "" || Confirm_Contraseña === "") {
-
-      Swal.fire({
-        icon: "error",
-        text: "Por favor, completa todos los campos.",
-        confirmButtonColor: "#2ae2b6",
-        background: "#1a1a1a",
-        color: "#ffffff",
-        confirmButtonText: "Aceptar",
-      })
-    }
-
-    else if (contraseña.length < 8) {
-      Swal.fire({
-        icon: "error",
-        text: "La contraseña debe tener al menos 8 caracteres.",
-        confirmButtonColor: "#2ae2b6",
-        background: "#1a1a1a",
-        color: "#ffffff",
-        confirmButtonText: "Aceptar",
-      })
-    }
-
-     else if (contraseña !== Confirm_Contraseña) {
-      Swal.fire({
-        icon: "error",
-        text: "Las contraseñas no coinciden.",
-        confirmButtonColor: "#2ae2b6",
-        background: "#1a1a1a",
-        color: "#ffffff",
-        confirmButtonText: "Aceptar",
-      })
-    }
-    else {
-      for (let p = 0; p < palabrasProhibidas.length; p++) {
-        if (Nombre.toLowerCase().includes(palabrasProhibidas[p]) || Apellido.toLowerCase().includes(palabrasProhibidas[p]) || Usuario.toLowerCase().includes(palabrasProhibidas[p]) || Telefono.toLowerCase().includes(palabrasProhibidas[p]) || Correo.toLowerCase().includes(palabrasProhibidas[p]) || contraseña.toLowerCase().includes(palabrasProhibidas[p]) || Confirm_Contraseña.toLowerCase().includes(palabrasProhibidas[p])) {
-
-          Swal.fire({
-            icon: "error",
-            text: `Un campo contiene información no permitida, por favor verifica e intenta nuevamente.`,
-            confirmButtonColor: "#2ae2b6",
-            background: "#1a1a1a",
-            color: "#ffffff",
-            confirmButtonText: "Aceptar",
-          })
-          break;
-        }
-        else {
-          setTimeout(() => {
-            setContenedor2(false)
-            setContenedor3(true)
-          }, 200);
-        }
-      }
-
-    }
+  const validarSimbolos = (usuario) => {
+    const simboloInvalido = simbolosNoPermitidos.find((simbolo) => usuario.includes(simbolo));
     
+    if (simboloInvalido) {
+      Swal.fire({
+        icon: "error",
+        text: "El usuario incluye símbolos no permitidos.",
+        confirmButtonColor: "#2ae2b6",
+        background: "#1a1a1a",
+        color: "#ffffff",
+        confirmButtonText: "Verificar",
+      });
+      return false;
+    }
+    return true;
+  };
+
+  const validarTelefono = (Telefono) => {
+    const regex = /^[0-9]+$/;
+
+    if (regex.test(Telefono) && Telefono.length >=8 ) {
+      return true
+    }
+
+    Swal.fire({
+      icon: "error",
+      text: "El número de telefono no está permitido. Porfavor verifica e intenta nuevamente",
+      confirmButtonColor: "#2ae2b6",
+      background: "#1a1a1a",
+      color: "#ffffff",
+      confirmButtonText: "Verificar",
+    });
+
+    return false
   }
+
+
+
+
+
+
+
+
+const validarCorreo = (correo) => {
+  const dominioPermitido = dominiosCR.some((dominio) => correo.includes(dominio));
+
+  if (!dominioPermitido) {
+    Swal.fire({
+      icon: "error",
+      text: "El correo electrónico no es válido, por favor verifica e intenta nuevamente.",
+      confirmButtonColor: "#2ae2b6",
+      background: "#1a1a1a",
+      color: "#ffffff",
+      confirmButtonText: "Verificar",
+    });
+    return false;
+  }
+  
+  if (Usuarios.some((user) => user.email === correo)) {
+    Swal.fire({
+      icon: "error",
+      text: "El correo ya está registrado, por favor utiliza otro o inicia sesión.",
+      confirmButtonColor: "#2ae2b6",
+      background: "#1a1a1a",
+      color: "#ffffff",
+      confirmButtonText: "Verificar",
+    });
+    return false;
+  }
+  
+  return true;
+};
+
+const validarCampos = (nombre, apellido, usuario, telefono, correo, contraseña, confirmContraseña) => {
+  if (![nombre, apellido, usuario, telefono, correo, contraseña, confirmContraseña].every(campo => campo.trim() !== "")) {
+    Swal.fire({
+      icon: "error",
+      text: "Por favor, completa todos los campos.",
+      confirmButtonColor: "#2ae2b6",
+      background: "#1a1a1a",
+      color: "#ffffff",
+      confirmButtonText: "Verificar",
+    });
+    return false;
+  }
+  if (contraseña.length < 8) {
+    Swal.fire({
+      icon: "error",
+      text: "La contraseña debe tener al menos 8 caracteres.",
+      confirmButtonColor: "#2ae2b6",
+      background: "#1a1a1a",
+      color: "#ffffff",
+      confirmButtonText: "Verificar",
+    });
+    return false;
+  }
+
+  if (contraseña !== confirmContraseña) {
+    Swal.fire({
+      icon: "error",
+      text: "Las contraseñas no coinciden.",
+      confirmButtonColor: "#2ae2b6",
+      background: "#1a1a1a",
+      color: "#ffffff",
+      confirmButtonText: "Verificar",
+    });
+    return false;
+  }
+  return true;
+};
+
+const validarPalabrasProhibidas = (datos) => {
+  if (palabrasProhibidas.some((palabra) => datos.some((dato) => dato.toLowerCase().includes(palabra)))) {
+    Swal.fire({
+      icon: "error",
+      text: "Un campo contiene información no permitida, por favor verifica e intenta nuevamente.",
+      confirmButtonColor: "#2ae2b6",
+      background: "#1a1a1a",
+      color: "#ffffff",
+      confirmButtonText: "Verificar",
+    });
+    return false;
+  }
+  return true;
+};
+
+const ejecutarValidaciones = () => {
+  const datosUsuario = [Nombre, Apellido, Usuario, Telefono, Correo, contraseña, Confirm_Contraseña];
+
+  if (
+    validarUsuarioExistente(Usuario) &&
+    validarTelefono(Telefono) &&
+    validarSimbolos(Usuario) &&
+    validarCorreo(Correo) &&
+    validarCampos(Nombre, Apellido, Usuario, Telefono, Correo, contraseña, Confirm_Contraseña) &&
+    validarPalabrasProhibidas(datosUsuario)
+  ) {
+    setTimeout(() => {
+      setContenedor2(false);
+      setContenedor3(true);
+    }, 200);
+  }
+};
+
+ejecutarValidaciones();
+
+    
+}
 
   async function btnRegistrarme() {
     
@@ -298,7 +356,7 @@ function RegisterForm1() {
         confirmButtonColor: "#2ae2b6",
         background: "#1a1a1a",
         color: "#ffffff",
-        confirmButtonText: "Aceptar",
+        confirmButtonText: "Verificar",
       });
       return;
     }
