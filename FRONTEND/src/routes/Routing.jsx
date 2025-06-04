@@ -13,6 +13,7 @@ import RestablecerPage from '../pages/RestablecerPage';
 import RestablecerPageConfirmar from '../pages/RestablecerPageConfirmar';
 import Publicar from '../pages/PublicarPage';
 import DashboardPage from '../pages/DashboardPage';
+import OferenteComponent from '../components/OferenteComponent'
 
 function Routing() {
   return (
@@ -30,6 +31,7 @@ function Routing() {
             <Route  path='/admin' element={<Administrador/>}/>
             <Route  path='/public' element={<Publicar/>}/>
             <Route  path='/dashboard' element={<DashboardPage/>}/>
+            <Route  path='/OferenteComponent' element={<OferenteComponent/>}/>
 
         </Routes>
     </Router>

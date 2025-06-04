@@ -3,7 +3,6 @@ import  "../styles/RegisterEmpresas.css";
 import { Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import InteresesServices from '../services/interesesServices';
-import UsuariosServices from "../services/UsuariosServices"
 
 
 function RegisterForm2() {
@@ -37,10 +36,7 @@ function RegisterForm2() {
         </header>
         <h1>Registrar</h1>
 
-        <div id='btnsRegisterEmpresas'>
-          <button onClick={ROferente} className='btnROferenteE'> Persona oferente </button>
-          <button onClick={REmpresa} className='btnREmpresa'> Empresa </button>
-        </div>
+
 
         <label htmlFor=""> <span>*</span> Identificación</label><br />
         <input className="inputs1Empresas" type="number" value={Identificacion} onChange={(e) => setIdentificacion(e.target.value)}/><br /><br />

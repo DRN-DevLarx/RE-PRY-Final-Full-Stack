@@ -1,0 +1,83 @@
+
+.bodyDetallesDashboard {
+    width: 80%;
+    
+}
+
+.headerPerfilDetalles {
+    display: flex;
+    justify-content: right;
+    gap:240px;
+    color: white;
+    background-color: #9293936a;
+    padding: 17px;
+
+}
+.headerPerfilAdmin h3 {
+    width: 90%;
+
+}
+
+
+
+
+.headerPerfilDetalles svg:hover {
+    transform: scale(1.2);
+}
+
+.ContMainDetalles {
+    border-radius: 30px;
+    background-color: rgba(0, 0, 0, 0.355);
+    padding: 30px 100px;
+    margin: 50px auto;
+    width: 80%;
+    color: #fff;
+    height: 600px;
+    overflow-y: scroll;
+}
+
+.titulo-oferta {
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+  color: #fff;
+  text-align: center;
+}
+
+/* Grid de columnas */
+.grid-detalles {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 25px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.columna {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #30eec5;
+  font-size: 1.2rem;
+}
+
+.boton-activar {
+    display: flex;
+    justify-content: center;
+
+}
+
+.boton-activar button {
+    padding: 10px;
+    width: 150px;
+    border-radius: 10px;
+    background-color: #30eec5;
+    font-weight: bold;
+    margin: 20px 0;
+}
+
