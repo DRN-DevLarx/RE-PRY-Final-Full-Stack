@@ -46,27 +46,3 @@
     gap: 10px;
     align-items: center;
 }
-.contBtnsActiones{
-    width: 100%;
-    display: flex;
-    padding: 20px;
-    justify-content: right;
-    gap: 20px;
-}
-
-.contBtnsActiones button {
-    padding: 5px 20px;
-    border: none;
-    border-radius: 10px;
-    background-color: #D9D9D9;
-}
-
-.contBtnsActiones button:hover{
-   background-color: #2AE2B6;
-}
-
-.LinkDashboard {
-    color: black;
-    text-decoration: none;
-    font-weight: bold;
-}

@@ -1,19 +1,10 @@
 import { useNavigate } from 'react-router-dom';
 
-import  "../styles/admin.css";
+import  "../styles/NavPrincipal.css";
 import { useEffect, useState } from 'react';
 
 function AdminComponent() {
   const navigate = useNavigate();
-
-  function IrDashboar() {
-      navigate("/dashboard");
-  }
-
-  function IrPublicar() {
-      navigate("/public");
-  }
-
 
 
 
@@ -52,9 +43,6 @@ function AdminComponent() {
   
   return (
     <div id='contbodyadmin'>
-    <h1>Bienvenido {userData?.first_name} {userData?.last_name}</h1>
-
-
       <div className='barra'>
         <div className='izquierda'>
           <img className="logo" src="../public/Iconlogo.png" alt="Logo" />
@@ -80,12 +68,6 @@ function AdminComponent() {
         </div>
       </div>
 
-      <div>
-        <div className="contBtnsActiones">
-          <button onClick={IrDashboar}> Administrar </button>
-          <button onClick={IrPublicar}> Publicar </button>
-        </div>
-      </div>
 
     </div>
   )
