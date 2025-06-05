@@ -4,15 +4,15 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.generics import CreateAPIView
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 
 from .models import (
-    Usuarios, Intereses, InteresesUsuarios, Users_Usuarios, Ofertas, Empresas,
+    Usuarios, Intereses, InteresesUsuarios, Users_Usuarios, Ofertas, Empresas, Users_Empresas,
     OfertasEmpresas, Postulaciones, AuditoriaOfertas
 )
 from .serializers import (
     UsuariosSerializer, UsersSerializer, InteresesSerializer, InteresesUsuariosSerializer, Users_UsuariosSerializer,
-    OfertasSerializer, EmpresasSerializer, OfertasEmpresasSerializer,
+    user_groupsSerializer, EmpresasSerializer, Users_EmpresasSerializer, OfertasSerializer, OfertasEmpresasSerializer,
     PostulacionesSerializer, AuditoriaOfertasSerializer
 )
 
@@ -22,38 +22,6 @@ class RegisterUserView(CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UsersSerializer
     permission_classes = [AllowAny]
-
-# ------------------- Login y Cookies Seguras -------------------
-# class UserLoginView(APIView):
-#     def post(self, request):
-#         username = request.data.get("username")
-#         password = request.data.get("password")
-
-#         user = authenticate(username=username, password=password)
-
-#         if user:
-#             refresh = RefreshToken.for_user(user)
-#             response = Response({
-#                 "user": {
-#                     "first_name": user.first_name,
-#                     "last_name": user.last_name,
-#                     "email": user.email,
-#                 }
-#             }, status=status.HTTP_200_OK)
-
-#             # Configurar cookie segura con JWT
-#             response.set_cookie(
-#                 key="jwt_token",
-#                 value=str(refresh.access_token),
-#                 httponly=True, 
-#                 secure=True,  
-#                 samesite="Lax",
-#             )
-#             response["Access-Control-Allow-Credentials"] = "true"
-#             return response
-        
-#         else:
-#             return Response({"error": "Credenciales incorrectas"}, status=status.HTTP_401_UNAUTHORIZED)
 
 # ------------------- Obtener Datos del Usuario Autenticado -------------------
 class UserDataView(APIView):
@@ -68,30 +36,12 @@ class UserDataView(APIView):
 
 
 
-# class UserDataView(APIView):
-#     permission_classes = [IsAuthenticated] 
-
-#     def get(self, request):
-#         user = request.user
-#         return Response({
-#             "id": user.id,
-#             "username": user.username,
-#             "first_name": user.first_name,
-#             "last_name": user.last_name,
-#             "email": user.email
-#         })
-
-
-
-
-
-
-
-
 # ------------------- ViewSets para gestión de modelos -------------------
 class UsuariosViewSet(viewsets.ModelViewSet):
     queryset = Usuarios.objects.all()
     serializer_class = UsuariosSerializer
+    permission_classes = [AllowAny]
+
     # permission_classes = [IsAuthenticated]
 
 class UsersViewSet(viewsets.ModelViewSet):
@@ -113,6 +63,13 @@ class InteresesUsuariosViewSet(viewsets.ModelViewSet):
 class Users_UsuariosViewSet(viewsets.ModelViewSet):
     queryset = Users_Usuarios.objects.all()
     serializer_class = Users_UsuariosSerializer
+    permission_classes = [AllowAny]
+
+
+class auth_user_groups(viewsets.ModelViewSet):
+    queryset = Group.objects.all()
+    serializer_class = user_groupsSerializer
+    permission_classes = [AllowAny]
 
 
 class OfertasViewSet(viewsets.ModelViewSet):
@@ -123,6 +80,15 @@ class OfertasViewSet(viewsets.ModelViewSet):
 class EmpresasViewSet(viewsets.ModelViewSet):
     queryset = Empresas.objects.all()
     serializer_class = EmpresasSerializer
+    permission_classes = [AllowAny]
+
+
+class Users_EmpresasViewSet(viewsets.ModelViewSet):
+    queryset = Users_Empresas.objects.all()
+    serializer_class = Users_EmpresasSerializer
+    permission_classes = [AllowAny]
+
+
 
 class OfertasEmpresasViewSet(viewsets.ModelViewSet):
     queryset = OfertasEmpresas.objects.all()

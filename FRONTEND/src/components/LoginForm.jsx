@@ -30,28 +30,21 @@ function LoginForm() {
           password: ValuePass,
       };
 
-      const success = await authService.login(credentials);
+        const response = await fetch("http://127.0.0.1:8000/api/token/", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(credentials)
+        });
 
-      if (!success) {
-          alert("Error en autenticación");
+        const data = await response.json();
+        
+        if (response.ok) {
+          
+            document.cookie = `access_token=${data.access}; path=/; secure; SameSite=Strict`;
+
+            navigate("/admin");
       }
     }
-
-      //   const response = await fetch("http://127.0.0.1:8000/api/token/", {
-      //     method: "POST",
-      //     headers: { "Content-Type": "application/json" },
-      //     body: JSON.stringify(obj)
-      //   });
-
-      //   const data = await response.json();
-        
-      //   if (response.ok) {
-          
-      //       document.cookie = `access_token=${data.access}; path=/; secure; SameSite=Strict`;
-
-      //       navigate("/admin");
-      // }
-    // }
   }
   
   function volver() {

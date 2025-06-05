@@ -1,8 +1,8 @@
 from rest_framework import serializers
 from django.core.validators import MinLengthValidator, EmailValidator, RegexValidator
 from django.contrib.auth.password_validation import validate_password
-from .models import Usuarios, Intereses, InteresesUsuarios, Users_Usuarios,  Ofertas, Empresas, OfertasEmpresas, Postulaciones, AuditoriaOfertas
-from django.contrib.auth.models import User
+from .models import Usuarios, Intereses, InteresesUsuarios, Users_Usuarios,  Ofertas, Empresas, OfertasEmpresas, Postulaciones, AuditoriaOfertas, Users_Empresas
+from django.contrib.auth.models import User, Group
 
 
 class InteresesSerializer(serializers.ModelSerializer):
@@ -34,7 +34,10 @@ class Users_UsuariosSerializer(serializers.ModelSerializer):
         model = Users_Usuarios
         fields = "__all__"
 
-
+class user_groupsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User.groups.through
+        fields = ["user", "group"]
 
 
 class UsersSerializer(serializers.ModelSerializer):
@@ -69,6 +72,12 @@ class EmpresasSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Empresas
+        fields = "__all__"
+
+class Users_EmpresasSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Users_Empresas
         fields = "__all__"
 
 class OfertasEmpresasSerializer(serializers.ModelSerializer):

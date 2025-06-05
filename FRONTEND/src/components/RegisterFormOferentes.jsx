@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import  "../styles/Register.css";
-import { Link, useNavigate } from 'react-router-dom';
+import { Await, Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import InteresesServices from '../services/interesesServices';
 import UsersServices from "../services/usersServices";
 import usuariosServices from "../services/usuariosServices";
 import InteUsuariosServices from "../services/interesesUsuariosServices";
 import Users_UsuariosServices from "../services/Users_UsuariosServices";
+import User_groupsServices from "../services/User_groupsServices";
 
 function RegisterForm1() {
 
@@ -20,6 +21,10 @@ function RegisterForm1() {
   const [Usuarios, setUsuarios] = useState([]);
   const [ErrorUsuarios, setErrorUsuarios] = useState(null);
 
+  const [TableUsuarios, setTableUsuarios] = useState([]);
+  const [ErrorTaleUsuarios, setErrorTableUsuarios] = useState(null);
+
+
   const [Identificacion, setIdentificacion] = useState("");
   const [ConfirmacionID, setConfirmacionID] = useState("");
 
@@ -30,6 +35,13 @@ function RegisterForm1() {
   const [Correo, setCorreo] = useState("");
   const [contraseña, setContraseña] = useState("");
   const [Confirm_Contraseña, setConfirm_Contraseña] = useState("");
+
+
+
+
+  const [users, setUsers] = useState(null);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
 
 
   const simbolosNoPermitidos = [
@@ -108,16 +120,19 @@ function RegisterForm1() {
           try {
               const DatosIntereses = await InteresesServices.GetIntereses();
               const DatosUsuarios = await UsersServices.GetUser();
+              const DatosTableUsuarios = await usuariosServices.GetUsuario();
               
               if (isMounted) {
                   setIntereses(DatosIntereses);
                   setUsuarios(DatosUsuarios);
+                  setTableUsuarios(DatosTableUsuarios);
               }
 
           } catch (error) {
               if (isMounted) {
                   setErrorIntereses(error.message);
                   setErrorUsuarios(error.message);
+                  setErrorTableUsuarios(error.message);
               }
           }
       };
@@ -139,42 +154,107 @@ function RegisterForm1() {
     }, 200);
   }
 
-  function btnSiguiente() {
-    
-    //validar que las identificaciones tengan solo numeros
+
+function btnSiguiente() {
+    // Validar que la identificación solo contenga números y tenga exactamente 9 dígitos
     const regex = /^[0-9]+$/;
 
-  
-    if (regex.test(Identificacion) && Identificacion === ConfirmacionID && Identificacion !== "" && Identificacion.length === 9) {
-      setTimeout(() => {
-        setContenedor2(true)
-      }, 200);
-    } 
-
-    else if(Identificacion.length != 9) {
-      Swal.fire({
-        icon: "info",
-        text: "La identificación debe tener 9 dígitos.",
-        confirmButtonColor: "#2ae2b6",
-        background: "#1a1a1a",
-        color: "red",
-        confirmButtonText: "Verificar",
-        iconColor: "#2ae2b6",
-      })
+    // const VerifarIdentificacion = TableUsuarios.find(TableUsuario => TableUsuario.identificacion_oferente == Identificacion)
+    const VerifarIdentificacion = TableUsuarios.some((TableUsuario) => TableUsuario.identificacion_oferente == Identificacion)
+        
+    
+    if (!regex.test(Identificacion) || Identificacion.length !== 9) {
+        Swal.fire({
+            icon: "info",
+            text: "La identificación debe tener 9 dígitos y solo contener números.",
+            confirmButtonColor: "#2ae2b6",
+            background: "#1a1a1a",
+            color: "red",
+            confirmButtonText: "Verificar",
+            iconColor: "#2ae2b6",
+        });
     }
 
-    else {
+    else if (Identificacion !== ConfirmacionID) {
+        Swal.fire({
+            icon: "error",
+            iconColor: "#2ae2b6",
+            text: "Las identificaciones no coinciden. Por favor verifica e intenta nuevamente.",
+            confirmButtonColor: "#2ae2b6",
+            background: "#1a1a1a",
+            color: "#ffffff",
+            confirmButtonText: "Verificar",
+        });
+    }
+    else if (VerifarIdentificacion) {
       Swal.fire({
         icon: "error",
-        iconColor: "#2ae2b6",
-        text: "Las identificaciones no coinciden o son inválidas. Porfavor, verifica e intenta nuevamente.",
+        text: "La identifcación ya está registrada, por favor inicia sesión.",
         confirmButtonColor: "#2ae2b6",
         background: "#1a1a1a",
         color: "#ffffff",
-        confirmButtonText: "Verificar",
-      })
+        showConfirmButton: false,
+        timer: 3000,
+      });
+
+      return false;
     }
-  }
+    else {
+
+
+      // Llamar API para verificar si la identificación existe
+      const fetchUsers = async () => {
+          try {
+              const response = await fetch(`https://apis.gometa.org/cedulas/${Identificacion}`, {
+    
+              });
+
+              const data = await response.json();
+
+              console.log(data);
+              
+                if (data.resultcount == 0) {
+                    Swal.fire({
+                        icon: "error",
+                        text: "Identificación inválida o no encontrada.",
+                        confirmButtonColor: "#2ae2b6",
+                        background: "#1a1a1a",
+                        color: "red",
+                        confirmButtonText: "Verificar",
+                        iconColor: "#2ae2b6",
+                    });
+                  return;
+              }
+              const firstname = data.results?.[0]?.firstname;
+              const lastname = data.results?.[0]?.lastname;
+
+              setNombre(firstname)
+              setApellido(lastname)
+              
+              // Si pasa todas las validaciones, proceder al siguiente paso
+              setTimeout(() => {
+                  setContenedor2(true);
+              }, 200);
+
+          } catch (error) {
+              console.error("Error al validar identificación:", error);
+              Swal.fire({
+                  icon: "error",
+                  text: "Ocurrió un error al consultar la identificación. Intenta nuevamente.",
+                  confirmButtonColor: "#2ae2b6",
+                  background: "#1a1a1a",
+                  color: "red",
+                  confirmButtonText: "Intentar de nuevo",
+                  iconColor: "#2ae2b6",
+              });
+          }
+      };
+
+      fetchUsers();
+      console.log(users);
+    }
+}
+
 
   function btnSiguiente2() {
 
@@ -212,15 +292,22 @@ function RegisterForm1() {
   };
 
   const validarTelefono = (Telefono) => {
+    const prefijosCostaRica = [8, 7, 6, 57, 21, 22, 24, 25, 26, 27];
+
+    const validarTelefono = prefijosCostaRica.some(prefijo => Telefono.toString().startsWith(prefijo.toString()));
+    
+    console.log(validarTelefono);
+    
+
     const regex = /^[0-9]+$/;
 
-    if (regex.test(Telefono) && Telefono.length >=8 ) {
+    if (regex.test(Telefono) && Telefono.length >=8 && validarTelefono == true ) {
       return true
     }
 
     Swal.fire({
       icon: "error",
-      text: "El número de telefono no está permitido. Porfavor verifica e intenta nuevamente",
+      text: "El número de telefono es invalido. Porfavor verifica e intenta nuevamente",
       confirmButtonColor: "#2ae2b6",
       background: "#1a1a1a",
       color: "#ffffff",
@@ -372,7 +459,7 @@ ejecutarValidaciones();
           email: Correo,
         };
         const respuestaServer = await UsersServices.PostUser(datosRegistroUsers);
-
+        
 
         // Post a la tabla Usuarios
         const datosRegistro = {
@@ -381,8 +468,9 @@ ejecutarValidaciones();
           referenciaIMG_oferente: "",
           estado_oferente: "activo",
         };
-        const respuestaServer2 = await usuariosServices.PostUsuario(datosRegistro);
 
+        const respuestaServer2 = await usuariosServices.PostUsuario(datosRegistro);
+        
 
         // Post a la tabla intermedia de Usuarios e intereses
         for (let index = 0; index < selectedInterests.length; index++) {
@@ -396,13 +484,25 @@ ejecutarValidaciones();
         }
 
 
+
         // Post a la tabla intermedia de auth_user y Usuarios
 
         const datos_A_UsersUsuarios = {
           user: respuestaServer.id,
           usuario: respuestaServer2.id,
         };
+
         await Users_UsuariosServices.PostUserUsuario(datos_A_UsersUsuarios);
+
+
+        // Post a la tabla intermedia de auth_user_groups
+
+        const datos_A_auth_user_groups = {
+          user: respuestaServer.id,
+          group: 2,   // Rol Oferente
+        };
+
+        await User_groupsServices.PostUser_group(datos_A_auth_user_groups) 
 
         
         Swal.fire({
@@ -417,6 +517,7 @@ ejecutarValidaciones();
           Swal.close();
           navigate("/login");
         }, 700);
+
 
       } catch (error) {
         console.error("Error en el proceso de registro:", error);
@@ -448,8 +549,11 @@ ejecutarValidaciones();
   
   return (
     <div id='bodyRegister'>
+
       {!Contenedor2 && !Contenedor3 && (
-      <div id='contRegister'>
+      
+        <div id='contRegister'>
+        
         <header>
           <svg onClick={exit} xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="#2ae2b6" class="bi bi-arrow-left-circle" viewBox="0 0 16 16">
             <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
@@ -483,6 +587,8 @@ ejecutarValidaciones();
       {Contenedor2 && (
 
         <div id='contRegister'>
+          {/* <h1>Holaaa: {users.results}</h1> */}
+
           <header>
             <svg onClick={exit} xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="#2ae2b6" class="bi bi-x-circle" viewBox="0 0 16 16">
                 <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
@@ -493,9 +599,9 @@ ejecutarValidaciones();
           <h1>Registrarse</h1>
           
           <div className="contInputs">
-            <input value={Nombre} onChange={(e) => setNombre(e.target.value)} className="inputsR" type="text" placeholder="Nombre" />
+            <input disabled value={Nombre} className="inputsR" type="text" placeholder={Nombre} />
 
-            <input value={Apellido} onChange={(e) => setApellido(e.target.value)} className="inputsR" type="text" placeholder="Apellido" />
+            <input disabled value={Apellido} className="inputsR" type="text" placeholder="Apellido" />
 
             <input value={Usuario} onChange={(e) => setUsuario(e.target.value)} className="inputsR" type="text" placeholder="Usuario" />
 
