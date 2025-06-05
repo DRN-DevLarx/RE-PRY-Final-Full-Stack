@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import  "../styles/Register.css";
-import { Await, Link, useNavigate } from 'react-router-dom';
+
+import {Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import InteresesServices from '../services/interesesServices';
 import UsersServices from "../services/usersServices";
@@ -37,74 +38,15 @@ function RegisterForm1() {
   const [Confirm_Contraseña, setConfirm_Contraseña] = useState("");
 
 
-
-
   const [users, setUsers] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
-
 
   const simbolosNoPermitidos = [
     "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "[", "]",
     "{", "}", ":", ";", "'", '"', "<", ">", "/", "\\", "|", "=", "+"
   ];
 
-  const dominiosCR = [
-    // Proveedores de correo globales
-    "@gmail.com",
-    "@outlook.com",
-    "@yahoo.com",
-    "@hotmail.com",
-    "@icloud.com",
-    "@aol.com",
-    "@live.com",
-    "@protonmail.com",
-    "@zoho.com",
-    "@mail.com",
-    "@tutanota.com",
-    "@gmx.com",
-    "@yandex.com",
-
-    // Dominios específicos de Costa Rica
-    "@crmail.com",
-    "@nic.cr",
-    "@co.cr",
-    "@ac.cr",
-    "@go.cr",
-    "@or.cr",
-
-    // Empresas costarricenses y multinacionales con presencia en CR
-    "@bancopopular.fi.cr",
-    "@baccredomatic.cr",
-    "@scotiabankcr.com",
-    "@bncr.fi.cr",
-    "@ice.go.cr",
-    "@gruponacion.com",
-    "@telecablecr.com",
-    "@kolbi.cr",
-    "@racsa.go.cr",
-    "@universidadcr.ac.cr",
-    "@movistar.cr",
-    "@claro.cr",
-    "@tigo.cr",
-
-    // Multinacionales y empresas con operaciones en Costa Rica
-    "@dhl.com",
-    "@amazon.com",
-    "@intel.com",
-    "@cargill.com",
-    "@procterandgamble.com",
-    "@bayer.com",
-    "@pfizer.com",
-    "@coca-cola.com",
-    "@nestle.com",
-    "@unilever.com",
-    "@walmart.com",
-
-    // Otros dominios relacionados con Costa Rica
-    "@costarica.com",
-    "@puravida.com"
-  ];
 
 
   const palabrasProhibidas = [
@@ -292,7 +234,7 @@ function btnSiguiente() {
   };
 
   const validarTelefono = (Telefono) => {
-    const prefijosCostaRica = [8, 7, 6, 57, 21, 22, 24, 25, 26, 27];
+    const prefijosCostaRica = [8, 7, 6, 57, 21, 22, 24, 25, 26, 27,800];
 
     const validarTelefono = prefijosCostaRica.some(prefijo => Telefono.toString().startsWith(prefijo.toString()));
     
@@ -317,29 +259,24 @@ function btnSiguiente() {
     return false
   }
 
+  const validarCorreo = (Correo) => {
+      const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return regex.test(Correo);
+  };
 
+  if (!validarCorreo(Correo)) {
+      Swal.fire({
+        icon: "error",
+        text: "El correo electrónico no es válido, por favor verifica e intenta nuevamente.",
+        confirmButtonColor: "#2ae2b6",
+        background: "#1a1a1a",
+        color: "#ffffff",
+        confirmButtonText: "Verificar",
+      });
+      return false;
 
-
-
-
-
-
-const validarCorreo = (correo) => {
-  const dominioPermitido = dominiosCR.some((dominio) => correo.includes(dominio));
-
-  if (!dominioPermitido) {
-    Swal.fire({
-      icon: "error",
-      text: "El correo electrónico no es válido, por favor verifica e intenta nuevamente.",
-      confirmButtonColor: "#2ae2b6",
-      background: "#1a1a1a",
-      color: "#ffffff",
-      confirmButtonText: "Verificar",
-    });
-    return false;
-  }
-  
-  if (Usuarios.some((user) => user.email === correo)) {
+  }    
+  else if (Usuarios.some((user) => user.email === Correo)) {
     Swal.fire({
       icon: "error",
       text: "El correo ya está registrado, por favor utiliza otro o inicia sesión.",
@@ -350,9 +287,7 @@ const validarCorreo = (correo) => {
     });
     return false;
   }
-  
-  return true;
-};
+
 
 const validarCampos = (nombre, apellido, usuario, telefono, correo, contraseña, confirmContraseña) => {
   if (![nombre, apellido, usuario, telefono, correo, contraseña, confirmContraseña].every(campo => campo.trim() !== "")) {

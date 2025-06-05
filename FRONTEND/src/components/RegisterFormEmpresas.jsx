@@ -5,22 +5,25 @@ import { Await, Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import UsersServices from "../services/usersServices";
 import InteresesServices from '../services/interesesServices';
-<<<<<<< HEAD
 import empresasServices from "../services/empresasServices";
-
+import Users_EmpresasServices from "../services/Users_EmpresasServices";
+import User_groupsServices from "../services/User_groupsServices";
 
 // import InteUsuariosServices from "../services/interesesUsuariosServices";
 // import Users_UsuariosServices from "../services/Users_UsuariosServices";
 // import User_groupsServices from "../services/User_groupsServices";
-=======
->>>>>>> 911c5ce22dfb8afff8b0b515c9c46b666c41cb52
 
 
 function RegisterForm2() {
 
-  const [Identificacion, setIdentificacion] = useState('');
+  const navigate = useNavigate()
+  const [Contenedor2, setContenedor2] = useState(false);
+  const [Contenedor3, setContenedor3] = useState(false);
+
+  const [IDEmpresa, setIdentificacion] = useState('');
   const [ConfirmacionID, setConfirmacionID] = useState('');
-  const navigate = useNavigate();
+
+  const Identificacion = IDEmpresa.replace(/[^0-9\s]/g, "");
 
 
   const [Empresas, setEmpresas] = useState([]);
@@ -34,7 +37,7 @@ function RegisterForm2() {
 
 
   const [Nombre, setNombre] = useState("");
-  const [Apellido, setApellido] = useState("");
+  // const [Apellido, setApellido] = useState("");
   const [Usuario, setUsuario] = useState("");
   const [Telefono, setTelefono] = useState("");
   const [Correo, setCorreo] = useState("");
@@ -50,7 +53,7 @@ function RegisterForm2() {
   }
   
   function ROferente() {
-    navigate('/register1')
+    navigate('/registrase')
   }
 
   function REmpresa () {
@@ -66,62 +69,6 @@ function RegisterForm2() {
     "{", "}", ":", ";", "'", '"', "<", ">", "/", "\\", "|", "=", "+"
   ];
 
-  const dominiosCR = [
-    // Proveedores de correo globales
-    "@gmail.com",
-    "@outlook.com",
-    "@yahoo.com",
-    "@hotmail.com",
-    "@icloud.com",
-    "@aol.com",
-    "@live.com",
-    "@protonmail.com",
-    "@zoho.com",
-    "@mail.com",
-    "@tutanota.com",
-    "@gmx.com",
-    "@yandex.com",
-
-    // Dominios específicos de Costa Rica
-    "@crmail.com",
-    "@nic.cr",
-    "@co.cr",
-    "@ac.cr",
-    "@go.cr",
-    "@or.cr",
-
-    // Empresas costarricenses y multinacionales con presencia en CR
-    "@bancopopular.fi.cr",
-    "@baccredomatic.cr",
-    "@scotiabankcr.com",
-    "@bncr.fi.cr",
-    "@ice.go.cr",
-    "@gruponacion.com",
-    "@telecablecr.com",
-    "@kolbi.cr",
-    "@racsa.go.cr",
-    "@universidadcr.ac.cr",
-    "@movistar.cr",
-    "@claro.cr",
-    "@tigo.cr",
-
-    // Multinacionales y empresas con operaciones en Costa Rica
-    "@dhl.com",
-    "@amazon.com",
-    "@intel.com",
-    "@cargill.com",
-    "@procterandgamble.com",
-    "@bayer.com",
-    "@pfizer.com",
-    "@coca-cola.com",
-    "@nestle.com",
-    "@unilever.com",
-    "@walmart.com",
-
-    // Otros dominios relacionados con Costa Rica
-    "@costarica.com",
-    "@puravida.com"
-  ];
 
   const palabrasProhibidas = [
     "admin", "superuser", "password", "puta", "madre","pendejo", "mierda", "caca", "culo", "verga", "coño",
@@ -148,7 +95,7 @@ function RegisterForm2() {
           } catch (error) {
               if (isMounted) {
                   setErrorIntereses(error.message);
-                  setErrorUsers(error.message);
+                  setErrorUsuarios(error.message);
                   setErrorEmpresas(error.message);
               }
           }
@@ -164,17 +111,374 @@ function RegisterForm2() {
 
 
 
+  function btnSiguiente() {
+      
+
+    
+    // const VerifarIdentificacion = TableEmpresas.find(TableEmpresa => TableEmpresa.identificacion_oferente == Identificacion)
+    const VerifarIdentificacion = Empresas.some((TableEmpresa) => TableEmpresa.identificacion_empresa == Identificacion) 
+    
+    const regex = /^[0-9]+$/;
+
+    if (!regex.test(Identificacion) || Identificacion.length !== 10) {
+        Swal.fire({
+            icon: "info",
+            text: "La identificación debe tener 10 dígitos o el siguiente formato: 0-000-000000",
+            confirmButtonColor: "#2ae2b6",
+            background: "#1a1a1a",
+            color: "red",
+            confirmButtonText: "Verificar",
+            iconColor: "#2ae2b6",
+        });
+    }
+
+    if (IDEmpresa !== ConfirmacionID) {
+        Swal.fire({
+            icon: "error",
+            iconColor: "#2ae2b6",
+            text: "Las identificaciones no coinciden. Por favor verifica e intenta nuevamente.",
+            confirmButtonColor: "#2ae2b6",
+            background: "#1a1a1a",
+            color: "#ffffff",
+            confirmButtonText: "Verificar",
+        });
+    }
+    else if (VerifarIdentificacion) {
+      Swal.fire({
+        icon: "error",
+        text: "La identifcación ya está registrada, por favor inicia sesión.",
+        confirmButtonColor: "#2ae2b6",
+        background: "#1a1a1a",
+        color: "#ffffff",
+        showConfirmButton: false,
+        timer: 3000,
+      });
+
+      return false;
+    }
+    else {
+
+      // https://api.hacienda.go.cr/fe/ae?identificacion=110600078
+      // https://apis.gometa.org/cedulas/${Identificacion}
+
+      // Llamar API para verificar si la identificación existe
+      const fetchUsers = async () => {
+          try {
+              const response = await fetch(`https://apis.gometa.org/cedulas/${Identificacion}`, {
+    
+              });
+
+              const data = await response.json();
+
+              console.log(data);
+              
+                if (data.resultcount == 0) {
+                    Swal.fire({
+                        icon: "error",
+                        text: "Identificación inválida o no encontrada.",
+                        confirmButtonColor: "#2ae2b6",
+                        background: "#1a1a1a",
+                        color: "red",
+                        confirmButtonText: "Verificar",
+                        iconColor: "#2ae2b6",
+                    });
+                  return;
+              }
+              const fullname = data.nombre
+              // const firstname = data.results?.[0]?.firstname;
+              // const lastname = data.results?.[0]?.lastname;
+
+              setNombre(fullname)
+              // setApellido(lastname)
+              
+              // Si pasa todas las validaciones, proceder al siguiente paso
+              setTimeout(() => {
+                  setContenedor2(true);
+              }, 200);
+
+          } catch (error) {
+              console.error("Error al validar identificación:", error);
+              Swal.fire({
+                  icon: "error",
+                  text: "Ocurrió un error al consultar la identificación. Intenta nuevamente.",
+                  confirmButtonColor: "#2ae2b6",
+                  background: "#1a1a1a",
+                  color: "red",
+                  confirmButtonText: "Intentar de nuevo",
+                  iconColor: "#2ae2b6",
+              });
+          }
+      };
+
+      fetchUsers();
+    }
+
+}
+  
+
+  async function btnRegistrarme() {
+    
+
+    const validarUsuarioExistente = (usuario) => {
+      
+      if (Usuarios.some((user) => user.username === usuario)) {
+        Swal.fire({
+          icon: "error",
+          text: "El usuario ya existe, por favor elige otro.",
+          confirmButtonColor: "#2ae2b6",
+          background: "#1a1a1a",
+          color: "#ffffff",
+          confirmButtonText: "Verificar",
+        });
+        return false;
+      }
+      return true;
+    };
+
+    const validarSimbolos = (usuario) => {
+      const simboloInvalido = simbolosNoPermitidos.find((simbolo) => usuario.includes(simbolo));
+      
+      if (simboloInvalido) {
+        Swal.fire({
+          icon: "error",
+          text: "El usuario incluye símbolos no permitidos.",
+          confirmButtonColor: "#2ae2b6",
+          background: "#1a1a1a",
+          color: "#ffffff",
+          confirmButtonText: "Verificar",
+        });
+        return false;
+      }
+      return true;
+    };
+
+    const validarTelefono = (Telefono) => {
+      const prefijosCostaRica = [8, 7, 6, 57, 21, 22, 24, 25, 26, 27];
+
+      const validarTelefono = prefijosCostaRica.some(prefijo => Telefono.toString().startsWith(prefijo.toString()));
+      
+      console.log(validarTelefono);
+      
+
+      const regex = /^[0-9]+$/;
+
+      if (regex.test(Telefono) && Telefono.length >=8 && validarTelefono == true ) {
+        return "Telefono valido"
+      }
+
+      else {
+
+        Swal.fire({
+          icon: "error",
+          text: "El número de telefono es invalido. Porfavor verifica e intenta nuevamente",
+          confirmButtonColor: "#2ae2b6",
+          background: "#1a1a1a",
+          color: "#ffffff",
+          confirmButtonText: "Verificar",
+        });
+      }
+      return false
+    }
+
+    const validarCorreo = (Correo) => {
+        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return regex.test(Correo);
+    };
+
+    if (!validarCorreo(Correo)) {
+        Swal.fire({
+          icon: "error",
+          text: "El correo electrónico no es válido, por favor verifica e intenta nuevamente.",
+          confirmButtonColor: "#2ae2b6",
+          background: "#1a1a1a",
+          color: "#ffffff",
+          confirmButtonText: "Verificar",
+        });
+        return false;
+
+    }    
+    else if (Usuarios.some((user) => user.email === Correo)) {
+      Swal.fire({
+        icon: "error",
+        text: "El correo ya está registrado, por favor utiliza otro o inicia sesión.",
+        confirmButtonColor: "#2ae2b6",
+        background: "#1a1a1a",
+        color: "#ffffff",
+        confirmButtonText: "Verificar",
+      });
+      return false;
+    }
 
 
+  const validarCampos = (nombre, usuario, telefono, correo, contraseña, confirmContraseña) => {
+    if (![nombre, usuario, telefono, correo, contraseña, confirmContraseña].every(campo => campo.trim() !== "")) {
+      Swal.fire({
+        icon: "error",
+        text: "Por favor, completa todos los campos.",
+        confirmButtonColor: "#2ae2b6",
+        background: "#1a1a1a",
+        color: "#ffffff",
+        confirmButtonText: "Verificar",
+      });
+      return false;
+    }
+    if (contraseña.length < 8) {
+      Swal.fire({
+        icon: "error",
+        text: "La contraseña debe tener al menos 8 caracteres.",
+        confirmButtonColor: "#2ae2b6",
+        background: "#1a1a1a",
+        color: "#ffffff",
+        confirmButtonText: "Verificar",
+      });
+      return false;
+    }
 
+    if (contraseña !== confirmContraseña) {
+      Swal.fire({
+        icon: "error",
+        text: "Las contraseñas no coinciden.",
+        confirmButtonColor: "#2ae2b6",
+        background: "#1a1a1a",
+        color: "#ffffff",
+        confirmButtonText: "Verificar",
+      });
+      return false;
+    }
+    return true;
+  };
 
+  const validarPalabrasProhibidas = (datos) => {
+    if (palabrasProhibidas.some((palabra) => datos.some((dato) => dato.toLowerCase().includes(palabra)))) {
+      Swal.fire({
+        icon: "error",
+        text: "Un campo contiene información no permitida, por favor verifica e intenta nuevamente.",
+        confirmButtonColor: "#2ae2b6",
+        background: "#1a1a1a",
+        color: "#ffffff",
+        confirmButtonText: "Verificar",
+      });
+      return false;
+    }
+    return true;
+  };
+
+  const ejecutarValidaciones = () => {
+    const datosUsuario = [Nombre, Usuario, Telefono, Correo, contraseña, Confirm_Contraseña];
+
+    if (
+      validarUsuarioExistente(Usuario) &&
+      validarTelefono(Telefono) &&
+      validarSimbolos(Usuario) &&
+      validarCorreo(Correo) &&
+      validarCampos(Nombre, Usuario, Telefono, Correo, contraseña, Confirm_Contraseña) &&
+      validarPalabrasProhibidas(datosUsuario)
+    ) {
+      InsertarDatos()
+    }
+  };
+
+  ejecutarValidaciones();
+
+  async function InsertarDatos() {
+    try {
+      // Post a la tabla auth_user
+      const datosRegistroUsers = {
+        password: contraseña,
+        username: Usuario,
+        first_name: Nombre,
+        last_name: "",
+        email: Correo,
+      };
+      
+  
+      const respuestaServerUser = await UsersServices.PostUser(datosRegistroUsers);
+      
+      const identEmpresa = Number(Identificacion)
+  
+      // Post a la tabla Empresas
+      const datosRegistroEmpresa = {
+        identificacion_empresa: identEmpresa,
+        telefono_empresa: Telefono,
+        direccion_empresa: "dirccion Quemada",
+        referenciaIMG_empresa: "None",
+        estado_empresa: "activo",
+      };
+    
+      const respuestaServerEmpresa = await empresasServices.PostEmpresa(datosRegistroEmpresa);
+      
+  
+      // // Post a la tabla intermedia de Usuarios e intereses
+      // for (let index = 0; index < selectedInterests.length; index++) {
+      //   const INTERES = selectedInterests[index];
+  
+      //   const datos_A_InteUsuarios = {
+      //     usuario: respuestaServer2.id,
+      //     intereses: INTERES,
+      //   };
+      //   await InteUsuariosServices.PostIntereses(datos_A_InteUsuarios);
+      // }
+  
+  
   
 
 
+      // Post a la tabla intermedia de auth_user y Empresas
+  
+      const datos_A_UsersEmpresas = {
+        user: respuestaServerUser.id,
+        empresa: respuestaServerEmpresa.id,
+      };
+  
+      console.log(datos_A_UsersEmpresas);
+      
+      await Users_EmpresasServices.PostUserEmpresa(datos_A_UsersEmpresas);
+  
+  
+      // Post a la tabla intermedia de auth_user_groups
+  
+      const datos_A_auth_user_groups = {
+        user: respuestaServerUser.id,
+        group: 3,   // Rol empresa
+      };
+  
+      await User_groupsServices.PostUser_group(datos_A_auth_user_groups) 
+  
+      
+      Swal.fire({
+        icon: "success",
+        text: "Registro exitoso.",
+        background: "#1a1a1a",
+        color: "#ffffff",
+        showConfirmButton: false,
+      });
+  
+      setTimeout(() => {
+        Swal.close();
+        navigate("/login");
+      }, 700);
+  
+  
+    } catch (error) {
+      console.error("Error en el proceso de registro:", error);
+  
+      Swal.fire({
+        icon: "error",
+        text: "Hubo un problema con el registro.",
+        background: "#1a1a1a",
+        color: "#ffffff",
+        showConfirmButton: true,
+      });
+    }
+  }
 
+  }
+  
 
   return (
     <div id='bodyRegisterEmpresas'>
+      {!Contenedor2 && !Contenedor3 && (
+
       <div id='contRegisterEmpresas'>
         <header>
           <svg onClick={volver} xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="#2ae2b6" class="bi bi-arrow-left-circle" viewBox="0 0 16 16">
@@ -183,22 +487,65 @@ function RegisterForm2() {
         </header>
         <h1>Registrar</h1>
 
+        <div id='btnsRegisterEmpresas'>
+          <button onClick={ROferente} className='btnROferenteE'> Persona oferente </button>
+          <button onClick={REmpresa} className='btnREmpresa'> Empresa </button>
+        </div>
 
 
         <label htmlFor=""> <span>*</span> Identificación</label><br />
-        <input className="inputs1Empresas" type="number" value={Identificacion} onChange={(e) => setIdentificacion(e.target.value)}/><br /><br />
+        <input className="inputs1Empresas" type="text" value={IDEmpresa} onChange={(e) => setIdentificacion(e.target.value)}/><br /><br />
 
         <label htmlFor=""> <span>*</span> Confirmar Identificación</label><br />
-        <input className="inputs1Empresas" type="number" value={ConfirmacionID} onChange={(e) => setConfirmacionID(e.target.value)} />
+        <input className="inputs1Empresas" type="text" value={ConfirmacionID} onChange={(e) => setConfirmacionID(e.target.value)} />
         
 
         <div className='DIVbtnREmpresa'>
-          <button className='btnNextRegisterEmpresas'>Siguiente</button>
+          <button onClick={btnSiguiente} className='btnNextRegisterEmpresas'>Siguiente</button>
         </div>
 
         <br />
         <p align="center" className='pRR'>¿Ya tienes una cuenta?, <Link className='LINK' to="/login"> Iniciar sesión</Link></p>
       </div>
+
+      )}
+
+      {Contenedor2 && (
+
+        <div id='contRegister'>
+
+          <header>
+            <svg onClick={volver} xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="#2ae2b6" class="bi bi-x-circle" viewBox="0 0 16 16">
+                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+            </svg>
+          </header>
+
+          <h1>Registrarse</h1>      
+    
+          <div className="contInputs">
+            <input disabled value={Nombre} className="inputsR inptNombreEmpresa" type="text" placeholder={Nombre} />
+
+            {/* <input disabled value={Apellido} className="inputsR" type="text" placeholder="Apellido" /> */}
+
+            <input value={Usuario} onChange={(e) => setUsuario(e.target.value)} className="inputsR" type="text" placeholder="Usuario" />
+
+            <input value={Telefono} onChange={(e) => setTelefono(e.target.value)} className="inputsR" type="text" placeholder="Telefono" />
+
+            <input value={Correo} onChange={(e) => setCorreo(e.target.value)} className="inputsR inptCorreo" type="email" placeholder="Correo electrónico" />
+
+            <input value={contraseña} onChange={(e) => setContraseña(e.target.value)} className="inputsR" type="password" placeholder="Constraseña" />
+
+            <input value={Confirm_Contraseña} onChange={(e) => setConfirm_Contraseña(e.target.value)} className="inputsR" type="password" placeholder="Confirmar constraseña" />
+          </div>
+
+          <div className='DIVbtnR'>
+            <button className='btnNextRegister' onClick={btnRegistrarme} >Registrar</button>
+          </div>
+
+        </div>
+      )}
+
     </div>
   )
 }

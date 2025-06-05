@@ -24,7 +24,7 @@ function Header() {
             <div className="collapse navbar-collapse" id="menuPrincipal">
               <ul className="navbar-nav ms-auto">
                 <li className="nav-item">
-                  <Link to="/register1" className="btn-second">
+                  <Link to="/registrase" className="btn-second">
                     Registrarse
                   </Link>
                 </li>

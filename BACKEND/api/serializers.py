@@ -50,6 +50,21 @@ class UsersSerializer(serializers.ModelSerializer):
         user = User.objects.create_user(**validated_data)
         return user
 
+
+class EmpresasSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Empresas
+        fields = "__all__"
+
+
+
+class Users_EmpresasSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Users_Empresas
+        fields = "__all__"
+
 class OfertasSerializer(serializers.ModelSerializer):
     titulo_oferta = serializers.CharField(validators=[MinLengthValidator(3)])
     nombre_puesto_oferta = serializers.CharField(validators=[MinLengthValidator(3)])
@@ -58,27 +73,7 @@ class OfertasSerializer(serializers.ModelSerializer):
         model = Ofertas
         fields = "__all__"
 
-class EmpresasSerializer(serializers.ModelSerializer):
-    contrasena_empresa = serializers.CharField(max_length=30, write_only=True, validators=[MinLengthValidator(8)]
-    )
 
-    nombre_empresa = serializers.CharField(max_length=30, validators=[MinLengthValidator(5)]
-    )
-
-    telefono_empresa = serializers.CharField(max_length=30, validators=[MinLengthValidator(8)]
-    )
-
-    correo_empresa = serializers.EmailField(validators=[EmailValidator()])
-
-    class Meta:
-        model = Empresas
-        fields = "__all__"
-
-class Users_EmpresasSerializer(serializers.ModelSerializer):
-    
-    class Meta:
-        model = Users_Empresas
-        fields = "__all__"
 
 class OfertasEmpresasSerializer(serializers.ModelSerializer):
     class Meta:
