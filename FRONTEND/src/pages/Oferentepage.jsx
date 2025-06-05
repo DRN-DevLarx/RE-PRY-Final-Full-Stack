@@ -1,9 +1,16 @@
 import React from 'react'
-import OferenteComponent from '../components/OferenteComponent'
+import NavComponent from '../components/NavComponent'
+import Notificaciones from '../components/Notificaciones'
+import Ofertas from '../components/Ofertas'
+import Footer from '../components/Footer'
+
 function Oferentepage() {
   return (
     <div>
-      <OferenteComponent/>
+      <NavComponent/>
+      <Notificaciones/>
+      <Ofertas/>
+      <Footer/>
     </div>
   )
 }
