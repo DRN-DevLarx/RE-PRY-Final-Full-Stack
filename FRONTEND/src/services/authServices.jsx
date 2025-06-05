@@ -1,7 +1,8 @@
-// src/services/authService.js
+
+import { useNavigate } from "react-router-dom";
 
 // 🔹 Función para obtener una cookie específica
-export function getCookie(name) {
+function getCookie(name) {
     const cookies = document.cookie.split("; ").reduce((acc, cookie) => {
         const [key, value] = cookie.split("=");
         acc[key] = value;
@@ -11,31 +12,32 @@ export function getCookie(name) {
 }
 
 // 🔹 Autenticación: Obtiene `access_token` y `refresh_token` tras login
-export async function login(obj) {
+async function login(obj) {
+    const navigate = useNavigate()
+    
     try {
         const response = await fetch("http://127.0.0.1:8000/api/token/", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(obj) // Enviar credenciales
+            body: JSON.stringify(obj)
         });
 
         const data = await response.json();
-        
-        if (response.ok) {
-            document.cookie = `access_token=${data.access}; path=/; secure; SameSite=Strict`;
-            document.cookie = `refresh_token=${data.refresh}; path=/; secure; SameSite=Strict`;
-            return true;
-        }
 
-        return false;
+        if (response.ok) {
+            document.cookie = `access_token=${data.access}; path=/; secure; SameSite=Strict`;        
+            navigate("/admin");
+        } else {
+            console.error("Error en la autenticación:", data);
+        }
     } catch (error) {
-        console.error("Error en login:", error);
-        return false;
+        console.error("Error en la solicitud:", error);
     }
+
 }
 
 // 🔹 Refrescar el `access_token` cuando expira
-export async function refreshToken() {
+async function refreshToken() {
     const refreshToken = getCookie("refresh_token");
     if (!refreshToken) return null; 
 
@@ -54,7 +56,7 @@ export async function refreshToken() {
 }
 
 // 🔹 Obtener datos del usuario autenticado
-export async function getUserProfile() {
+async function getUserProfile() {
     let accessToken = getCookie("access_token");
     if (!accessToken) {
         accessToken = await refreshToken(); // Si expiró, intenta renovarlo
@@ -77,8 +79,17 @@ export async function getUserProfile() {
 }
 
 // 🔹 Cerrar sesión: Elimina cookies y redirige al login
-export default function logout() {
+function logout() {
     document.cookie = "access_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     document.cookie = "refresh_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     window.location.href = "/login"; // Redirigir tras logout
 }
+
+// 🔹 Exportar todas las funciones por defecto
+export default {
+    getCookie,
+    login,
+    refreshToken,
+    getUserProfile,
+    logout
+};

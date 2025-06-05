@@ -4,22 +4,25 @@ from .views import (
     UsuariosViewSet, UsersViewSet, InteresesViewSet, InteresesUsuariosViewSet, Users_UsuariosViewSet,
     OfertasViewSet, EmpresasViewSet, OfertasEmpresasViewSet,
     PostulacionesViewSet, AuditoriaOfertasViewSet,
-    RegisterUserView, UserDataView
+    UserDataView, Users_EmpresasViewSet, auth_user_groups
 )
 
 # Configuración del router para ViewSets
 router = DefaultRouter()
-router.register(r'usuarios', UsuariosViewSet)
 router.register(r'users', UsersViewSet)
+router.register(r'usuarios', UsuariosViewSet)
+router.register(r'users-usuarios', Users_UsuariosViewSet)
+router.register(r'user-group', auth_user_groups)
 router.register(r'intereses', InteresesViewSet)
 router.register(r'intereses-usuarios', InteresesUsuariosViewSet)
-router.register(r'users-usuarios', Users_UsuariosViewSet)
-router.register(r'ofertas', OfertasViewSet)
+
+
 router.register(r'empresas', EmpresasViewSet)
+router.register(r'users-Empresas', Users_EmpresasViewSet)
+router.register(r'ofertas', OfertasViewSet)
 router.register(r'ofertas-empresas', OfertasEmpresasViewSet)
 router.register(r'postulaciones', PostulacionesViewSet)
 router.register(r'auditoria-ofertas', AuditoriaOfertasViewSet)
-
 
 
 # Agregar rutas personalizadas para autenticación

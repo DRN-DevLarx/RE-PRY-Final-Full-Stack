@@ -1,8 +1,19 @@
 import { useState, useEffect } from "react";
 import  "../styles/RegisterEmpresas.css";
-import { Link, useNavigate } from 'react-router-dom';
+import { Await, Link, useNavigate } from 'react-router-dom';
+
 import Swal from 'sweetalert2';
+import UsersServices from "../services/usersServices";
 import InteresesServices from '../services/interesesServices';
+<<<<<<< HEAD
+import empresasServices from "../services/empresasServices";
+
+
+// import InteUsuariosServices from "../services/interesesUsuariosServices";
+// import Users_UsuariosServices from "../services/Users_UsuariosServices";
+// import User_groupsServices from "../services/User_groupsServices";
+=======
+>>>>>>> 911c5ce22dfb8afff8b0b515c9c46b666c41cb52
 
 
 function RegisterForm2() {
@@ -10,7 +21,27 @@ function RegisterForm2() {
   const [Identificacion, setIdentificacion] = useState('');
   const [ConfirmacionID, setConfirmacionID] = useState('');
   const navigate = useNavigate();
-  const [intereses, setIntereses] = useState([]);
+
+
+  const [Empresas, setEmpresas] = useState([]);
+  const [ErrorEmpresas, setErrorEmpresas] = useState(null);
+
+  const [Usuarios, setUsuarios] = useState([]);
+  const [ErrorUsuarios, setErrorUsuarios] = useState(null);
+
+  const [Intereses, setIntereses] = useState([]);
+  const [ErrorIntereses, setErrorIntereses] = useState(null);
+
+
+  const [Nombre, setNombre] = useState("");
+  const [Apellido, setApellido] = useState("");
+  const [Usuario, setUsuario] = useState("");
+  const [Telefono, setTelefono] = useState("");
+  const [Correo, setCorreo] = useState("");
+  const [contraseña, setContraseña] = useState("");
+  const [Confirm_Contraseña, setConfirm_Contraseña] = useState("");
+
+
 
   function volver() {
     setTimeout(() => {
@@ -25,6 +56,122 @@ function RegisterForm2() {
   function REmpresa () {
     navigate('/registrarEmpresa')
   }
+
+
+  
+
+
+  const simbolosNoPermitidos = [
+    "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "[", "]",
+    "{", "}", ":", ";", "'", '"', "<", ">", "/", "\\", "|", "=", "+"
+  ];
+
+  const dominiosCR = [
+    // Proveedores de correo globales
+    "@gmail.com",
+    "@outlook.com",
+    "@yahoo.com",
+    "@hotmail.com",
+    "@icloud.com",
+    "@aol.com",
+    "@live.com",
+    "@protonmail.com",
+    "@zoho.com",
+    "@mail.com",
+    "@tutanota.com",
+    "@gmx.com",
+    "@yandex.com",
+
+    // Dominios específicos de Costa Rica
+    "@crmail.com",
+    "@nic.cr",
+    "@co.cr",
+    "@ac.cr",
+    "@go.cr",
+    "@or.cr",
+
+    // Empresas costarricenses y multinacionales con presencia en CR
+    "@bancopopular.fi.cr",
+    "@baccredomatic.cr",
+    "@scotiabankcr.com",
+    "@bncr.fi.cr",
+    "@ice.go.cr",
+    "@gruponacion.com",
+    "@telecablecr.com",
+    "@kolbi.cr",
+    "@racsa.go.cr",
+    "@universidadcr.ac.cr",
+    "@movistar.cr",
+    "@claro.cr",
+    "@tigo.cr",
+
+    // Multinacionales y empresas con operaciones en Costa Rica
+    "@dhl.com",
+    "@amazon.com",
+    "@intel.com",
+    "@cargill.com",
+    "@procterandgamble.com",
+    "@bayer.com",
+    "@pfizer.com",
+    "@coca-cola.com",
+    "@nestle.com",
+    "@unilever.com",
+    "@walmart.com",
+
+    // Otros dominios relacionados con Costa Rica
+    "@costarica.com",
+    "@puravida.com"
+  ];
+
+  const palabrasProhibidas = [
+    "admin", "superuser", "password", "puta", "madre","pendejo", "mierda", "caca", "culo", "verga", "coño",
+    "chingar", "pendeja", "puto", "cabrón", "cabron", "gilipollas", "maricón", "bollera", "zorra", "pene",  
+    "putón", "pendejita", "pendejito","prostituta", "prostituto", "putas", "putos", "pendejos", "pendejas", 
+    "cago", "cagó", "cagada", "cagado", "cagarse", "cagón", "cagones", "cagar", "cagando", "como", "vagina", 
+    "putita", "meto", "cojo", "cojer"];
+
+
+  useEffect(() => {
+      let isMounted = true; 
+      const fetch = async () => {
+          try {
+              const DatosIntereses = await InteresesServices.GetIntereses();
+              const DatosUsuarios = await UsersServices.GetUser();
+              const DatosEmpresas = await empresasServices.GetEmpresa();
+              
+              if (isMounted) {
+                  setIntereses(DatosIntereses);
+                  setUsuarios(DatosUsuarios);
+                  setEmpresas(DatosEmpresas);
+              }
+
+          } catch (error) {
+              if (isMounted) {
+                  setErrorIntereses(error.message);
+                  setErrorUsers(error.message);
+                  setErrorEmpresas(error.message);
+              }
+          }
+      };
+  
+      fetch();
+  
+      return () => {
+          isMounted = false;
+      };
+      
+  }, []);
+
+
+
+
+
+
+
+  
+
+
+
 
   return (
     <div id='bodyRegisterEmpresas'>
