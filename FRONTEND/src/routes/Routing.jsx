@@ -15,6 +15,7 @@ import Publicar from '../pages/PublicarPage';
 import DashboardPage from '../pages/DashboardPage';
 import OferentePage from '../pages/Oferentepage';
 import EditarPerfil from '../pages/EditarPerfil'
+import ApEmpleo from '../pages/ApEmpleo';
 function Routing() {
   return (
 
@@ -33,6 +34,7 @@ function Routing() {
             <Route  path='/dashboard' element={<DashboardPage/>}/>
             <Route  path='/Oferente' element={<OferentePage/>}/>
             <Route  path='/editperf' element={<EditarPerfil/>}/>
+             <Route  path='/ApEmpleo' element={<ApEmpleo/>}/>
 
         </Routes>
     </Router>

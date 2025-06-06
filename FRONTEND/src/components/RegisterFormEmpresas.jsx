@@ -5,15 +5,12 @@ import { Await, Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import UsersServices from "../services/usersServices";
 import InteresesServices from '../services/interesesServices';
-<<<<<<< HEAD
 import empresasServices from "../services/empresasServices";
 
 
 // import InteUsuariosServices from "../services/interesesUsuariosServices";
 // import Users_UsuariosServices from "../services/Users_UsuariosServices";
 // import User_groupsServices from "../services/User_groupsServices";
-=======
->>>>>>> 911c5ce22dfb8afff8b0b515c9c46b666c41cb52
 
 
 function RegisterForm2() {

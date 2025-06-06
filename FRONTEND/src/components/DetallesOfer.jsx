@@ -1,5 +1,6 @@
 import React from 'react';
 import '../styles/DetallesOfer.css';
+import BTNActivar from './BTNActivar';
 
 function DetallesOfer() {
   return (
@@ -53,11 +54,9 @@ function DetallesOfer() {
                 <li>Excepteur sint occaecat cupidatat non proident</li>
                 <li>Sunt in culpa qui officia deserunt mollit anim id est laborum.</li>
                 </ul>
-                <div className="boton-activar">
-                    <button> Activar</button>
 
-                </div>
             </div>
+            <BTNActivar/>
 
     </div>
     </div>
