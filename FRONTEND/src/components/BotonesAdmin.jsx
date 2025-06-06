@@ -1,9 +1,11 @@
 import React from 'react'
 import "../styles/BtnAdmin.css"
+import {useNavigate} from "react-router-dom"
 
 function BotonesAdmin() {
+  const navigate = useNavigate()
 
-      function IrDashboar() {
+  function IrDashboar() {
       navigate("/dashboard");
   }
 

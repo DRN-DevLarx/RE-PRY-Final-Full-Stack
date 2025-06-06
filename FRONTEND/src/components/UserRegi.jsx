@@ -10,6 +10,7 @@ function UserRegi() {
   function exitDashboard() {
     navigate("/admin");
   }
+  
   const users = [
   { name: 'Alessandro', date: '04/02/2025' },
   { name: 'Franklin', date: '23/06/2025' },

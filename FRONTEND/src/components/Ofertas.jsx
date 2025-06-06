@@ -74,7 +74,6 @@ function Ofertas() {
           </div>
             <div id='SectOfertas'>
 
-              
               {
                 Ofertas.map((oferta, index) => (
                   <div id='containerOf' key={index}>
@@ -85,30 +84,6 @@ function Ofertas() {
                       <p><b>Vacantes: </b>{oferta.vacantes_oferta}</p>
                       <p><b>Ubicacion: </b> {oferta.ubicacion_oferta}</p>
                       <p><b>Fecha de Publicacion:</b> {oferta.fecha_oferta}</p>
-                    </article>
-
-                    <article>
-                      <h5>{oferta.titulo_oferta}</h5>
-                      <p>Interes:{oferta.intereses_id}</p>
-                      <p>Vacantes:{oferta.vacantes_oferta}</p>
-                      <p>Ubicacion: {oferta.ubicacion_oferta}</p>
-                      <p>Fecha de Publicacion: {oferta.fecha_publicacion_oferta}</p>
-                    </article>
-
-                    <article>
-                      <h5>{oferta.titulo_oferta}</h5>
-                      <p>Interes:{oferta.intereses_id}</p>
-                      <p>Vacantes:{oferta.vacantes_oferta}</p>
-                      <p>Ubicacion: {oferta.ubicacion_oferta}</p>
-                      <p>Fecha de Publicacion: {oferta.fecha_publicacion_oferta}</p>
-                    </article>
-
-                    <article>
-                      <h5>{oferta.titulo_oferta}</h5>
-                      <p>Interes:{oferta.intereses_id}</p>
-                      <p>Vacantes:{oferta.vacantes_oferta}</p>
-                      <p>Ubicacion: {oferta.ubicacion_oferta}</p>
-                      <p>Fecha de Publicacion: {oferta.fecha_publicacion_oferta}</p>
                     </article>
                   </div>
                 

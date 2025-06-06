@@ -1,31 +1,54 @@
-.publicarContainer {
+.BodyPublicar {
+    background-size: 100% 100%; 
+    height: 100vh;
+    display: flex;
+    align-items: center;
+  }
+
+.PublicarCont {
   display: grid;
-  grid-template-columns: 1fr 1fr; /* Dos columnas iguales */
- 
-  padding: 20px;
-  background-color: #333;
+  grid-template-columns: 1fr 1fr;
+} 
+
+.ContPP {
+  width: 69%;
+  margin: 20px auto;
+  border: solid 1px gray;
+  padding: 20px 50px;
+
+  border-radius: 10px;
+}
+
+.ContPP h1 {
+  text-align: center;
+    width: 100%;
+    margin: auto;
+    color: #2ae2b6;
+    margin-bottom: 10px;
+    border-bottom: solid gray;
+
 }
 
 .cuadro {
-  background-color: #929393;
-  padding: 80px 50px 30px 207px ;
-  margin-top: 100px;
+  text-align: center;
 }
 
 .cuadro h3 {
-  margin-bottom: 8px;
+  padding-left: 40px;
   font-size: 16px;
-  color: #333;
+  color: #2ae2b6;
+  text-align: left;
 }
 
 .cuadro input,
 .cuadro textarea {
   width: 80%;
   padding: 8px;
-  margin-bottom: 16px;
+  margin-bottom: 15px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  
+  background-color: transparent;
+  color: white;
 }
 
 .cuadro button {
@@ -42,7 +65,24 @@
   background-color: #0056b3;
 }
 
-.btnpublic{
+.cuadro textarea {
+    resize: vertical;
+    max-height: 150px;
+}
 
+.btnpublic{
   text-align: right;
+}
+
+.selectPublicar {
+  background-color: transparent;
+  color: white;
+  padding: 5px;
+  width: 80%;
+  margin-bottom: 20px;
+}
+
+.selectPublicar option {
+    background-color: rgba(0, 0, 0, 0.66);
+    /* color: black; */
 }

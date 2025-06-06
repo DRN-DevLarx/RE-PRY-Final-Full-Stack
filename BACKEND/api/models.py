@@ -46,7 +46,7 @@ class Users_Usuarios(models.Model):
 class Empresas(models.Model):
     identificacion_empresa = models.BigIntegerField(unique=True)
     telefono_empresa = models.CharField(max_length=30, validators=[MinLengthValidator(8)], unique=True,)
-    direccion_empresa = models.TextField()
+    ubicacion_empresa = models.TextField()
     referenciaIMG_empresa = models.CharField(max_length=30)
     estado_empresa = models.CharField(max_length=30)
     

@@ -32,8 +32,9 @@ class UserDataView(APIView):
             "first_name": request.user.first_name,
             "last_name": request.user.last_name,
             "email": request.user.email,
+            "username": request.user.username,
+            "date_joined": request.user.date_joined,
         })
-
 
 
 # ------------------- ViewSets para gestión de modelos -------------------

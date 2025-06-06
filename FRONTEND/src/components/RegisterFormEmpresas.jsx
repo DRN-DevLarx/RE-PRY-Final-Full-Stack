@@ -400,26 +400,13 @@ function RegisterForm2() {
       const datosRegistroEmpresa = {
         identificacion_empresa: identEmpresa,
         telefono_empresa: Telefono,
-        direccion_empresa: "dirccion Quemada",
+        ubicacion_empresa: "dirccion quemada",
         referenciaIMG_empresa: "None",
         estado_empresa: "activo",
       };
     
       const respuestaServerEmpresa = await empresasServices.PostEmpresa(datosRegistroEmpresa);
-      
-  
-      // // Post a la tabla intermedia de Usuarios e intereses
-      // for (let index = 0; index < selectedInterests.length; index++) {
-      //   const INTERES = selectedInterests[index];
-  
-      //   const datos_A_InteUsuarios = {
-      //     usuario: respuestaServer2.id,
-      //     intereses: INTERES,
-      //   };
-      //   await InteUsuariosServices.PostIntereses(datos_A_InteUsuarios);
-      // }
-  
-  
+
   
 
 
@@ -534,6 +521,7 @@ function RegisterForm2() {
 
             <input value={Correo} onChange={(e) => setCorreo(e.target.value)} className="inputsR inptCorreo" type="email" placeholder="Correo electrónico" />
 
+            <select name="" id=""></select>
             <input value={contraseña} onChange={(e) => setContraseña(e.target.value)} className="inputsR" type="password" placeholder="Constraseña" />
 
             <input value={Confirm_Contraseña} onChange={(e) => setConfirm_Contraseña(e.target.value)} className="inputsR" type="password" placeholder="Confirmar constraseña" />
