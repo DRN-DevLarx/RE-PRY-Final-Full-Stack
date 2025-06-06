@@ -44,7 +44,7 @@ class Users_Usuarios(models.Model):
 
 
 class Empresas(models.Model):
-    identificacion_empresa = models.IntegerField(unique=True)
+    identificacion_empresa = models.BigIntegerField(unique=True)
     telefono_empresa = models.CharField(max_length=30, validators=[MinLengthValidator(8)], unique=True,)
     direccion_empresa = models.TextField()
     referenciaIMG_empresa = models.CharField(max_length=30)
@@ -53,15 +53,15 @@ class Empresas(models.Model):
     empresa_info = models.ManyToManyField(User, through='Users_Empresas', related_name='Empresas')
 
     def __str__(self):
-        return " ".join(vars(self).values())
-    
+        return f"Identificacion: {self.identificacion_empresa}, Estado: {self.estado_empresa}"  
+
     
 class Users_Empresas(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     empresa = models.ForeignKey(Empresas, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"user: + {self.user}, Usuario: + {self.usuario}"  
+        return f"user: + {self.user}, Usuario: + {self.empresa}"  
 
 class Ofertas(models.Model):
     titulo_oferta = models.CharField(max_length=30, validators=[MinLengthValidator(3)])

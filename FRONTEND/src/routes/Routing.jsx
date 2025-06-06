@@ -24,7 +24,7 @@ function Routing() {
         <Routes >
             <Route  path='/' element={<Inicio/>}/>
             <Route  path='/cys' element={<CYSPage/>}/>
-            <Route  path='/register1' element={<RegisterOferentes/>}/>
+            <Route  path='/registrase' element={<RegisterOferentes/>}/>
             <Route  path='/registrarEmpresa' element={<RegisterEmpresas/>}/>
             <Route  path='/login' element={<Login/>}/>
             <Route  path='/restablecer' element={<RestablecerPage/>}/>

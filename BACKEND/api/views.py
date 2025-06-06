@@ -72,10 +72,7 @@ class auth_user_groups(viewsets.ModelViewSet):
     permission_classes = [AllowAny]
 
 
-class OfertasViewSet(viewsets.ModelViewSet):
-    queryset = Ofertas.objects.all()
-    serializer_class = OfertasSerializer
-    permission_classes = [AllowAny]
+
 
 class EmpresasViewSet(viewsets.ModelViewSet):
     queryset = Empresas.objects.all()
@@ -88,6 +85,13 @@ class Users_EmpresasViewSet(viewsets.ModelViewSet):
     serializer_class = Users_EmpresasSerializer
     permission_classes = [AllowAny]
 
+
+
+
+class OfertasViewSet(viewsets.ModelViewSet):
+    queryset = Ofertas.objects.all()
+    serializer_class = OfertasSerializer
+    permission_classes = [AllowAny]
 
 
 class OfertasEmpresasViewSet(viewsets.ModelViewSet):
