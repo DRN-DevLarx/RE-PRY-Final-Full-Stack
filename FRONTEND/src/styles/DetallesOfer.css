@@ -66,18 +66,3 @@
   font-size: 1.2rem;
 }
 
-.boton-activar {
-    display: flex;
-    justify-content: center;
-
-}
-
-.boton-activar button {
-    padding: 10px;
-    width: 150px;
-    border-radius: 10px;
-    background-color: #30eec5;
-    font-weight: bold;
-    margin: 20px 0;
-}
-

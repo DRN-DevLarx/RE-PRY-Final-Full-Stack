@@ -7,6 +7,7 @@ import UltimasPublicaciones from '../components/UltimasPublicaciones'
 import UserRegi from '../components/UserRegi'
 import DetallesOfer from '../components/DetallesOfer'
 import PublicDesact from '../components/PublicDesact'
+
 import "../styles/Dashboard.css"
 
 
@@ -20,7 +21,6 @@ function DashboardPage() {
       {/* <Alerts/> */}
       {/* <PublicDesact/> */}
         <DetallesOfer/> 
-      {/* <Full/> */}
 
     </div>
   )
