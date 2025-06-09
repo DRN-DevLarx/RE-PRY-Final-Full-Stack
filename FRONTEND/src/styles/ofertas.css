@@ -27,23 +27,41 @@
 
 #containerOf {
     width: 100%;
+    margin: auto;
+    height: 150vh;
+    overflow-y: scroll;
     display: flex;
-    justify-content: space-around;
     flex-wrap: wrap;
-    padding: 20px 0;
-    row-gap: 20px;
+    gap: 50px 0;
+    justify-content: space-around;
 }
 
 
 #containerOf article {
     background-color: #0c4d3d98;
     border-radius: 20px;
-    padding: 30px;
+    padding: 20px;
     padding-bottom: 0;
-    width: 45%;
+    width: 40%;
     color: white;
 }
 
 #containerOf article:hover {
     background-color: #2ae2b6;
+}
+
+#containerOf article h3 {
+    color: yellow;
+    padding: 5px;
+    font-family: cursive;
+    width: 100%;
+    overflow: hidden;
+}
+
+.imgOferta {
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    max-width: 300px;
+    max-height: 250px;
 }

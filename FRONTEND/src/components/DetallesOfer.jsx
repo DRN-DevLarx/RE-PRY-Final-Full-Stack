@@ -61,7 +61,7 @@ function DetallesOfer() {
                 </ul>
 
             </div>
-            <BTNActivar/>
+            
 
     </div>
     </div>

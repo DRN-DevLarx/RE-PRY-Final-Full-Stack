@@ -23,12 +23,10 @@ function LoginForm() {
 
     } else {
 
-      
-
       const credentials = {
           username: ValueUser,
           password: ValuePass,
-      };
+      };      
 
         const response = await fetch("http://127.0.0.1:8000/api/token/", {
           method: "POST",
@@ -37,12 +35,16 @@ function LoginForm() {
         });
 
         const data = await response.json();
-        
+                
         if (response.ok) {
           
             document.cookie = `access_token=${data.access}; path=/; secure; SameSite=Strict`;
+            document.cookie = `refresh_token=${data.refresh}; path=/; secure; SameSite=Strict`;
+            document.cookie = `user_id=${data.user_id}; path=/; secure; SameSite=Strict`;
 
-            navigate("/admin");
+            if(data.role == "empresa") {
+              navigate("/PrincipalPage");
+            }
       }
     }
   }
@@ -78,7 +80,7 @@ function LoginForm() {
           <button onClick={IniciarSesion} className='btnLogin'>Iniciar sesión</button>
         </div>
         <br />  
-        <p className='pRR' align="center">¿No tienes una cuenta?, <Link className='LINK' to="/register1"> Registrarse</Link></p>
+        <p className='pRR' align="center">¿No tienes una cuenta?, <Link className='LINK' to="/registrarse"> Registrarse</Link></p>
       </div>
     </div>
   )
