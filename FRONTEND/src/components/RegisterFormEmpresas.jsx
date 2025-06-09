@@ -53,7 +53,7 @@ function RegisterForm2() {
   }
   
   function ROferente() {
-    navigate('/registrase')
+    navigate('/registrarse')
   }
 
   function REmpresa () {
@@ -521,7 +521,6 @@ function RegisterForm2() {
 
             <input value={Correo} onChange={(e) => setCorreo(e.target.value)} className="inputsR inptCorreo" type="email" placeholder="Correo electrónico" />
 
-            <select name="" id=""></select>
             <input value={contraseña} onChange={(e) => setContraseña(e.target.value)} className="inputsR" type="password" placeholder="Constraseña" />
 
             <input value={Confirm_Contraseña} onChange={(e) => setConfirm_Contraseña(e.target.value)} className="inputsR" type="password" placeholder="Confirmar constraseña" />

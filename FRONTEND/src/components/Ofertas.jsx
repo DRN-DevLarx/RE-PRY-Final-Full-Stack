@@ -74,21 +74,21 @@ function Ofertas() {
           </div>
             <div id='SectOfertas'>
 
+              <div id='containerOf'>
               {
                 Ofertas.map((oferta, index) => (
-                  <div id='containerOf' key={index}>
                   
-                    <article>
-                      <h5>{oferta.titulo_oferta}</h5>
+                    <article  key={index}>
+                      <h3>{oferta.titulo_oferta}</h3>
+                      <img className='imgOferta' src="/FB.avif" alt=""/>
                       <p><b>Interes: </b>{oferta.intereses}</p>
                       <p><b>Vacantes: </b>{oferta.vacantes_oferta}</p>
                       <p><b>Ubicacion: </b> {oferta.ubicacion_oferta}</p>
                       <p><b>Fecha de Publicacion:</b> {oferta.fecha_oferta}</p>
                     </article>
-                  </div>
-                
-                ))
-              }
+              ))
+            }
+            </div>
 
               
             </div>

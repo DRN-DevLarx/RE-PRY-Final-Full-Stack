@@ -76,5 +76,5 @@ async function DeleteIntereses(id) {
     }
 }
 
-export default {GetIntereses, PostIntereses, PutIntereses, DeleteIntereses};
+export default {GetIntereses    , PostIntereses, PutIntereses, DeleteIntereses};
 

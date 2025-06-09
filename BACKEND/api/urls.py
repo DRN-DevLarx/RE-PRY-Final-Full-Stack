@@ -4,8 +4,11 @@ from .views import (
     UsuariosViewSet, UsersViewSet, InteresesViewSet, InteresesUsuariosViewSet, Users_UsuariosViewSet, EmpresasViewSet,
     OfertasViewSet, OfertasEmpresasViewSet,
     PostulacionesViewSet, AuditoriaOfertasViewSet,
-    UserDataView, Users_EmpresasViewSet, auth_user_groups
+    Users_EmpresasViewSet, auth_user_groups, CustomTokenObtainPairView, UserDataView
 )
+
+
+from rest_framework_simplejwt.views import( TokenRefreshView)
 
 # Configuración del router para ViewSets
 router = DefaultRouter()
@@ -25,13 +28,9 @@ router.register(r'postulaciones', PostulacionesViewSet)
 router.register(r'auditoria-ofertas', AuditoriaOfertasViewSet)
 
 
-# Agregar rutas personalizadas para autenticación
-# urlpatterns = router.urls + [
-#     path("register/", RegisterUserView.as_view(), name="register"),
-#     path("login/", UserLoginView.as_view(), name="login"),
-#     path("user-data/", UserDataView.as_view(), name="user-data"),
-# ]
-
 urlpatterns = router.urls + [
+    
+    path('token/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path("user-data/", UserDataView.as_view(), name="user-data"),
 ]

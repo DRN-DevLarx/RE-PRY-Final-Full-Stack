@@ -1,5 +1,4 @@
 import React from 'react'
-import AdminComponent from "../components/AdminComponent"
 import NavComponent from '../components/NavComponent'
 import Notificaciones from '../components/Notificaciones'
 import  PerfilUsuario from '../components/PerfilUsuario' 
@@ -10,14 +9,13 @@ import BotonesAdmin from '../components/BotonesAdmin'
 function AdminPage() {
   return (
     <div>
-   
       <NavComponent/>
       <Notificaciones/>
-       <PerfilUsuario />
-      <BotonesAdmin/>   
+      <PerfilUsuario />
+      <BotonesAdmin/>
       <Ofertas/>
       <Footer/>
-       </div>
+    </div>
   )
 }
 

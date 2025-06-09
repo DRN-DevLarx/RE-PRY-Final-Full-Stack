@@ -3,6 +3,7 @@ from django.core.validators import MinLengthValidator, EmailValidator, RegexVali
 from django.contrib.auth.password_validation import validate_password
 from .models import Usuarios, Intereses, InteresesUsuarios, Users_Usuarios,  Ofertas, Empresas, OfertasEmpresas, Postulaciones, AuditoriaOfertas, Users_Empresas
 from django.contrib.auth.models import User, Group
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 
 class InteresesSerializer(serializers.ModelSerializer):
@@ -50,14 +51,11 @@ class UsersSerializer(serializers.ModelSerializer):
         user = User.objects.create_user(**validated_data)
         return user
 
-
 class EmpresasSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Empresas
         fields = "__all__"
-
-
 
 class Users_EmpresasSerializer(serializers.ModelSerializer):
     
@@ -89,3 +87,20 @@ class AuditoriaOfertasSerializer(serializers.ModelSerializer):
     class Meta:
         model = AuditoriaOfertas
         fields = "__all__"
+
+
+
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    def validate(self, attrs):
+        data = super().validate(attrs)
+
+        # Obtener el grupo del usuario (rol)
+        groups = self.user.groups.values_list('name', flat=True)
+
+        # Agrega el primer grupo como 'role'
+        data['role'] = groups[0] if groups else None
+        
+        #Id del usuaro
+        data['user_id'] = self.user.id
+
+        return data

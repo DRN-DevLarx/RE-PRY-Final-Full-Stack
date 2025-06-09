@@ -5,6 +5,7 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.generics import CreateAPIView
 from django.contrib.auth.models import User, Group
+from rest_framework_simplejwt.views import TokenObtainPairView
 
 from .models import (
     Usuarios, Intereses, InteresesUsuarios, Users_Usuarios, Ofertas, Empresas, Users_Empresas,
@@ -13,9 +14,11 @@ from .models import (
 from .serializers import (
     UsuariosSerializer, UsersSerializer, InteresesSerializer, InteresesUsuariosSerializer, Users_UsuariosSerializer,
     user_groupsSerializer, EmpresasSerializer, Users_EmpresasSerializer, OfertasSerializer, OfertasEmpresasSerializer,
-    PostulacionesSerializer, AuditoriaOfertasSerializer
+    PostulacionesSerializer, AuditoriaOfertasSerializer, CustomTokenObtainPairSerializer
 )
 
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer
 
 # ------------------- Registro de Usuario -------------------
 class RegisterUserView(CreateAPIView):
@@ -23,20 +26,15 @@ class RegisterUserView(CreateAPIView):
     serializer_class = UsersSerializer
     permission_classes = [AllowAny]
 
-# ------------------- Obtener Datos del Usuario Autenticado -------------------
+
 class UserDataView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        return Response({
-            "first_name": request.user.first_name,
-            "last_name": request.user.last_name,
-            "email": request.user.email,
-            "username": request.user.username,
-            "date_joined": request.user.date_joined,
-        })
-
-
+        serializer = UsersSerializer(request.user)
+        return Response(serializer.data)
+    
+    
 # ------------------- ViewSets para gestión de modelos -------------------
 class UsuariosViewSet(viewsets.ModelViewSet):
     queryset = Usuarios.objects.all()
