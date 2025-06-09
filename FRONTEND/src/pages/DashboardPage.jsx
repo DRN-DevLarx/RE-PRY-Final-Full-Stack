@@ -20,7 +20,7 @@ function DashboardPage() {
       {/* <UserRegi/> */}
       {/* <Alerts/> */}
       {/* <PublicDesact/> */}
-        <DetallesOfer/> 
+        {/* <DetallesOfer/>  */}
 
     </div>
   )

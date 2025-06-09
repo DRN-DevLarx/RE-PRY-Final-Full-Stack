@@ -42,7 +42,7 @@ function LoginForm() {
           
             document.cookie = `access_token=${data.access}; path=/; secure; SameSite=Strict`;
 
-            navigate("/admin");
+            navigate("/PrincipalPage");
       }
     }
   }

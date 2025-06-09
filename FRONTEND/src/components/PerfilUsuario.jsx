@@ -1,9 +1,15 @@
 import React, { useState, useRef, useEffect } from 'react';
 import '../styles/PerfilUsuario.css';
+import { useNavigate } from 'react-router-dom';
 
 const PerfilUsuario = ({ nombre, correo, telefono, identificacion, acercaDe, imagen }) => {
   const [visible, setVisible] = useState(false);
   const ref = useRef();
+  const navigate = useNavigate();
+  
+    function Ireditperf() {
+      navigate("/editperf");
+    }
 
   const alternarPerfil = () => setVisible(!visible);
 
@@ -43,7 +49,7 @@ const PerfilUsuario = ({ nombre, correo, telefono, identificacion, acercaDe, ima
               <p><strong>Nombre completo:</strong>Andrés Quijote Álvarez</p>
               <p><strong>Acerca de mí:</strong>Soy una persona que me gusta mejorar cada día</p>
             </div>
-            <button className="btn-editar-perfil">Editar Perfil</button>
+            <button className="btn-editar-perfil" onClick={Ireditperf}>Editar Perfil</button>
           </div>
           
         </div>

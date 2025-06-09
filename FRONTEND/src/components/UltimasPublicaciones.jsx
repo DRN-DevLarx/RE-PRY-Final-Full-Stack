@@ -6,7 +6,7 @@ function UltimasPublicaciones() {
   const navigate = useNavigate();
 
   function exitDashboard() {
-    navigate("/admin");
+    navigate("/PrincipalPage");
   }
 
   return (

@@ -1,0 +1,17 @@
+.boton-Aplicar {
+    display: flex;
+    justify-content: center;
+
+}
+.boton-Aplicar button {
+    padding: 10px;
+    width: 150px;
+    border-radius: 10px;
+    background-color: #60edcead;
+    font-weight: bold;
+    margin: 20px 0;
+}
+
+.boton-Aplicar button:hover {
+    background-color:white;
+}

@@ -8,7 +8,7 @@ function Alerts() {
   const navigate = useNavigate();
 
   function exitDashboard() {
-    navigate("/admin");
+    navigate("/PrincipalPage");
   }
   const users = [
   { name: 'Alessandro', date: '04/02/2025' },
