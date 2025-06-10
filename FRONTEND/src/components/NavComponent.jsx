@@ -103,11 +103,9 @@ function NavComponent() {
       </div>
 
       <div>
-
         {IsAdmin && (
             <BotonesAdmin/>
         )}
-
       </div>
     </div>
   )
