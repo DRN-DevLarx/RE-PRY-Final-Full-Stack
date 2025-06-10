@@ -9,7 +9,7 @@ const EditPerf = () => {
   const [mostrarConfirmacion, setMostrarConfirmacion] = useState(false);
 
   const handleCerrar = () => {
-    navigate('/admin');
+    navigate('/PrincipalPage');
   };
 
   return (

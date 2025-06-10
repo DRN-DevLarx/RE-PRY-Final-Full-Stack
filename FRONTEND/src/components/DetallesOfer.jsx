@@ -1,5 +1,7 @@
 import React from 'react';
 import '../styles/DetallesOfer.css';
+import BTNActivar from './BTNAplicar';
+
 import {useNavigate} from "react-router-dom";
 
 function DetallesOfer() {

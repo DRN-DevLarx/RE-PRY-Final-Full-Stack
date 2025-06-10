@@ -46,7 +46,17 @@ function LoginForm() {
           document.cookie = `role=${data.role}; path=/; secure; SameSite=Strict`;
           
 
+<<<<<<< HEAD
           navigate("/PrincipalPage");
+=======
+<<<<<<< HEAD
+            navigate("/PrincipalPage");
+=======
+            if(data.role == "empresa") {
+              navigate("/PrincipalPage");
+            }
+>>>>>>> 317bd4c4878e9116680e0bfb1b9f6e07faf5c52d
+>>>>>>> bcbf9cf81e9e46848824ef0e0ae25cc93594d871
       }
         
       

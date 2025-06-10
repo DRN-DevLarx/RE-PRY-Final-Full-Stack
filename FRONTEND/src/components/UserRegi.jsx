@@ -8,7 +8,7 @@ function UserRegi() {
   const navigate = useNavigate();
 
   function exitDashboard() {
-    navigate("/admin");
+    navigate("/PrincipalPage");
   }
   
   const users = [

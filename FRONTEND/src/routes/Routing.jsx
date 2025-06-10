@@ -16,9 +16,13 @@ import OferentePage from '../pages/Oferentepage';
 import EditarPerfil from '../pages/EditarPerfil'
 
 import ApEmpleo from '../pages/ApEmpleo';
+<<<<<<< HEAD
+import ChatNotif from '../pages/ChatNotif';
+=======
 
 import PrincipalPage from '../pages/PrincipalPage';
 
+>>>>>>> 317bd4c4878e9116680e0bfb1b9f6e07faf5c52d
 function Routing() {
   return (
 
@@ -40,6 +44,7 @@ function Routing() {
             <Route  path='/Oferente' element={<OferentePage/>}/>
             <Route  path='/editperf' element={<EditarPerfil/>}/>
              <Route  path='/ApEmpleo' element={<ApEmpleo/>}/>
+              <Route  path='/chat' element={<ChatNotif/>}/>
 
         </Routes>
     </Router>
