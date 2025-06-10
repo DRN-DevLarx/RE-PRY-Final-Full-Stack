@@ -127,8 +127,7 @@
 
 .capa2{
     background: black;
-    width: 100%;
-    transform: skew(-20deg);
+    transform: skew(-10deg);
     color: aliceblue;
     display: flex;
     gap: 30px;
@@ -136,6 +135,8 @@
     align-items: center;
     justify-content: center;
     border-radius: 5px;
+    margin-right: 20px;
+    margin-left: 80px;
 }
 
 .Inicio {

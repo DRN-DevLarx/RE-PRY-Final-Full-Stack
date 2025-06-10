@@ -2,13 +2,14 @@ import React from 'react'
 import AsideDashboard from '../components/AsideDashboard'
 import PerfilAdmin from '../components/PerfilAdmin'
 import Alerts from '../components/Alerts'
-import UltimasPublicaciones from '../components/UltimasPublicaciones'
+import UltimasPublicaciones from '../components/Publicaciones'
 
 import UserRegi from '../components/UserRegi'
 import DetallesOfer from '../components/DetallesOfer'
 import PublicDesact from '../components/PublicDesact'
 
 import "../styles/Dashboard.css"
+import Publicaciones from '../components/Publicaciones'
 
 
 function DashboardPage() {
@@ -16,9 +17,9 @@ function DashboardPage() {
     <div id='bodydashboard'>
       <AsideDashboard/>
       {/* <PerfilAdmin/> */}
-      {/* <UltimasPublicaciones/> */}
+      {/* <Publicaciones/> */}
       {/* <UserRegi/> */}
-      {/* <Alerts/> */}
+      <Alerts/>
       {/* <PublicDesact/> */}
         {/* <DetallesOfer/>  */}
 

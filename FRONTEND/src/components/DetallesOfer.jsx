@@ -3,6 +3,7 @@ import '../styles/DetallesOfer.css';
 import BTNActivar from './BTNAplicar';
 
 import {useNavigate} from "react-router-dom";
+import BTNAplicar from './BTNAplicar';
 
 function DetallesOfer() {
     const navigate = useNavigate()
@@ -62,6 +63,9 @@ function DetallesOfer() {
                 <li>Sunt in culpa qui officia deserunt mollit anim id est laborum.</li>
                 </ul>
 
+            </div>
+            <div>
+                <BTNAplicar/>
             </div>
             
 

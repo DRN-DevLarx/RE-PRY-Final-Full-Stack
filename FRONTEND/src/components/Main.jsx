@@ -19,7 +19,6 @@ function Inicio() {
                 <p>¿Necesitas soporte? Escríbenos</p>
               </div>
               <div className="capa2">
-                <p className='Inicio' href="#">Inicio</p>
                 <a href="#about">Sobre nosotros</a>
                 <p> <Link to="/cys">Contacto y soporte</Link> </p>
 

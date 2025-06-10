@@ -72,6 +72,8 @@ function Ofertas() {
             <button id='btnBuscar'> Buscar </button>
 
           </div>
+
+          
             <div id='SectOfertas'>
 
               <div id='containerOf'>

@@ -7,7 +7,7 @@ function AsideDashboard() {
     const [activo, setActivo] = useState(null);
     const opciones = [
         { nombre: "Perfil", esPerfil: true },
-        { nombre: "Publicaciones del último mes" },
+        { nombre: "Publicaciones" },
         { nombre: "Usuarios Registrados" },
         { nombre: "Alertas de infracción" },
         { nombre: "Publicaciones desactivadas" }
