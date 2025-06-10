@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import {useNavigate} from "react-router-dom"
 import "../styles/NavPrincipal.css"
 import BotonesAdmin from "./BotonesAdmin"
+import GetCookie from '../services/GetCookie'
 
 function NavComponent() {
 
@@ -13,20 +14,8 @@ function NavComponent() {
     document.cookie = "access_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     navigate("/login")
   }
-  
-  function getCookie(name) {
-    const cookies = document.cookie.split(';');
-    
-    for (let cookie of cookies) {
-      const [key, value] = cookie.trim().split('=');
-      if (key === name) {
-        return value;
-      }
-    }
-    return null;
-  }
 
-  const Rol = getCookie("role")
+  const Rol = GetCookie.getCookie("role")
 
   const [IsAdmin, setIsAdmin] = useState(false)
   
@@ -39,7 +28,7 @@ function NavComponent() {
   
   useEffect(() => {
       async function fetchUserData() {
-          const accessToken = getCookie("access_token");
+          const accessToken = GetCookie.getCookie("access_token");
                     
           if (!accessToken) {
               console.error("No se encontró el token de acceso");

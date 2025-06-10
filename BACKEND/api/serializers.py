@@ -64,14 +64,13 @@ class Users_EmpresasSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 class OfertasSerializer(serializers.ModelSerializer):
-    titulo_oferta = serializers.CharField(validators=[MinLengthValidator(3)])
-    nombre_puesto_oferta = serializers.CharField(validators=[MinLengthValidator(3)])
+    # titulo_oferta = serializers.CharField(validators=[MinLengthValidator(3)])
+    # nombre_puesto_oferta = serializers.CharField(validators=[MinLengthValidator(3)])
 
     class Meta:
         model = Ofertas
         fields = "__all__"
-
-
+    
 
 class OfertasEmpresasSerializer(serializers.ModelSerializer):
     class Meta:

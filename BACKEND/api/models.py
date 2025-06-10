@@ -64,7 +64,7 @@ class Users_Empresas(models.Model):
         return f"user: + {self.user}, Usuario: + {self.empresa}"  
 
 class Ofertas(models.Model):
-    titulo_oferta = models.CharField(max_length=30, validators=[MinLengthValidator(3)])
+    titulo_oferta = models.CharField(max_length=80, validators=[MinLengthValidator(3)])
     nombre_puesto_oferta = models.CharField(max_length=30, validators=[MinLengthValidator(3)])
     intereses = models.ForeignKey(Intereses, on_delete=models.CASCADE)
     vacantes_oferta = models.IntegerField()
@@ -72,9 +72,9 @@ class Ofertas(models.Model):
     fecha_oferta = models.DateTimeField(auto_now_add=True)
     salario_oferta = models.CharField(max_length=30)
     descripcion_oferta = models.TextField()
-    referenciaIMG_oferta = models.CharField(max_length=30)
-    estado_oferta = models.CharField(max_length=30)
-    empresa = models.ForeignKey(Empresas, on_delete=models.CASCADE)
+    referenciaIMG_oferta = models.CharField(max_length=100)
+    estado_oferta = models.CharField(max_length=10)
+    empresa = models.ForeignKey(User, on_delete=models.CASCADE)
     
     def __str__(self):
         return " ".join(vars(self).values())

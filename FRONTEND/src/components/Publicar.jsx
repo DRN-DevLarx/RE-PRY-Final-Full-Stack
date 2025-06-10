@@ -4,10 +4,13 @@ import '../styles/public.css';
 import InteresesServices from '../services/interesesServices';
 import ofertasServices from '../services/ofertasServices';
 
-import SubirIMG from './SubirIMG';
 import Swal from 'sweetalert2';
+import GetCookie from '../services/GetCookie'
+import cloudDinaryServices from '../services/cloudDinaryServices';
 
 function Publicar() {
+
+
 
   const [Intereses, setIntereses] = useState([])
   const [ErrorIntereses, setErrorIntereses] = useState([])
@@ -18,11 +21,17 @@ function Publicar() {
 
   const [Titulo, setTitulo] = useState("")
   const [NombrePuesto, setNombrePuesto] = useState("")
-  const [Nvacantes, setNvacantes] = useState()
+  const [Nvacantes, setNvacantes] = useState("")
   const [Lugar, setLugar] = useState("")
   const [AreaTrabajo, setAreaTrabajo] = useState("")
   const [Salario, setSalario] = useState("")
   const [Descripcion, setDescripcion] = useState("")
+
+  const IDEmpresa = GetCookie.getCookie("user_id")
+
+  const [ImagenSeleccionada, setImagenSeleccionada] = useState(null);
+  const [ImagenUrl, setImagenUrl] = useState("");
+
 
   const palabrasProhibidas = [
     "admin", "superuser", "password", "puta", "madre","pendejo", "mierda", "caca", "culo", "verga", "coño",
@@ -60,7 +69,19 @@ function Publicar() {
         
     }, []);
 
+  
+  const manejarCambioImagen = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setImagenSeleccionada(URL.createObjectURL(file));
+    }
+  };
 
+  const manejarEliminarImagen = () => {
+    setImagenSeleccionada(null);
+  };  
+  
+  
   function btnPublicar() {
       
     const validarCampos = (Titulo, NombrePuesto, Nvacantes, Lugar, AreaTrabajo, Salario, Descripcion) => {
@@ -93,15 +114,13 @@ function Publicar() {
       return true;
     };
 
-    const ValidarOfertaExistente = (NombrePuesto, Lugar, AreaTrabajo) => {
-      
-            
-      // Aqui falta validar el interes y el id de la empresa
-      
-      if (Ofertas.some((oferta) => oferta.nombre_puesto_oferta == NombrePuesto && oferta.ubicacion_oferta == Lugar && oferta.intereses == AreaTrabajo)) {
+    const ValidarOfertaExistente = (NombrePuesto, Lugar, AreaTrabajo, IDEmpresa ) => {
+    
+
+      if (Ofertas.some((oferta) => oferta.nombre_puesto_oferta == NombrePuesto && oferta.ubicacion_oferta == Lugar && oferta.intereses == Number(AreaTrabajo) && oferta.empresa == Number(IDEmpresa) )) {
         Swal.fire({
           icon: "info",
-          text: "La oferta ya existe. Porfavor verifica e intenta nuevamente",
+          text: "La oferta ya existe. Porfavor verifica e intenta nuevamente.",
           confirmButtonColor: "#2ae2b6",
           background: "#1a1a1a",
           color: "#ffffff",
@@ -109,7 +128,6 @@ function Publicar() {
         });
         return false;
       }
-      console.log("No pasooo");
       
       return true;
     };
@@ -134,55 +152,72 @@ function Publicar() {
       const datosUsuario = [Titulo, NombrePuesto, Nvacantes, Lugar, AreaTrabajo, Salario, Descripcion];
 
       if (
-        ValidarOfertaExistente(NombrePuesto, Lugar, AreaTrabajo) &&
+        ValidarOfertaExistente(NombrePuesto, Lugar, AreaTrabajo, IDEmpresa) &&
         validarCampos(Titulo, NombrePuesto, Nvacantes, Lugar, AreaTrabajo, Salario, Descripcion) &&
         validarPalabrasProhibidas(datosUsuario)
       ) {
-        console.log("Pasooo");
         
-          // PostearOferta()
+        PostearOferta()
         
       }
     };
 
-  ejecutarValidaciones();
+    ejecutarValidaciones();
 
-  async function PostearOferta() {
+    async function PostearOferta() {
+      
+      const obj_Oferta = {
+        titulo_oferta: Titulo,
+        nombre_puesto_oferta: NombrePuesto,
+        intereses: Number(AreaTrabajo),
+        vacantes_oferta: Number(Nvacantes),
+        ubicacion_oferta: Lugar,
+        salario_oferta: Salario,
+        descripcion_oferta: Descripcion,
+        referenciaIMG_oferta: "imagen2.png",
+        estado_oferta: "activa",
+        empresa: Number(IDEmpresa),
+      }      
+
+      if (!ImagenSeleccionada) {
+        Swal.fire({
+          icon: "info",
+          text: "Porfavor selecciona una imagen.",
+          background: "#1a1a1a",
+          color: "#ffffff",
+          showConfirmButton: false,
+          timer: 2000,
+        });
+      }
     
+        const uploadedUrl = await cloudDinaryServices.uploadImage(ImagenSeleccionada);
+        console.log(uploadedUrl);
+        
+        if (uploadedUrl) {
+          setImagenUrl(uploadedUrl);
+          setImagenSeleccionada(null); 
+        }
 
-    const obj_Oferta = {
-      titulo_oferta: Titulo,
-      nombre_puesto_oferta: NombrePuesto,
-      intereses: AreaTrabajo,
-      vacantes_oferta: Nvacantes,
-      ubicacion_oferta: Lugar,
-      salario_oferta: Salario,
-      descripcion_oferta: Descripcion,
-      referenciaIMG_oferta: "imagen.png",
-      estado_oferta: "activa",
-      empresa: 3,
+
+      // const respuestaServerOferta = await ofertasServices.PostOfertas(obj_Oferta)
+      
+      // console.log(respuestaServerOferta);
+
+      // if(respuestaServerOferta.status == 200 || respuestaServerOferta.status == 201) {
+
+      //     Swal.fire({
+      //       icon: "success",
+      //       text: "Publicación exitosa.",
+      //       background: "#1a1a1a",
+      //       color: "#ffffff",
+      //       showConfirmButton: false,
+      //     });
+      // }
+      
 
     }
 
-    console.log(obj_Oferta);
-    
-
-    const respuestaServerOferta = await ofertasServices.PostOfertas(obj_Oferta)
-
-    console.log(respuestaServerOferta);
-
   }
-
-
-
-  
-
-
-
-
-
-  }
-
 
   return (
     <div className="BodyPublicar">
@@ -195,8 +230,29 @@ function Publicar() {
 
           <div className="cuadro">
 
+            <h3>Holaa</h3>
+            <img src={ImagenUrl} alt="" />
+            
             <h3>Selecciona una imagen</h3>
-            <SubirIMG/>
+              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "10px" }}>
+                {!ImagenSeleccionada ? (
+                  <label 
+                    htmlFor="imageInput"style={{width: "150px",height: "150px", border: "1px dashed #ccc",display: "flex",justifyContent: "center",alignItems: "center",cursor: "pointer",fontSize: "14px",color: "#666"}}>
+                      
+                    Seleccionar imagen
+                    <input id="imageInput" type="file" accept="image/*" style={{ display: "none" }} onChange={manejarCambioImagen} 
+                    />
+                  </label>
+                ) : (
+                  <div style={{ position: "relative" }}>
+
+                    <img src={ImagenSeleccionada} alt="Vista previa" style={{ width: "150px", height: "150px", border: "solid", objectFit: "cover", borderRadius: "5px" }} />
+
+                    <button onClick={manejarEliminarImagen}  style={{ position: "absolute", top: "-5px", right: "5px", background: "transparent", color: "white", border: "none", borderRadius: "50%", width: "25px", height: "25px", cursor: "pointer"}}> ✖ </button>
+                  </div>
+                )}
+                <br />
+              </div>
 
             <h3>Titulo de la oferta</h3>
             <input value={Titulo} onChange={(e) => setTitulo(e.target.value)} type="text" placeholder="Ej: Se busca Programador Full Stack en Chacarita" />
@@ -236,9 +292,9 @@ function Publicar() {
                 {Intereses.map((interes, index) => (
                     <option key={index} value={interes.id}>
                       {interes.nombre_interes}
-                      </option>
+                  </option>
                 ))}
-                  </select>
+            </select>
 
             <h3>Salario</h3>
 

@@ -14,8 +14,7 @@ const uploadImage = async (file) => {
   formData.append("upload_preset", "empleaTico");
 
   try {
-    const response = await fetch(
-      `https://api.cloudinary.com/v1_1/dw65xvmgp/image/upload`,
+    const response = await fetch(`https://api.cloudinary.com/v1_1/dw65xvmgp/image/upload`,
       {
         method: "POST",
         body: formData,
@@ -30,4 +29,4 @@ const uploadImage = async (file) => {
   }
 };
 
-export { cloudinary, uploadImage };
+export default { cloudinary, uploadImage };
