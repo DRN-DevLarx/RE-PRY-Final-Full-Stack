@@ -28,24 +28,28 @@ function LoginForm() {
           password: ValuePass,
       };      
 
-        const response = await fetch("http://127.0.0.1:8000/api/token/", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(credentials)
-        });
+      const response = await fetch("http://127.0.0.1:8000/api/token/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(credentials)
+      });
 
-        const data = await response.json();
-                
-        if (response.ok) {
+      const data = await response.json();
+      console.log(data);
+      
+        
+      if (response.ok) {
+        
+          document.cookie = `access_token=${data.access}; path=/; secure; SameSite=Strict`;
+          document.cookie = `refresh_token=${data.refresh}; path=/; secure; SameSite=Strict`;
+          document.cookie = `user_id=${data.user_id}; path=/; secure; SameSite=Strict`;
+          document.cookie = `role=${data.role}; path=/; secure; SameSite=Strict`;
           
-            document.cookie = `access_token=${data.access}; path=/; secure; SameSite=Strict`;
-            document.cookie = `refresh_token=${data.refresh}; path=/; secure; SameSite=Strict`;
-            document.cookie = `user_id=${data.user_id}; path=/; secure; SameSite=Strict`;
 
-            if(data.role == "empresa") {
-              navigate("/PrincipalPage");
-            }
+          navigate("/PrincipalPage");
       }
+        
+      
     }
   }
   

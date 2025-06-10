@@ -9,40 +9,21 @@
 }
 
 
-/* Contenedor del logo y título */
 .izquierda {
   display: flex;
   align-items: center;
-  width: 15%;
 }
 
 #tituloNav {
   color: #2AE2B6;
   font-size: 20px;
-  margin: 0;
 }
 
-/* Input de búsqueda */
-.searchBar {
-    border: none;
-    outline: none;
-    padding: 10px;
-    border-radius: 20px;
-    font-size: 17px;
-    width: 100%;
-    min-width: 300px;
-    background-color: gray;
-    color: #2AE2B6;
-    padding-left: 20px;
-    text-align: center;
+.Bienvenida {
+  text-align: left;
+  width: 40%;
 }
 
-.searchBar::placeholder {
-    color: #2AE2B6;
-}
-
-#ContPerfil {
-    display: flex;
-    gap: 10px;
-    align-items: center;
+.Bienvenida h2 {
+  color: white;
 }

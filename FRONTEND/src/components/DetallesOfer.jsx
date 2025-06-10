@@ -7,7 +7,7 @@ function DetallesOfer() {
 
 
     function exitDashboard() {
-        navigate("/admin")
+        navigate("/PrincipalPage")
     }
 
   return (

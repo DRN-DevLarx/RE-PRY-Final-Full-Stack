@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import {useNavigate} from "react-router-dom"
 import "../styles/NavPrincipal.css"
+import BotonesAdmin from './BotonesAdmin'
 
 function NavComponent() {
 
@@ -24,7 +25,17 @@ function NavComponent() {
     }
     return null;
   }
+
+  const Rol = getCookie("role")
+
+  const [IsAdmin, setIsAdmin] = useState(false)
   
+  useEffect(() => {
+    if (Rol != "oferente") {
+      setIsAdmin(true);
+    }
+  }, [Rol]);
+    
   
   useEffect(() => {
       async function fetchUserData() {
@@ -75,9 +86,12 @@ function NavComponent() {
         </div>
 
 
-        <div className='busq'>
-          <input type="text" placeholder="Buscar empleo" className="searchBar" />
+        {Users && (
+        <div className='Bienvenida'>
+          <h2>Bienvenido, {Users.username}</h2>
         </div>
+        )}
+
 
         <div id="ContPerfil">
       
@@ -90,15 +104,9 @@ function NavComponent() {
 
       <div>
 
-        {Users && (
-          <article>
-            <h3>Nombre: {Users.first_name}</h3>
-            <h3>Email: {Users.email}</h3>
-            {/* Otros campos */}
-          </article>
-        )
-        }
-
+        {IsAdmin && (
+            <BotonesAdmin/>
+        )}
 
       </div>
     </div>
