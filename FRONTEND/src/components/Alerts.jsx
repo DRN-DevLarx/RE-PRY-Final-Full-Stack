@@ -11,12 +11,12 @@ function Alerts() {
     navigate("/PrincipalPage");
   }
   const users = [
-  { name: 'Alessandro', date: '04/02/2025' },
-  { name: 'Franklin', date: '23/06/2025' },
-  { name: 'María', date: '16/09/2025' },
-  { name: 'Alessandro', date: '04/02/2025' },
-  { name: 'Franklin', date: '23/06/2025' },
-  { name: 'María', date: '16/09/2025' },
+  {  },
+  {  },
+  {  },
+  {  },
+  {  },
+  {  },
 ];
 
 
@@ -35,8 +35,8 @@ function Alerts() {
     {users.map((user, index) => (
       <div className='User' key={index}>
         <div className='user-card-header'>
-          <div className='user-icon'>👤</div>
-          <div className='registration-label'>Fecha de registro</div>
+          <div className='user-icon'>..</div>
+          <div className='registration-label'>..</div>
         </div>
         <div className='user-card-body'>
           <div className='user-name'>{user.name}</div>

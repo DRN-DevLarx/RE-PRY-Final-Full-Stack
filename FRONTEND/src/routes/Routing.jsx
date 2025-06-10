@@ -12,7 +12,6 @@ import RestablecerPage from '../pages/RestablecerPage';
 import RestablecerPageConfirmar from '../pages/RestablecerPageConfirmar';
 import Publicar from '../pages/PublicarPage';
 import DashboardPage from '../pages/DashboardPage';
-import OferentePage from '../pages/Oferentepage';
 import EditarPerfil from '../pages/EditarPerfil'
 
 import PrincipalPage from '../pages/PrincipalPage';
@@ -37,7 +36,6 @@ function Routing() {
 
             <Route  path='/public' element={<Publicar/>}/>
             <Route  path='/dashboard' element={<DashboardPage/>}/>
-            <Route  path='/Oferente' element={<OferentePage/>}/>
             <Route  path='/editperf' element={<EditarPerfil/>}/>
              <Route  path='/ApEmpleo' element={<ApEmpleo/>}/>
               <Route  path='/chat' element={<ChatNotif/>}/>

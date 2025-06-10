@@ -1,4 +1,4 @@
-/* #containerOf {
+#containerOf {
   width: 80%;
   margin: auto;
   display: flex;
@@ -21,4 +21,4 @@
 
 #containerOf article:hover {
   background-color: #2ae2b6;
-} */
+}
