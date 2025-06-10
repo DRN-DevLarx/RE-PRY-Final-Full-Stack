@@ -15,14 +15,10 @@ import DashboardPage from '../pages/DashboardPage';
 import OferentePage from '../pages/Oferentepage';
 import EditarPerfil from '../pages/EditarPerfil'
 
-import ApEmpleo from '../pages/ApEmpleo';
-<<<<<<< HEAD
-import ChatNotif from '../pages/ChatNotif';
-=======
-
 import PrincipalPage from '../pages/PrincipalPage';
 
->>>>>>> 317bd4c4878e9116680e0bfb1b9f6e07faf5c52d
+import ApEmpleo from '../pages/ApEmpleo';
+import ChatNotif from '../pages/ChatNotif';
 function Routing() {
   return (
 
