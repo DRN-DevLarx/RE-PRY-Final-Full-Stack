@@ -10,7 +10,6 @@
   border: none;
   font-size: 24px;
   cursor: pointer;
-
 }
 
 .barra-notificaciones {
@@ -25,13 +24,11 @@
   padding: 30px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
   z-index: 999;
-
 }
 
 .barra-notificaciones h3 {
   margin-top: 0;
   font-size: 18px;
-
 }
 
 .notificacion-item {
