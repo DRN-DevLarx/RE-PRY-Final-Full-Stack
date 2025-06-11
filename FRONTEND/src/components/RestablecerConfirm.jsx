@@ -3,7 +3,7 @@ import "../styles/Restablecer.css";
 import { useNavigate } from 'react-router-dom';
 
 
-function Restablecer() {
+function RestablecerConfirm() {
 
   const navigate = useNavigate();
 
@@ -45,4 +45,4 @@ function Restablecer() {
   )
 }
 
-export default Restablecer
+export default RestablecerConfirm

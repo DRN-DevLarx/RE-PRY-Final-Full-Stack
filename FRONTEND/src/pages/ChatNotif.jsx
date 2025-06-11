@@ -1,9 +1,9 @@
 import React from 'react'
-import ChatsNotifics from '../components/ChatsNotifics'
+import ChatNotifics from '../components/ChatsNotifics'
 function ChatNotif() {
   return (
     <div>
-      <ChatsNotifics/>
+      <ChatNotifics/>
     </div>
   )
 }

@@ -17,7 +17,8 @@ import EditarPerfil from '../pages/EditarPerfil'
 import PrincipalPage from '../pages/PrincipalPage';
 
 import ApEmpleo from '../pages/ApEmpleo';
-import ChatNotif from '../pages/ChatNotif';
+import ChatNotif from'../pages/ChatNotif';
+
 function Routing() {
   return (
 
@@ -39,6 +40,10 @@ function Routing() {
             <Route  path='/editperf' element={<EditarPerfil/>}/>
              <Route  path='/ApEmpleo' element={<ApEmpleo/>}/>
               <Route  path='/chat' element={<ChatNotif/>}/>
+
+
+
+              
 
         </Routes>
     </Router>

@@ -12,6 +12,7 @@ import "../styles/Dashboard.css"
 import Publicaciones from '../components/Publicaciones'
 
 
+
 function DashboardPage() {
   return (
     <div id='bodydashboard'>
@@ -22,6 +23,7 @@ function DashboardPage() {
       {/* <Alerts/> */}
       {/* <PublicDesact/> */}
         {/* <DetallesOfer/>  */}
+        
 
     </div>
   )
