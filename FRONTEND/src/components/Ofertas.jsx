@@ -46,6 +46,7 @@ function Ofertas() {
 
           <h1 className='b'>Ofertas Disponibles</h1>
           <hr className='hh' />
+          <br />
 
             
 

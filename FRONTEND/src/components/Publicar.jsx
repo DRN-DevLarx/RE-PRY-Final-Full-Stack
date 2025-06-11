@@ -199,9 +199,9 @@ function Publicar() {
         }
 
 
-      // const respuestaServerOferta = await ofertasServices.PostOfertas(obj_Oferta)
+      const respuestaServerOferta = await ofertasServices.PostOfertas(obj_Oferta)
       
-      // console.log(respuestaServerOferta);
+      console.log(respuestaServerOferta);
 
       // if(respuestaServerOferta.status == 200 || respuestaServerOferta.status == 201) {
 
@@ -237,7 +237,7 @@ function Publicar() {
               <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "10px" }}>
                 {!ImagenSeleccionada ? (
                   <label 
-                    htmlFor="imageInput"style={{width: "150px",height: "150px", border: "1px dashed #ccc",display: "flex",justifyContent: "center",alignItems: "center",cursor: "pointer",fontSize: "14px",color: "#666"}}>
+                    htmlFor="imageInput"style={{width: "150px",height: "150px", border: "1px dashed #ccc",display: "flex",justifyContent: "center", alignItems: "center",cursor: "pointer",fontSize: "14px",color: "#666"}}>
                       
                     Seleccionar imagen
                     <input id="imageInput" type="file" accept="image/*" style={{ display: "none" }} onChange={manejarCambioImagen} 
@@ -263,27 +263,26 @@ function Publicar() {
             <h3>Cantidad de vacantes</h3>
             <input value={Nvacantes} onChange={(e) => setNvacantes(e.target.value)} type="number" placeholder="Ej: 1" />
           </div>
+
           <div className="cuadro">
-
-
             <h3>Lugar</h3>
             <select value={Lugar} onChange={(e) => setLugar(e.target.value)} className='selectPublicar' name="distritos_cercanos">
               <option value="">Selecciona el lugar</option>
-              <option value="puntarenas">Puntarenas</option>
-              <option value="pitahaya">Pitahaya</option>
-              <option value="chomes">Chomes</option>
-              <option value="barranca">Barranca</option>
-              <option value="chacarita">Chacarita</option>
-              <option value="acapulco">Acapulco</option>
-              <option value="arancibia">Arancibia</option>
-              <option value="espiritu_santo">Espíritu Santo</option>
-              <option value="san_juan_grande">San Juan Grande</option>
-              <option value="macacona">Macacona</option>
-              <option value="san_rafael">San Rafael</option>
-              <option value="san_jeronimo">San Jerónimo</option>
-              <option value="miramar">Miramar</option>
-              <option value="la_union">La Unión</option>
-              <option value="san_isidro">San Isidro</option>
+              <option value="Puntarenas">Puntarenas</option>
+              <option value="Pitahaya">Pitahaya</option>
+              <option value="Chomes">Chomes</option>
+              <option value="Barranca">Barranca</option>
+              <option value="Chacarita">Chacarita</option>
+              <option value="Acapulco">Acapulco</option>
+              <option value="Arancibia">Arancibia</option>
+              <option value="Espiritu_santo">Espíritu Santo</option>
+              <option value="San Juan grande">San Juan Grande</option>
+              <option value="Macacona">Macacona</option>
+              <option value="San Rafael">San Rafael</option>
+              <option value="San Jeronimo">San Jerónimo</option>
+              <option value="Miramar">Miramar</option>
+              <option value="La Union">La Unión</option>
+              <option value="San Isidro">San Isidro</option>
             </select>
           
             <h3>Área de trabajo</h3>
@@ -300,16 +299,16 @@ function Publicar() {
 
             <select value={Salario} onChange={(e) => setSalario(e.target.value) } className='selectPublicar' name="salario">
                 <option value="">Selecciona el rango de salario</option>
-                <option value="100-300">₡100,000 - ₡300,000</option>
-                <option value="300-500">₡300,000 - ₡500,000</option>
-                <option value="500-700">₡500,000 - ₡700,000</option>
-                <option value="700-900">₡700,000 - ₡900,000</option>
-                <option value="900-1100">₡900,000 - ₡1,100,000</option>
-                <option value="1100-1300">₡1,100,000 - ₡1,300,000</option>
-                <option value="1300-1600">₡1,300,000 - ₡1,600,000</option>
-                <option value="1600-2000">₡1,600,000 - ₡2,000,000</option>
-                <option value="2000-2500">₡2,000,000 - ₡2,500,000</option>
-                <option value="2500-3000">₡2,500,000 - ₡3,000,000</option>
+                <option value="₡100,000 - ₡300,000"> ₡100,000 - ₡300,000</option>
+                <option value="₡300,000 - ₡500,000"> ₡300,000 - ₡500,000</option>
+                <option value="₡500,000 - ₡700,000"> ₡500,000 - ₡700,000</option>
+                <option value="₡700,000 - ₡900,00"> ₡700,000 - ₡900,000</option>
+                <option value="₡900,000 - ₡1,100,000"> ₡900,000 - ₡1,100,000</option>
+                <option value="₡1,100,000 - ₡1,300,000"> ₡1,100,000 - ₡1,300,000</option>
+                <option value="₡1,300,000 - ₡1,600,000"> ₡1,300,000 - ₡1,600,000</option>
+                <option value="₡1,600,000 - ₡2,000,000"> ₡1,600,000 - ₡2,000,000</option>
+                <option value="₡2,000,000 - ₡2,500,000"> ₡2,000,000 - ₡2,500,000</option>
+                <option value="₡2,500,000 - ₡3,000,000"> ₡2,500,000 - ₡3,000,000</option>
             </select>
 
 

@@ -17,9 +17,9 @@ function DashboardPage() {
     <div id='bodydashboard'>
       <AsideDashboard/>
       {/* <PerfilAdmin/> */}
-      {/* <Publicaciones/> */}
+        <Publicaciones/>
       {/* <UserRegi/> */}
-      <Alerts/>
+      {/* <Alerts/> */}
       {/* <PublicDesact/> */}
         {/* <DetallesOfer/>  */}
 

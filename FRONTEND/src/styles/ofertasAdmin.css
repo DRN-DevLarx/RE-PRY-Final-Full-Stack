@@ -1,37 +1,51 @@
-#trabajosD {
-    text-align: center;
-    background-color:  #222838;
-    padding: 30px;
-    background-color: transparent;
-}
-#trabajosD h1 {
+
+#trabajosDAdmin h1 {
     text-align: center;
     color: white;
 }
-.filtros{
-    margin-top: -30px;
+.filtrosAdmin{
     padding: 0 20px;
     display: flex;
     justify-content: center;
-    gap: 30px;
-
+    gap: 10px;
 }
 
-.filtros select, .filtros input, .filtros input::placeholder {
+.filtrosAdmin select, .filtrosAdmin input, .filtrosAdmin input::placeholder {
     background-color: gray;
     color: aquamarine;
     padding: 5px;
+    width: 140px;
+    border-radius: 5px;
+    border: none;
 }
 
-#SectOfertas {
+.BtnFiltrarAdmin {
+    padding: 5px 15px;
+    border-radius: 10px;
+    width: 100px;
+    border: solid 0.5px;
+    background-color: #17a38399;
+    color: whitesmoke;
+    font-weight: bold;
+}
+
+.BtnFiltrarAdmin:hover {
+    color: black;
+    background-color: #2ae2b6;
+    transform: scale(1.15);
+}
+
+#SectOfertasAdmin {
     width: 100%;
     overflow: hidden;
-    height: 200vh;
+    height: 75vh;
     overflow-y: scroll;
-    padding: 50px;
+    padding: 20px 50px;
+    margin-top: 20px;
+
 }
 
-#containerOf {
+#containerOfAdmin {
     display: flex;
     flex-wrap: wrap;
     gap: 50px 0;
@@ -40,7 +54,7 @@
 }
 
 
-#containerOf article {
+#containerOfAdmin article {
     background-color: #0c4d3d98;
     border-radius: 20px;
     padding: 20px;
@@ -48,14 +62,15 @@
     width: 45%;
     color: white;
     height: auto;
+    text-align: center;
 
 }
 
-#containerOf article:hover {
+#containerOfAdmin article:hover {
     background-color: #2ae2b6;
 }
 
-#containerOf article h3 {
+#containerOfAdmin article h3 {
     color: yellow;
     padding: 5px;
     font-family: cursive;
@@ -63,7 +78,7 @@
     overflow: hidden;
 }
 
-.imgOferta {
+.imgOfertaAdmin {
     margin-top: 5px;
     margin-bottom: 15px;
     border-radius: 10px;

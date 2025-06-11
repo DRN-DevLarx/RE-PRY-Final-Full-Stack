@@ -41,7 +41,7 @@ async function PostOfertas(obj) {
 async function PutOfertas(id, obj) {
     try {
         const response = await fetch(`http://127.0.0.1:8000/api/ofertas/${id}/`, {
-            method: 'PUT',
+            method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
             },
