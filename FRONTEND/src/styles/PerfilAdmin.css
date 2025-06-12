@@ -39,11 +39,14 @@
     font-weight: bold;
 }
 
+.itemPerfil p {
+    padding: 7px;
+}
+
 .SubContPerfilAdmin1 img {
     width: 150px;
     height: 150px;
     object-fit: cover;
-    border: solid;
 }
 
 .SubContPerfilAdmin1 {
@@ -77,26 +80,13 @@
     font-weight: bold;
 }
 
-
-.inputEditNom {
-    width: 70%;
-    margin-left: 20px;
-}
-
-
 .inputEdit {
     background-color: transparent;
     border: solid 1px white;
     color: white;
-    padding: 7px;
+    padding: 5px;
     border-radius: 10px;
-}
-
-.textTareaEdit {
-    background-color: transparent;
-    border: solid 1px white;
-    color: white;
-    padding: 7px;
-    border-radius: 10px;
-    resize: none;
+    margin-bottom: 20px;
+    padding-left: 10px;
+    width: 80%;
 }

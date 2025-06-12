@@ -1,20 +1,76 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import '../styles/PerfilAdmin.css'
 import { useNavigate } from 'react-router-dom';
+
+import Users_UsuariosServices from '../services/Users_UsuariosServices';
+import usersServices from '../services/usersServices';
+import usuariosServices from '../services/usuariosServices';
+import GetCookie from '../services/GetCookie';
 
 function PerfilAdmin() {
     const navigate = useNavigate();
     const [isEditing, setIsEditing] = useState(false);
 
+    let IMgUser = "https://res.cloudinary.com/dw65xvmgp/image/upload/v1749743238/FB_chiuol.avif"
+
     // Estado del perfil
     const [perfil, setPerfil] = useState({
         nombre: "Darien",
         apellido: "Aguilar",
-        acerca: "Administrador de la plataforma",
         identificacion: "604750941",
         telefono: "63746352",
         correo: "darienaguiar3000@gmail.com"
     });
+    
+    const IDUser = GetCookie.getCookie("user_id")
+
+    console.log(IDUser);
+    
+    const [DatosIntermedios, setDatosIntermedios] = useState([])
+    const [Users, setUsers] = useState([])
+    const [Usuarios, setUsuarios] = useState([])
+
+    useEffect(() => {
+        let isMounted = true;
+
+        const fetchData = async () => {
+            try {
+                const datosIntermedios = await Users_UsuariosServices.GetUserUsuario(); // Solo trae los IDs
+                
+                if (datosIntermedios.length > 0) {
+                    const userIds = datosIntermedios.map(item => item.user);
+                    const usuarioIds = datosIntermedios.map(item => item.usuario);
+                    
+                    const datosUsers = await usersServices.GetUsersByIds(userIds);
+                    const datosUsuarios = await usuariosServices.GetUsuariosByIds(usuarioIds);
+
+   
+                    if (isMounted) {
+                        setUsers(datosUsers);
+                        setUsuarios(datosUsuarios);
+                        setDatosIntermedios(datosIntermedios);
+                    }
+                }
+            } catch (error) {
+                console.error("Error al obtener los datos:", error);
+            }
+        };
+
+        fetchData();
+
+        return () => {
+            isMounted = false;
+        };
+    }, []);
+
+    
+    const IDusuario = DatosIntermedios.find(item => item.user == IDUser)?.usuario;
+
+    Usuarios.find((user) => {
+        if(user.referenciaIMG_oferente != "") {
+            IMgUser = user.referenciaIMG_oferente
+        }
+    })
 
     const [editPerfil, setEditPerfil] = useState(perfil);
 
@@ -22,20 +78,23 @@ function PerfilAdmin() {
         navigate("/PrincipalPage")
     }
 
-    function handleEditar() {
+
+
+
+    function EditarPerfil() {
         setEditPerfil(perfil); // Cargar datos actuales al iniciar edición
         setIsEditing(true);
     }
 
-    function handleGuardar() {
+    function GuardarCambios() {
         setPerfil(editPerfil); // Guardar datos editados
         setIsEditing(false);
     }
 
-    function handleChange(e) {
-        const { name, value } = e.target;
-        setEditPerfil(prev => ({ ...prev, [name]: value }));
-    }
+    // function handleChange(e) {
+    //     const { name, value } = e.target;
+    //     setEditPerfil(prev => ({ ...prev, [name]: value }));
+    // }
 
     return (
         <div id='ContPerfilAdmin'>
@@ -50,71 +109,84 @@ function PerfilAdmin() {
             <main>
                 {!isEditing ? (
                     // VISTA NORMAL
-                    <div id='PerfilAdmin'>
-                        <div className='itemPerfil SubContPerfilAdmin1'>
-                            <div align="center">
-                                <img src="/public/Iconlogo.png" alt="" />
+  
+                    Users.map((useer, index) => (useer.id == IDUser && (
+                        Usuarios.filter(usuaario => usuaario.id == IDusuario).map((usuario, index2) => (
+                      
+                            <div key={`${index}${index2}`} id='PerfilAdmin'>
+                                <div className='itemPerfil SubContPerfilAdmin1'>
+                                    <div align="center">
+                                        <img src={IMgUser} alt="" />
+                                    </div>
+                                    <br />
+                                    <div style={{ width: "80%", margin: "0 auto" }}>
+                                    
+                                        <label>Identificación</label>
+                                        <p>{usuario.identificacion_oferente}</p>
+
+                                        <label>Nombre completo</label>
+                                        <p>{useer.first_name} {useer.last_name}</p>
+        
+                                    </div>
+                                </div>
+        
+                                <div className='itemPerfil SubContPerfilAdmin2'>
+                                    <label>Usuario</label>
+                                    <p>{useer.username}</p>        
+
+                                    <label>Teléfono</label>
+                                    <p>{usuario.telefono_oferente}</p>
+        
+                                    <label>Correo Electrónico</label>
+                                    <p>{useer.email}</p>
+                                    <br /><br />
+                                    <div className='contbtnEditar' style={{ textAlign: "right", width: "80%" }}>
+                                        <button onClick={EditarPerfil}>Editar perfil</button>
+                                    </div>
+                                </div>
                             </div>
-                            <br />
-                            <div style={{ width: "80%", margin: "0 auto" }}>
-                                <label>Nombre completo</label>
-                                <p>{perfil.nombre} {perfil.apellido}</p>
+                        ))
+                    )))
 
-                                <label>Acerca de mi</label>
-                                <p>{perfil.acerca}</p>
-                            </div>
-                        </div>
-
-                        <div className='itemPerfil SubContPerfilAdmin2'>
-                            <label>Identificación</label>
-                            <p>{perfil.identificacion}</p>
-
-                            <label>Teléfono</label>
-                            <p>{perfil.telefono}</p>
-
-                            <label>Correo Electrónico</label>
-                            <p>{perfil.correo}</p>
-                            <br /><br />
-                            <div className='contbtnEditar' style={{ textAlign: "right", width: "80%" }}>
-                                <button onClick={handleEditar}>Editar perfil</button>
-                            </div>
-                        </div>
-                    </div>
                 ) : (
                     // MODO EDICIÓN
-                    <div id='PerfilAdmin'>
-                        <div className='itemPerfil SubContPerfilAdmin1'>
-                            <div align="center">
-                                <img src="/public/Iconlogo.png" alt="" />
+                    Users.map((useer, index) => (useer.id == IDUser && (
+                        Usuarios.filter(usuaario => usuaario.id == IDusuario).map((usuario, index2) => (
+                      
+                            <div key={`${index}${index2}`} id='PerfilAdmin'>
+                                <div className='itemPerfil SubContPerfilAdmin1'>
+                                    <div align="center">
+                                        <img src={IMgUser} alt="" />
+                                    </div>
+                                    <br />
+                                    <div style={{ width: "80%", margin: "0 auto" }}>
+                                    
+                                        <label>Contraseña actual</label>
+                                        <input className='inputEdit' type="password" placeholder='contraseña atual' />
+
+                                        <label>Nueva contraseña</label>
+                                        <input className='inputEdit' type="password" placeholder='Nueva contraseña' />
+                                        
+                                    </div>
+                                </div>
+        
+                                <div className='itemPerfil SubContPerfilAdmin2'>
+                                    <label>Usuario</label><br />
+                                    <input className='inputEdit' type="text" placeholder={useer.username}/><br />
+
+                                    <label>Teléfono</label><br />
+                                    <input className='inputEdit' type="text" placeholder={usuario.telefono_oferente}/><br />
+        
+                                    <label>Correo Electrónico</label><br />
+                                    <input className='inputEdit' type="text" placeholder={useer.email}/><br />
+                                    <br /><br />
+                                    <div className='contbtnEditar' style={{ textAlign: "right", width: "80%" }}>
+                                        <button onClick={GuardarCambios}> Guardar cambios</button>
+                                    </div>
+                                </div>
                             </div>
-                            <br />
-                            <div style={{ width: "80%", margin: "0 auto" }}>
-                                <label>Nombre</label>
-                                <input className='inputEdit' type="text" name="nombre" value={editPerfil.nombre} onChange={handleChange} /><br /><br />
-
-                                <label>Apellido</label>
-                                <input className='inputEdit' type="text" name="apellido" value={editPerfil.apellido} onChange={handleChange} /><br /><br />
-
-                                <label>Acerca de mi</label><br /><br />
-                                <textarea className='textTareaEdit' rows={3} name="acerca" value={editPerfil.acerca} onChange={handleChange}></textarea>
-                            </div>
-                        </div>
-
-                        <div className='itemPerfil SubContPerfilAdmin2'>
-                            <label>Identificación</label><br />
-                            <input className='inputEdit' type="text" name="identificacion" value={editPerfil.identificacion} onChange={handleChange} /><br /><br />
-
-                            <label>Teléfono</label><br />
-                            <input className='inputEdit' type="text" name="telefono" value={editPerfil.telefono} onChange={handleChange} /><br /><br />
-
-                            <label>Correo Electrónico</label><br />
-                            <input className='inputEdit' type="email" name="correo" value={editPerfil.correo} onChange={handleChange} /><br /><br /><br />
-
-                            <div className='contbtnEditar' style={{ textAlign: "right", width: "80%" }}>
-                                <button onClick={handleGuardar}>Guardar cambios</button>
-                            </div>
-                        </div>
-                    </div>
+                        ))
+                    )))
                 )}
             </main>
         </div>

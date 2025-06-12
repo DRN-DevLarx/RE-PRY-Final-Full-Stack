@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import "../styles/ofertasAdmin.css"
-import "../styles/Publicaciones.css"
 
 import InteresesServices from '../services/interesesServices';
 import OfertasServices from '../services/ofertasServices';
@@ -58,7 +57,7 @@ function Publicaciones() {
   }, []);
 
   function Volver() {
-    location.reload()
+    setContDetalles(false)
   }
 
   function VerDetallesAdmin(id, estado) {
@@ -76,50 +75,59 @@ function Publicaciones() {
       setButtonActivar(true)
     }
   }, [EstadoOferta])
+
   
 
-    // const filteredConsultas = Publications.filter((consulta) =>
-      
-    //   consulta.titulo. toLowerCase().includes(FiltroInput. toLowerCase()) || consulta.categoria. toLowerCase().includes(FiltroInput. toLowerCase()) ||  consulta.descripcion. toLowerCase().includes(FiltroInput. toLowerCase())
-
-    // );
-
-    // const Filtrado = Ofertas.filter((busquedaOferta) =>
-    //   busquedaOferta.intereses. toLowerCase().includes(FiltroInput. toLowerCase()) || busquedaOferta.ubicacion_oferta. toLowerCase().includes(FiltroInput. toLowerCase()) ||  busquedaOferta.salario_oferta. toLowerCase().includes(FiltroInput. toLowerCase()) || busquedaOferta.estado_oferta. toLowerCase().includes(FiltroInput. toLowerCase())
-    // );
-    
-    console.log(FiltroAreaTrabajo);
-    console.log(FiltroUbicacion);
-    console.log(FiltroSalario);
-    console.log(FiltroEstado);
-    console.log(FiltroInput);
-  
-  let Filtrado = Ofertas;
-
-    if(FiltroAreaTrabajo != undefined || FiltroUbicacion != "" || FiltroSalario != "" || FiltroEstado != "" || FiltroInput.trim() != "") {
-      Filtrado = Ofertas.filter((busquedaOferta) =>
-      
-      busquedaOferta.estado_oferta.toLowerCase().includes(FiltroEstado) && busquedaOferta.intereses == FiltroAreaTrabajo || busquedaOferta.ubicacion_oferta == FiltroUbicacion || busquedaOferta.ubicacion_oferta.toLowerCase() == FiltroUbicacion.toLowerCase()
-      
-        
-      );
+  function filtrarOfertas(Ofertas, FiltroAreaTrabajo, FiltroUbicacion, FiltroSalario, FiltroEstado, FiltroInput) {
+    // Si todos los filtros están vacíos, devuelve la lista completa
+    if (
+      FiltroAreaTrabajo == "" || FiltroAreaTrabajo == undefined &&
+      FiltroUbicacion == "" &&
+      FiltroSalario == "" &&
+      FiltroEstado == "" &&
+      FiltroInput.trim() == ""
+    ) {
+      return Ofertas;
     }
-    
-    
 
-    // busquedaOferta.estado_oferta.toLowerCase().includes(FiltroEstado)
-    // busquedaOferta.intereses.includes(FiltroAreaTrabajo)    
+    return Ofertas.filter(oferta => {
+      const cumpleAreaTrabajo = FiltroAreaTrabajo != undefined ? oferta.intereses == FiltroAreaTrabajo : true;
+      const cumpleUbicacion = FiltroUbicacion != "" ? oferta.ubicacion_oferta.toLowerCase() == FiltroUbicacion.toLowerCase() : true;
+      const cumpleSalario = FiltroSalario != "" ? oferta.salario_oferta == FiltroSalario : true;
+      const cumpleEstado = FiltroEstado != "" ? oferta.estado_oferta.toLowerCase().includes(FiltroEstado.toLowerCase()) : true;
+      const cumpleInput = FiltroInput.trim() != "" ? oferta.titulo.toLowerCase().includes(FiltroInput.toLowerCase()) : true;
 
+      return cumpleAreaTrabajo && cumpleUbicacion && cumpleSalario && cumpleEstado && cumpleInput;
+    });
+  }
 
-  // console.log(Filtrado);
+  // Llamada a la función
+  let Filtrado = filtrarOfertas(Ofertas, FiltroAreaTrabajo, FiltroUbicacion, FiltroSalario, FiltroEstado, FiltroInput);
+  console.log(Filtrado);
+  
+  
   
 
-    // FiltroAreaTrabajo
-    // FiltroUbicacion
-    // FiltroSalario
-    // FiltroEstado
-    // FiltroInput
+  // let statusOferta = ""
 
+  // Filtrado.filter((ofert) => {
+
+  //   if(ofert.estado_oferta === "desactiva") {
+  //     statusOferta = "statusDesactiva" 
+  //     console.log(statusOferta);
+  //   }
+    
+  //   else {
+  //     statusOferta = "StatusActiva"
+  //     console.log(statusOferta);
+
+  //   }
+  // })
+
+  // console.log(statusOferta);
+  
+
+  
 
     
   
@@ -214,29 +222,31 @@ function Publicaciones() {
 
               <input value={FiltroInput} onChange={(e) => setFiltroInput(e.target.value)} type="text" placeholder='Palabra clave' /> 
 
-              <button className='BtnFiltrarAdmin'> Filtrar </button>
-
             </div>
 
             <div id='SectOfertasAdmin'>
 
               <div id='containerOfAdmin'>
               
-                {Filtrado.map((oferta, index) => (
-                  
-                  <article onClick={(e) => VerDetallesAdmin(oferta.id, oferta.estado_oferta)} key={index}>
+              {Filtrado.map((oferta, index) => {
+
+                const statusOferta = oferta.estado_oferta === "desactiva" ? "statusDesactiva" : "StatusActiva";
+
+                return (
+                  <article className={statusOferta} onClick={() => VerDetallesAdmin(oferta.id, oferta.estado_oferta)} key={index}>
                     <h3>{oferta.titulo_oferta}</h3>
-                    <img className='imgOfertaAdmin' src="/FB.avif" alt=""/>
-                    <p><b>Interes: </b>{oferta.intereses}</p>
+                    <img className='imgOfertaAdmin' src={oferta.referenciaIMG_oferta} alt="Imagen de oferta"/>
+                    <p><b>Interés: </b>{oferta.intereses}</p>
                     <p><b>Vacantes: </b>{oferta.vacantes_oferta}</p>
-                    <p><b>Ubicacion: </b> {oferta.ubicacion_oferta}</p>
-                    <p><b>Fecha de Publicacion:</b> {oferta.fecha_oferta}</p>
+                    <p><b>Ubicación: </b>{oferta.ubicacion_oferta}</p>
+                    <p><b>Fecha de Publicación:</b> {oferta.fecha_oferta}</p>
                   </article>
-                ))}
+                );
+              })}
+
+
               </div>
-                  
             </div>
-            
           </div>
         </div>
       )}

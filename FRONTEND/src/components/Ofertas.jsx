@@ -83,7 +83,7 @@ function Ofertas() {
                   
                     <article  key={index}>
                       <h3>{oferta.titulo_oferta}</h3>
-                      <img className='imgOferta' src="/FB.avif" alt=""/>
+                      <img className='imgOferta' src={oferta.referenciaIMG_oferta} alt=""/>
                       <p><b>Interes: </b>{oferta.intereses}</p>
                       <p><b>Vacantes: </b>{oferta.vacantes_oferta}</p>
                       <p><b>Ubicacion: </b> {oferta.ubicacion_oferta}</p>

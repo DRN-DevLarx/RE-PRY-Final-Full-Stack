@@ -1,7 +1,8 @@
 import React from 'react'
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "../styles/AsideDashboard.css";
-
+import usuariosServices from '../services/usuariosServices';
+import GetCookie from '../services/GetCookie';
 function AsideDashboard() {
 
     const [activo, setActivo] = useState(null);
@@ -12,6 +13,38 @@ function AsideDashboard() {
         { nombre: "Alertas de infracción" },
         { nombre: "Publicaciones desactivadas" }
     ];
+
+    const [Usuarios, setUsuarios] = useState([])
+
+    let IMgUser = "https://res.cloudinary.com/dw65xvmgp/image/upload/v1749743238/FB_chiuol.avif"
+
+
+    useEffect(() => {
+        let isMounted = true;
+
+        const fetch = async () => {
+            const DatosUsuarios = await usuariosServices.GetUsuario();
+
+            if (isMounted) {
+                setUsuarios(DatosUsuarios);
+            }
+            };
+
+        fetch();
+
+        return () => {
+            isMounted = false;
+        };
+      
+    }, []);
+
+
+    Usuarios.find((user) => {
+        if(user.referenciaIMG_oferente != "") {
+            IMgUser = user.referenciaIMG_oferente
+        }
+    })
+
   return (
     
     <aside id='asideDashboard'>
@@ -23,8 +56,7 @@ function AsideDashboard() {
                 <div key={index} className={`contenedor ${activo === index ? "activo" : ""}`} onClick={() => setActivo(index)}> 
                     {opcion.esPerfil ? (
                         <div className="perfilDashboard">
-                            <img src="/public/Iconlogo.png" alt="Perfil" />
-                            <p>Nombre Admin</p>
+                            <img src={IMgUser} alt="Perfil" />
                         </div>
                     ) : (
                         opcion.nombre

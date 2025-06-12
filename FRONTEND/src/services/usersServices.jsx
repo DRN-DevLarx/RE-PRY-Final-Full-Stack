@@ -15,6 +15,23 @@ async function GetUser() {
     }
 }
 
+async function GetUsersByIds(ids) {
+    try {
+        const response = await fetch("http://127.0.0.1:8000/api/users/");
+        
+        if (!response.ok) {
+            throw new Error("Error al obtener los Users");
+        }
+
+        const allUsers = await response.json();
+        return allUsers.filter(user => ids.includes(user.id)); // Filtra solo los IDs necesarios
+
+    } catch (error) {
+        console.error("Error al obtener los Users por ID:", error);
+        throw error;
+    }
+}
+
 async function PostUser(obj) {
     
     try {
@@ -75,5 +92,5 @@ async function DeleteUser(id) {
     }
 }
 
-export default { GetUser, PostUser, PutUser, DeleteUser };
+export default { GetUser, GetUsersByIds, PostUser, PutUser, DeleteUser };
 

@@ -7,10 +7,11 @@ import ofertasServices from '../services/ofertasServices';
 import Swal from 'sweetalert2';
 import GetCookie from '../services/GetCookie'
 import cloudDinaryServices from '../services/cloudDinaryServices';
+import { useNavigate } from 'react-router-dom';
 
 function Publicar() {
 
-
+  const navigate = useNavigate()
 
   const [Intereses, setIntereses] = useState([])
   const [ErrorIntereses, setErrorIntereses] = useState([])
@@ -30,6 +31,8 @@ function Publicar() {
   const IDEmpresa = GetCookie.getCookie("user_id")
 
   const [ImagenSeleccionada, setImagenSeleccionada] = useState(null);
+  const [VistaIMG, setVistaIMG] = useState(null);
+
   const [ImagenUrl, setImagenUrl] = useState("");
 
 
@@ -70,14 +73,18 @@ function Publicar() {
     }, []);
 
   
-  const manejarCambioImagen = (event) => {
-    const file = event.target.files[0];
+  const CambioImagen = (e) => {
+    const file = e.target.files[0];
+
     if (file) {
-      setImagenSeleccionada(URL.createObjectURL(file));
+      setVistaIMG(URL.createObjectURL(file));
+      setImagenSeleccionada(file);
     }
+    
   };
 
   const manejarEliminarImagen = () => {
+    setVistaIMG(null);
     setImagenSeleccionada(null);
   };  
   
@@ -86,6 +93,30 @@ function Publicar() {
       
     const validarCampos = (Titulo, NombrePuesto, Nvacantes, Lugar, AreaTrabajo, Salario, Descripcion) => {
       
+      if (![Titulo, NombrePuesto, Nvacantes, Lugar, AreaTrabajo, Salario, Descripcion].every(campo => campo.trim() !== "")) {
+        Swal.fire({
+          icon: "error",
+          text: "Por favor, completa todos los campos.",
+          confirmButtonColor: "#2ae2b6",
+          background: "#1a1a1a",
+          color: "#ffffff",
+          confirmButtonText: "Verificar",
+        });
+        return false;
+      }
+
+      if (!ImagenSeleccionada) {
+        Swal.fire({
+          icon: "error",
+          text: "Porfavor selecciona una imagen.",
+          background: "#1a1a1a",
+          color: "#ffffff",
+          showConfirmButton: false,
+          timer: 2000,
+        });
+        return false
+      }
+    
       if (Nvacantes <= 0) {
         Swal.fire({
           icon: "error",
@@ -95,19 +126,6 @@ function Publicar() {
           color: "#ffffff",
           timer: 3000,
           showConfirmButton: false,
-        });
-        return false;
-      }
-
-      if (![Titulo, NombrePuesto, Nvacantes, Lugar, AreaTrabajo, Salario, Descripcion].every(campo => campo.trim() !== "")) {
-
-        Swal.fire({
-          icon: "error",
-          text: "Por favor, completa todos los campos.",
-          confirmButtonColor: "#2ae2b6",
-          background: "#1a1a1a",
-          color: "#ffffff",
-          confirmButtonText: "Verificar",
         });
         return false;
       }
@@ -165,6 +183,8 @@ function Publicar() {
     ejecutarValidaciones();
 
     async function PostearOferta() {
+            
+      const uploadedUrl = await cloudDinaryServices.uploadImage(ImagenSeleccionada);
       
       const obj_Oferta = {
         titulo_oferta: Titulo,
@@ -174,50 +194,42 @@ function Publicar() {
         ubicacion_oferta: Lugar,
         salario_oferta: Salario,
         descripcion_oferta: Descripcion,
-        referenciaIMG_oferta: "imagen2.png",
+        referenciaIMG_oferta: uploadedUrl,
         estado_oferta: "activa",
         empresa: Number(IDEmpresa),
       }      
 
-      if (!ImagenSeleccionada) {
-        Swal.fire({
-          icon: "info",
-          text: "Porfavor selecciona una imagen.",
-          background: "#1a1a1a",
-          color: "#ffffff",
-          showConfirmButton: false,
-          timer: 2000,
-        });
+      const respuestaServerOferta = await ofertasServices.PostOfertas(obj_Oferta);
+
+      console.log("Respuesta del servidor:", respuestaServerOferta);
+
+      if (respuestaServerOferta.status === 200 || respuestaServerOferta.status === 201) {
+          Swal.fire({
+              icon: "success",
+              text: "Publicación exitosa.",
+              background: "#1a1a1a",
+              color: "#ffffff",
+              showConfirmButton: false,
+              timer: 2300,
+          });
+          setTimeout(() => {
+            navigate("/PrincipalPage")
+          }, 2300);
+
+      } else {
+          Swal.fire({
+              icon: "error",
+              text: "Hubo un problema al publicar la oferta.",
+              background: "#1a1a1a",
+              color: "#ffffff",
+              showConfirmButton: true,
+          });
       }
-    
-        const uploadedUrl = await cloudDinaryServices.uploadImage(ImagenSeleccionada);
-        console.log(uploadedUrl);
-        
-        if (uploadedUrl) {
-          setImagenUrl(uploadedUrl);
-          setImagenSeleccionada(null); 
-        }
-
-
-      const respuestaServerOferta = await ofertasServices.PostOfertas(obj_Oferta)
-      
-      console.log(respuestaServerOferta);
-
-      // if(respuestaServerOferta.status == 200 || respuestaServerOferta.status == 201) {
-
-      //     Swal.fire({
-      //       icon: "success",
-      //       text: "Publicación exitosa.",
-      //       background: "#1a1a1a",
-      //       color: "#ffffff",
-      //       showConfirmButton: false,
-      //     });
-      // }
       
 
     }
-
   }
+
 
   return (
     <div className="BodyPublicar">
@@ -230,25 +242,22 @@ function Publicar() {
 
           <div className="cuadro">
 
-            <h3>Holaa</h3>
-            <img src={ImagenUrl} alt="" />
-            
             <h3>Selecciona una imagen</h3>
               <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "10px" }}>
-                {!ImagenSeleccionada ? (
+                {!VistaIMG ? (
                   <label 
                     htmlFor="imageInput"style={{width: "150px",height: "150px", border: "1px dashed #ccc",display: "flex",justifyContent: "center", alignItems: "center",cursor: "pointer",fontSize: "14px",color: "#666"}}>
                       
                     Seleccionar imagen
-                    <input id="imageInput" type="file" accept="image/*" style={{ display: "none" }} onChange={manejarCambioImagen} 
+                    <input id="imageInput" type="file" accept="image/*" style={{ display: "none" }} onChange={(e) => CambioImagen(e)} 
                     />
                   </label>
                 ) : (
                   <div style={{ position: "relative" }}>
 
-                    <img src={ImagenSeleccionada} alt="Vista previa" style={{ width: "150px", height: "150px", border: "solid", objectFit: "cover", borderRadius: "5px" }} />
+                    <img src={VistaIMG} alt="Vista previa" style={{ width: "150px", height: "150px", border: "solid", objectFit: "cover", borderRadius: "5px" }} />
 
-                    <button onClick={manejarEliminarImagen}  style={{ position: "absolute", top: "-5px", right: "5px", background: "transparent", color: "white", border: "none", borderRadius: "50%", width: "25px", height: "25px", cursor: "pointer"}}> ✖ </button>
+                    <button onClick={manejarEliminarImagen}  style={{ position: "absolute", top: "-5px", right: "5px", background: "transparent", color: "white", fontWeight: "bolder", border: "none", borderRadius: "50%", width: "25px", height: "25px", cursor: "pointer"}}> ✖ </button>
                   </div>
                 )}
                 <br />

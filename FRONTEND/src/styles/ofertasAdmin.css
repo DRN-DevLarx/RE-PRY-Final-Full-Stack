@@ -19,22 +19,6 @@
     border: none;
 }
 
-.BtnFiltrarAdmin {
-    padding: 5px 15px;
-    border-radius: 10px;
-    width: 100px;
-    border: solid 0.5px;
-    background-color: #17a38399;
-    color: whitesmoke;
-    font-weight: bold;
-}
-
-.BtnFiltrarAdmin:hover {
-    color: black;
-    background-color: #2ae2b6;
-    transform: scale(1.15);
-}
-
 #SectOfertasAdmin {
     width: 100%;
     overflow: hidden;
@@ -54,7 +38,22 @@
 }
 
 
-#containerOfAdmin article {
+.statusDesactiva {
+    background-color: #4d0c0c98;
+    border-radius: 20px;
+    padding: 20px;
+    padding-bottom: 0;
+    width: 45%;
+    color: white;
+    height: auto;
+    text-align: center;
+}
+
+.statusDesactiva:hover {
+    background-color: #b70c0cab;
+}
+
+.StatusActiva {
     background-color: #0c4d3d98;
     border-radius: 20px;
     padding: 20px;
@@ -63,10 +62,9 @@
     color: white;
     height: auto;
     text-align: center;
-
 }
 
-#containerOfAdmin article:hover {
+.StatusActiva:hover {
     background-color: #2ae2b6;
 }
 
@@ -82,6 +80,129 @@
     margin-top: 5px;
     margin-bottom: 15px;
     border-radius: 10px;
-    max-width: 300px;
-    max-height: 250px;
+    min-width: 300px;
+    min-height: 250px;
+    width: 90%;
+    border: solid gray 0.1px;
 }
+
+
+
+
+
+.SDM {
+    position: relative;
+    top: 15px;
+    left: 20px;
+
+    background-color: transparent;
+    border: solid gray 0.5px;
+    border-radius: 10px;
+    padding: 5px 10px;
+    color: #30eec5;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.SDM:hover {
+    background-color: #30eec57b;
+    color: black;
+    font-weight: bold;
+}
+
+.SectionDetallesAdmin {
+    border-radius: 30px;
+    background-color: rgba(0, 0, 0, 0.355);
+    margin: auto;
+    margin-top: 20px;
+    padding: 10px;
+    width: 80%;
+    color: #fff;
+    overflow-y: scroll;
+
+}
+
+
+.ContMainDetallesAdmin {
+    width: 90%;
+    margin: auto;
+}
+
+.titulo-ofertaAdmin {
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+  color: #fff;
+  text-align: center;
+}
+
+.grid-detallesAdmin {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 25px;
+  margin-bottom: 20px;
+}
+
+.columna {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #30eec5;
+  font-size: 1.2rem;
+}
+
+.card-contenedorAdmin {
+    min-height: 180px;
+}
+
+.descripcionAdmin {
+    background-color: rgba(86, 78, 78, 0.433);
+    border-radius: 20px;
+    padding: 20px;
+}
+
+
+.boton-desactivar {
+    display: flex;
+    justify-content: center;
+}
+
+.boton-desactivar button {
+    padding: 10px;
+    width: 150px;
+    border-radius: 10px;
+    background-color: rgb(164, 16, 16);
+    font-weight: bold;
+    margin: 20px 0;
+    border: none;
+}
+
+.boton-desactivar button:hover {
+    background-color: red;
+}
+
+.boton-activar {
+    display: flex;
+    justify-content: center;
+}
+
+.boton-activar button {
+    padding: 10px;
+    width: 150px;
+    border-radius: 10px;
+    background-color: #20c29fad;
+    font-weight: bold;
+    margin: 20px 0;
+    border: none;
+}
+
+.boton-activar button:hover {
+    background-color: #30eec5;
+} 
+

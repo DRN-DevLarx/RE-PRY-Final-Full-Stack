@@ -61,12 +61,12 @@
     font-family: cursive;
     width: 100%;
     overflow: hidden;
-}
+} 
 
 .imgOferta {
     margin-top: 5px;
     margin-bottom: 15px;
     border-radius: 10px;
-    max-width: 300px;
-    max-height: 250px;
+    min-height: 250px;
+    width: 80%;
 }
