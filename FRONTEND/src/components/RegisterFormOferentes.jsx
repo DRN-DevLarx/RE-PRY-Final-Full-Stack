@@ -193,7 +193,6 @@ function btnSiguiente() {
       };
 
       fetchUsers();
-      console.log(users);
     }
 }
 

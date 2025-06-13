@@ -1,7 +1,7 @@
-import React from 'react';
 import '../styles/UsRegi.css';
 import { useNavigate } from 'react-router-dom';
-
+import usersServices from '../services/usersServices';
+  import { useState, useEffect } from 'react'
 
 
 function UserRegi() {
@@ -10,16 +10,35 @@ function UserRegi() {
   function exitDashboard() {
     navigate("/PrincipalPage");
   }
-  
-  const users = [
-  { name: 'Alessandro', date: '04/02/2025' },
-  { name: 'Franklin', date: '23/06/2025' },
-  { name: 'María', date: '16/09/2025' },
-  { name: 'Alessandro', date: '04/02/2025' },
-  { name: 'Franklin', date: '23/06/2025' },
-  { name: 'María', date: '16/09/2025' },
-];
 
+
+  const [Users, setUsers] = useState([]);
+  const [ErrorUsers, setErrorUsers] = useState(null);
+
+  useEffect(() => {
+      let isMounted = true;
+      const fetch = async () => {
+          try {
+              const DatosUsers = await usersServices.GetUser();
+
+              if (isMounted) {
+                  setUsers(DatosUsers);
+              }
+          } catch (error) {
+              if (isMounted) {
+                  setErrorUsers(error.message);
+              }
+          }
+      };
+  
+      fetch();
+  
+      return () => {
+          isMounted = false;
+      };
+
+      
+  }, []);
 
   return (
     <div id='ContUltimasPublicaciones'>
@@ -31,21 +50,20 @@ function UserRegi() {
         </svg>
       </div>
 
-    <div className='cont'>
-  <div className='Cont2'>
-    {users.map((user, index) => (
-      <div className='User' key={index}>
-        <div className='user-card-header'>
-          <div className='user-icon'>👤</div>
-          <div className='registration-label'>Fecha de registro</div>
-        </div>
-        <div className='user-card-body'>
-          <div className='user-name'>{user.name}</div>
-          <div className='registration-date'>{user.date}</div>
-        </div>
-      </div>
-    ))}
-  </div>
+
+      <div className='Cont2'>
+        {Users.map((user, index) => (
+          <div className='User' key={index}>
+            <div className='user-card-header'>
+              <div className='user-icon'>👤</div>
+              <div className='registration-label'>Fecha de registro</div>
+            </div>
+            <div className='user-card-body'>
+              <div className='user-name'>{user.username}</div>
+              <div className='registration-date'> {new Date(user.date_joined).toLocaleString()}</div>
+            </div>
+          </div>
+        ))}
 </div>
 
 

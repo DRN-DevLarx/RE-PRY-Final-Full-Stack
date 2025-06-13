@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import "../styles/ofertasAdmin.css"
+import "../styles/Publicaciones.css"
 
 import InteresesServices from '../services/interesesServices';
 import OfertasServices from '../services/ofertasServices';
@@ -28,12 +28,18 @@ function Publicaciones() {
   const [IDOferta, setIDOferta] = useState()
   const [EstadoOferta, setEstadoOferta] = useState("")
 
+  
+
   useEffect(() => {
       let isMounted = true;
       const fetch = async () => {
           try {
               const DatosIntereses = await InteresesServices.GetIntereses();
               const DatosOfertas = await OfertasServices.GetOfertas();
+
+              if(EstadoOferta == "desactiva") {
+                setButtonActivar(true)
+              }
 
               if (isMounted) {
                   setIntereses(DatosIntereses);
@@ -52,13 +58,10 @@ function Publicaciones() {
       return () => {
           isMounted = false;
       };
+  }, [EstadoOferta]);
 
-      
-  }, []);
 
-  function Volver() {
-    setContDetalles(false)
-  }
+
 
   function VerDetallesAdmin(id, estado) {
     setContDetalles(true)
@@ -70,14 +73,7 @@ function Publicaciones() {
     navigate("/PrincipalPage");
   }
   
-  useEffect(() => {
-    if(EstadoOferta == "desactiva") {
-      setButtonActivar(true)
-    }
-  }, [EstadoOferta])
-
-  
-
+ 
   function filtrarOfertas(Ofertas, FiltroAreaTrabajo, FiltroUbicacion, FiltroSalario, FiltroEstado, FiltroInput) {
     // Si todos los filtros están vacíos, devuelve la lista completa
     if (
@@ -103,34 +99,10 @@ function Publicaciones() {
 
   // Llamada a la función
   let Filtrado = filtrarOfertas(Ofertas, FiltroAreaTrabajo, FiltroUbicacion, FiltroSalario, FiltroEstado, FiltroInput);
-  console.log(Filtrado);
   
-  
-  
-
-  // let statusOferta = ""
-
-  // Filtrado.filter((ofert) => {
-
-  //   if(ofert.estado_oferta === "desactiva") {
-  //     statusOferta = "statusDesactiva" 
-  //     console.log(statusOferta);
-  //   }
-    
-  //   else {
-  //     statusOferta = "StatusActiva"
-  //     console.log(statusOferta);
-
-  //   }
-  // })
-
-  // console.log(statusOferta);
-  
-
-  
-
-    
-  
+  function Volver() {
+    setContDetalles(false)
+  }
 
 
   async function DesactivarOferta() {
@@ -155,7 +127,7 @@ function Publicaciones() {
 
 
   return (
-    <div id='ContUltimasPublicaciones'>
+    <div id='ContPerfilAdmin'>
 
       {!ContDetalles && (
         <div>
@@ -168,7 +140,7 @@ function Publicaciones() {
             </svg>
           </div>
         
-          <div id='trabajosDAdmin'>
+          <div className='trabajosDAdmi'>
             <div className='filtrosAdmin'>
               
               <select value={FiltroAreaTrabajo} onChange={(e) => setFiltroAreaTrabajo(e.target.value)}  name="" id="">
@@ -230,7 +202,7 @@ function Publicaciones() {
               
               {Filtrado.map((oferta, index) => {
 
-                const statusOferta = oferta.estado_oferta === "desactiva" ? "statusDesactiva" : "StatusActiva";
+                let statusOferta = oferta.estado_oferta === "desactiva" ? "statusDesactiva" : "StatusActiva";
 
                 return (
                   <article className={statusOferta} onClick={() => VerDetallesAdmin(oferta.id, oferta.estado_oferta)} key={index}>
@@ -239,7 +211,7 @@ function Publicaciones() {
                     <p><b>Interés: </b>{oferta.intereses}</p>
                     <p><b>Vacantes: </b>{oferta.vacantes_oferta}</p>
                     <p><b>Ubicación: </b>{oferta.ubicacion_oferta}</p>
-                    <p><b>Fecha de Publicación:</b> {oferta.fecha_oferta}</p>
+                    <p><b>Fecha de Publicación:</b> {new Date(oferta.fecha_oferta).toLocaleString()}</p>
                   </article>
                 );
               })}

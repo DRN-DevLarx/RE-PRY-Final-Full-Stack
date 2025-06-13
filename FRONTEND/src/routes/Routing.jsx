@@ -1,4 +1,3 @@
-import React from 'react'
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
@@ -19,12 +18,15 @@ import PrincipalPage from '../pages/PrincipalPage';
 import ApEmpleo from '../pages/ApEmpleo';
 import ChatNotif from'../pages/ChatNotif';
 
+import PrivateRoute from '../components/PrivateRoute';
+
 function Routing() {
   return (
 
 
     <Router>
         <Routes >
+            {/* Rutas publicas */}
             <Route  path='/' element={<Inicio/>}/>
             <Route  path='/cys' element={<CYSPage/>}/>
             <Route  path='/registrarse' element={<RegisterOferentes/>}/>
@@ -32,19 +34,21 @@ function Routing() {
             <Route  path='/login' element={<Login/>}/>
             <Route  path='/restablecer' element={<RestablecerPage/>}/>
             <Route  path='/restablecer/confirmar' element={<RestablecerPageConfirmar/>}/>
-
+{/* 
             <Route  path='/PrincipalPage' element={<PrincipalPage/>}/>
-
             <Route  path='/public' element={<Publicar/>}/>
             <Route  path='/dashboard' element={<DashboardPage/>}/>
             <Route  path='/editperf' element={<EditarPerfil/>}/>
-             <Route  path='/ApEmpleo' element={<ApEmpleo/>}/>
-              <Route  path='/chat' element={<ChatNotif/>}/>
+            <Route  path='/ApEmpleo' element={<ApEmpleo/>}/>
+            <Route  path='/chat' element={<ChatNotif/>}/> */}
 
-
-
-              
-
+            {/* Rutas protegidas con PrivateRoute */}
+            <Route path="/PrincipalPage" element={<PrivateRoute element={<PrincipalPage />} />}/>
+            <Route path="/public"element={<PrivateRoute element={<Publicar/>} />}/>
+            <Route path="/dashboard" element={<PrivateRoute element={<DashboardPage />} />} />
+            <Route path="/editperf" element={<PrivateRoute element={<EditarPerfil />} />} />
+            <Route path="/ApEmpleo" element={<PrivateRoute element={<ApEmpleo />} />} />
+            <Route path="/chat" element={<PrivateRoute element={<ChatNotif />} />} />
         </Routes>
     </Router>
   

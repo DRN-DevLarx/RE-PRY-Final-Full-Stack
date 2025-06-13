@@ -1,4 +1,10 @@
-#asideDashboard {
+.ContDashboard {
+    width: 100%;
+    display: flex;
+}
+
+
+.asideDashboard {
     width: 20%;
     height: 100vh;
     display: flex;
@@ -7,12 +13,12 @@
     text-align: center;
 }
 
-#asideDashboard h3 {
+.asideDashboard h3 {
     padding-top: 10px;
 }
 
 .perfilDashboard {
-    width: 100%;
+    width: 80%;
 }
 
 .perfilDashboard img {
@@ -36,4 +42,8 @@
     background-color: #222838;
     color: white;
     font-weight: bold;
+}
+
+.contenido {
+    width: 80%;
 }

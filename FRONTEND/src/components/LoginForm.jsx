@@ -16,9 +16,12 @@ function LoginForm() {
 
     if (!ValueUser || !ValuePass) {
       Swal.fire({
-        icon: "warning",
-        title: "Advertencia",
+        icon: "info",
         text: "Por favor, ingresa tu usuario y contraseña.",
+        background: "#1a1a1a", 
+        color: "#ffffff",
+        showConfirmButton: false,
+        timer: 3000,
       });
 
     } else {
@@ -48,6 +51,16 @@ function LoginForm() {
           navigate("/PrincipalPage");
    
       }
+      else {
+        Swal.fire({
+          icon: "error",
+          text: "El Usuario o contraseña es incorrecta. Porfavor intenta de nuevo",
+          background: "#1a1a1a",
+          color: "#ffffff",
+          showConfirmButton: false,
+          timer: 3000,
+        });
+      }
         
       
     }
@@ -55,7 +68,7 @@ function LoginForm() {
   
   function volver() {
     setTimeout(() => {
-        navigate(-1)            
+        navigate(-1)       
     }, 200);
 
   }

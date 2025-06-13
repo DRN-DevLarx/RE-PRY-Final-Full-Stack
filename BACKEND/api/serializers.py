@@ -103,3 +103,19 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         data['user_id'] = self.user.id
 
         return data
+    
+    
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    def validate(self, attrs):
+        data = super().validate(attrs)
+
+        # Obtener el grupo del usuario (rol)
+        groups = self.user.groups.values_list('name', flat=True)
+
+        # Agrega el primer grupo como 'role'
+        data['role'] = groups[0] if groups else None
+
+        # Id del usuario
+        data['user_id'] = self.user.id
+
+        return data

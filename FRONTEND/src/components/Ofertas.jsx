@@ -87,7 +87,7 @@ function Ofertas() {
                       <p><b>Interes: </b>{oferta.intereses}</p>
                       <p><b>Vacantes: </b>{oferta.vacantes_oferta}</p>
                       <p><b>Ubicacion: </b> {oferta.ubicacion_oferta}</p>
-                      <p><b>Fecha de Publicacion:</b> {oferta.fecha_oferta}</p>
+                      <p><b>Fecha de Publicación:</b> {new Date(oferta.fecha_oferta).toLocaleString()}</p>
                     </article>
               ))
             }

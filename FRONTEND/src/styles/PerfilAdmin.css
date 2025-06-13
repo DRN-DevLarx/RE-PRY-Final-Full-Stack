@@ -1,8 +1,8 @@
 
 #ContPerfilAdmin {
     height: 100vh;
-    width: 80%;
 }
+
 
 .headerPerfilAdmin {
     display: flex;
@@ -12,8 +12,9 @@
     padding: 17px;
     text-align: center;
 }
+
 .headerPerfilAdmin h3 {
-    width: 90%;
+    width: 100%;
 }
 
 .headerPerfilAdmin svg:hover {
@@ -22,9 +23,7 @@
 
 #PerfilAdmin {
     color: white;
-
     display: flex;
-    width: 100%;
     margin: 50px auto;
     padding: 10px 100px;
 }

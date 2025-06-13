@@ -40,7 +40,7 @@
   text-align: center;
 }
 
-/* Grid de columnas */
+
 .grid-detalles {
   display: grid;
   grid-template-columns: 1fr 1fr;
