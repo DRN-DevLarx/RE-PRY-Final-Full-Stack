@@ -1,4 +1,4 @@
-
+/* 
 .bodyDetallesDashboard {
     width: 80%;
     
@@ -17,9 +17,6 @@
     width: 90%;
 
 }
-
-
-
 
 .headerPerfilDetalles svg:hover {
     transform: scale(1.2);
@@ -43,7 +40,7 @@
   text-align: center;
 }
 
-/* Grid de columnas */
+
 .grid-detalles {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -65,4 +62,4 @@
   color: #30eec5;
   font-size: 1.2rem;
 }
-
+ */

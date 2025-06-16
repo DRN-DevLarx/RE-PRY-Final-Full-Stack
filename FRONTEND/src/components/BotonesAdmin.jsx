@@ -1,6 +1,6 @@
 import React from 'react'
-import "../styles/BtnAdmin.css"
 import {useNavigate} from "react-router-dom"
+import "../styles/BotonesAdmin.css"
 
 function BotonesAdmin() {
   const navigate = useNavigate()
@@ -16,12 +16,10 @@ function BotonesAdmin() {
 
   return (
     <div>
-            <div>
         <div className="contBtnsActiones">
           <button onClick={IrDashboar}> Administrar </button>
           <button onClick={IrPublicar}> Publicar </button>
         </div>
-      </div>
     </div>
   )
 }

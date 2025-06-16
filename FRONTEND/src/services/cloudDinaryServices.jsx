@@ -9,10 +9,14 @@ const cloudinary = new Cloudinary({
 const uploadImage = async (file) => {
   if (!file) return null;
 
+  console.log(file.name);
+  
   const formData = new FormData();
   formData.append("file", file);
   formData.append("upload_preset", "empleaTico");
 
+  console.log(formData);
+  
   try {
     const response = await fetch(`https://api.cloudinary.com/v1_1/dw65xvmgp/image/upload`,
       {

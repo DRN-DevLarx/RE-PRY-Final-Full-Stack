@@ -5,7 +5,6 @@ function BTNActivar() {
   return (
     <div className="boton-activar">
         <button> Activar</button>
-
     </div>
   )
 }

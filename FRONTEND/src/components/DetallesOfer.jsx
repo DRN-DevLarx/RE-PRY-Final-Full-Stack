@@ -69,7 +69,7 @@ function DetallesOfer() {
             </div>
             
 
-    </div>
+        </div>
     </div>
   );
 }

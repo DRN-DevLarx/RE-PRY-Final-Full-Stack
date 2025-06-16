@@ -29,7 +29,6 @@ router.register(r'auditoria-ofertas', AuditoriaOfertasViewSet)
 
 
 urlpatterns = router.urls + [
-    
     path('token/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path("user-data/", UserDataView.as_view(), name="user-data"),

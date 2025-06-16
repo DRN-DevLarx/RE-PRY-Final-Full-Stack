@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
-
 from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -58,17 +57,15 @@ DEFAULT_AUTHENTICATION_CLASSES = [
 ]
 
 
-SIMPLE_JWT ={
-    'ACCESS_TOKEN_LIFETIME':timedelta(minutes=60),
-    'REFRESH_TOKEN_LIFETIME':timedelta(days=1),
-}
-
 SIMPLE_JWT = {
-    'AUTH_COOKIE': 'jwt_token',  # Nombre de la cookie
-    'AUTH_COOKIE_SECURE': False,  # Cambiar a True si usas HTTPS
-    'AUTH_COOKIE_HTTP_ONLY': True,  
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'AUTH_COOKIE': 'jwt_token',
+    'AUTH_COOKIE_SECURE': False,
+    'AUTH_COOKIE_HTTP_ONLY': True,
     'AUTH_COOKIE_SAMESITE': 'Lax',
 }
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

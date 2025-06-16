@@ -9,10 +9,12 @@
     color: white;
 }
 .filtros{
-    padding: 20px;
+    margin-top: -30px;
+    padding: 0 20px;
     display: flex;
     justify-content: center;
     gap: 30px;
+
 }
 
 .filtros select, .filtros input, .filtros input::placeholder {
@@ -23,16 +25,17 @@
 
 #SectOfertas {
     width: 100%;
+    overflow: hidden;
+    height: 200vh;
+    overflow-y: scroll;
+    padding: 50px;
 }
 
 #containerOf {
-    width: 100%;
-    margin: auto;
-    height: 150vh;
-    overflow-y: scroll;
     display: flex;
     flex-wrap: wrap;
     gap: 50px 0;
+    width: 100%;
     justify-content: space-around;
 }
 
@@ -42,8 +45,10 @@
     border-radius: 20px;
     padding: 20px;
     padding-bottom: 0;
-    width: 40%;
+    width: 45%;
     color: white;
+    height: auto;
+
 }
 
 #containerOf article:hover {
@@ -56,12 +61,12 @@
     font-family: cursive;
     width: 100%;
     overflow: hidden;
-}
+} 
 
 .imgOferta {
     margin-top: 5px;
     margin-bottom: 15px;
     border-radius: 10px;
-    max-width: 300px;
-    max-height: 250px;
+    min-height: 250px;
+    width: 80%;
 }
