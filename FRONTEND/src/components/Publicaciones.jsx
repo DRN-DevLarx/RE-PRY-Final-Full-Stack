@@ -5,6 +5,8 @@ import "../styles/Publicaciones.css"
 import InteresesServices from '../services/interesesServices';
 import OfertasServices from '../services/ofertasServices';
 
+import { CerrarDashboard } from './CerrarDashboard';
+
 function Publicaciones() {
 
   const navigate = useNavigate();
@@ -70,7 +72,7 @@ function Publicaciones() {
   }
   
   function exitDashboard() {
-    navigate("/PrincipalPage");
+    CerrarDashboard(navigate)
   }
   
  
@@ -87,12 +89,12 @@ function Publicaciones() {
     }
 
     return Ofertas.filter(oferta => {
-      const cumpleAreaTrabajo = FiltroAreaTrabajo != undefined ? oferta.intereses == FiltroAreaTrabajo : true;
+      const cumpleAreaTrabajo = FiltroAreaTrabajo != undefined ? oferta.intereses == FiltroAreaTrabajo: true;
       const cumpleUbicacion = FiltroUbicacion != "" ? oferta.ubicacion_oferta.toLowerCase() == FiltroUbicacion.toLowerCase() : true;
       const cumpleSalario = FiltroSalario != "" ? oferta.salario_oferta == FiltroSalario : true;
       const cumpleEstado = FiltroEstado != "" ? oferta.estado_oferta.toLowerCase().includes(FiltroEstado.toLowerCase()) : true;
-      const cumpleInput = FiltroInput.trim() != "" ? oferta.titulo.toLowerCase().includes(FiltroInput.toLowerCase()) : true;
-
+      const cumpleInput = FiltroInput.trim() != "" ? oferta.titulo_oferta.toLowerCase().includes(FiltroInput.toLowerCase()) || oferta.ubicacion_oferta.toLowerCase() == FiltroInput.toLowerCase() || oferta.fecha_oferta.toLowerCase().includes(FiltroInput.toLowerCase()) : true;
+      
       return cumpleAreaTrabajo && cumpleUbicacion && cumpleSalario && cumpleEstado && cumpleInput;
     });
   }
@@ -124,7 +126,7 @@ function Publicaciones() {
     await OfertasServices.PutOfertas(IDOferta, obj)
     setButtonActivar(false)
   }
-
+  
 
   return (
     <div id='ContPerfilAdmin'>
@@ -199,25 +201,26 @@ function Publicaciones() {
             <div id='SectOfertasAdmin'>
 
               <div id='containerOfAdmin'>
-              
-              {Filtrado.map((oferta, index) => {
+                              
+                {Filtrado.map((oferta, index) => {
+                  let interesesRelacionados = Intereses.filter(INTERES => INTERES.id == oferta.intereses);
 
-                let statusOferta = oferta.estado_oferta === "desactiva" ? "statusDesactiva" : "StatusActiva";
+                  let statusOferta = oferta.estado_oferta === "desactiva" ? "statusDesactiva" : "StatusActiva";
 
-                return (
-                  <article className={statusOferta} onClick={() => VerDetallesAdmin(oferta.id, oferta.estado_oferta)} key={index}>
-                    <h3>{oferta.titulo_oferta}</h3>
-                    <img className='imgOfertaAdmin' src={oferta.referenciaIMG_oferta} alt="Imagen de oferta"/>
-                    <p><b>Interés: </b>{oferta.intereses}</p>
-                    <p><b>Vacantes: </b>{oferta.vacantes_oferta}</p>
-                    <p><b>Ubicación: </b>{oferta.ubicacion_oferta}</p>
-                    <p><b>Fecha de Publicación:</b> {new Date(oferta.fecha_oferta).toLocaleString()}</p>
-                  </article>
-                );
-              })}
-
-
+                  return (
+                    <article className={statusOferta} onClick={() => VerDetallesAdmin(oferta.id, oferta.estado_oferta)} key={index}>
+                      <h3>{oferta.titulo_oferta}</h3>
+                      <img className='imgOfertaAdmin' src={oferta.referenciaIMG_oferta} alt="Imagen de oferta"/>
+                      <p><b>Área de trabajo: </b>{interesesRelacionados.map(i => i.nombre_interes).join(', ')}</p>
+                      <p><b>Vacantes: </b>{oferta.vacantes_oferta}</p>
+                      <p><b>Ubicación: </b>{oferta.ubicacion_oferta}</p>
+                      <p><b>Fecha de Publicación:</b> {new Date(oferta.fecha_oferta).toLocaleString()}</p>
+                    </article>
+                  );
+                })}
               </div>
+
+
             </div>
           </div>
         </div>
@@ -226,57 +229,57 @@ function Publicaciones() {
       {ContDetalles && (
         <div>
             <button onClick={Volver}  className='SDM'>
-              <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="#2ae2b6" class="bi bi-arrow-left-circle" viewBox="0 0 16 16">
-                <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
+              <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="#2ae2b6" className="bi bi-arrow-left-circle" viewBox="0 0 16 16">
+                <path d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
               </svg> Volver
             </button>
 
           <div className='SectionDetallesAdmin'>
             
 
-            {Ofertas.filter(Oferts => Oferts.id === IDOferta).map(Oferts => (
+            {Ofertas.filter(Ofertaa => Ofertaa.id === IDOferta).map(Oferts => {
+              let InteresesDetalles = Intereses.filter(INTERES => INTERES.id == Oferts.intereses);
               
-              <div key={Oferts.id} className='ContMainDetallesAdmin'>
-                
-                  <h2 className="titulo-oferta">{Oferts.titulo_oferta}</h2>
-                      
-                  <div  className="grid-detallesAdmin">
+              return ( 
+                <div key={Oferts.id} className='ContMainDetallesAdmin'>
+                  <h2 className="titulo-ofertaAdmin">{Oferts.titulo_oferta}</h2>
+
+                  <div className="grid-detallesAdmin">
                     <div className="columna">
-                        <div className="item"><span role="img" aria-label="dinero">💰</span> <b className='b'> Salario: </b> {Oferts.salario_oferta} </div>
-                        <div className="item"><span role="img" aria-label="ubicación">📍</span> <b className='b'> Ubicación: </b> {Oferts.ubicacion_oferta}</div>
-                        <div className="item"><span role="img" aria-label="fecha">🕒</span> <b className='b'> Fecha de publicación: </b> {Oferts.fecha_oferta} </div>
+                      <div className="item"><span role="img" aria-label="dinero">💰</span> <b className='b'> Salario: </b> {Oferts.salario_oferta} </div>
+                      <div className="item"><span role="img" aria-label="ubicación">📍</span> <b className='b'> Ubicación: </b> {Oferts.ubicacion_oferta}</div>
+                      <div className="item"><span role="img" aria-label="fecha">🕒</span> <b className='b'> Fecha de publicación: </b> {new Date(Oferts.fecha_oferta).toLocaleString()}</div>
                     </div>
+
                     <div className="columna">
-                        <div className="item"><span role="img" aria-label="área">🔲</span> <b className='b'> Area de trabajo: </b>  {Oferts.intereses}</div>
-                        <div className="item"><span role="img" aria-label="vacantes">🧮</span> <b className='b'> Vacantes: </b> {Oferts.vacantes_oferta}</div>
-                        <div className="item"><span role="img" aria-label="perfil">👤</span> <b className='b'> Nombre del puesto: </b>  {Oferts.nombre_puesto_oferta} </div>
+                      <div className="item"><span role="img" aria-label="área">🔲</span> <b className='b'> Área de trabajo: </b> {InteresesDetalles.map(i => i.nombre_interes).join(', ')}</div>
+                      <div className="item"><span role="img" aria-label="vacantes">🧮</span> <b className='b'> Vacantes: </b> {Oferts.vacantes_oferta}</div>
+                      <div className="item"><span role="img" aria-label="perfil">👤</span> <b className='b'> Nombre del puesto: </b> {Oferts.nombre_puesto_oferta}</div>
                     </div>
                   </div>
-                
-              
-                <div className="card-contenedorAdmin">
-                      <h4> Descripción y requisitos: </h4>
+
+                  <div className="card-contenedorAdmin">
+                    <h4> Descripción y requisitos: </h4>
                     <div className="descripcionAdmin">
                       {Oferts.descripcion_oferta}
                     </div>
+                  </div>
+
+                  {!ButtonActivar && (
+                    <div className="boton-desactivar">
+                      <button onClick={DesactivarOferta}> Desactivar</button>
+                    </div>
+                  )}
+
+                  {ButtonActivar && (
+                    <div className="boton-activar">
+                      <button onClick={ActivarOferta}> Activar</button>
+                    </div>
+                  )}
                 </div>
+              );
+            })}
 
-
-                {!ButtonActivar && (
-                  <div className="boton-desactivar">
-                      <button onClick={DesactivarOferta} > Desactivar</button>
-                  </div>
-                )}
-
-                {ButtonActivar && (
-                  <div className="boton-activar">
-                      <button onClick={ActivarOferta} > Activar</button>
-                  </div>
-                )}
-
-
-              </div>
-            ))}
           </div>
         </div>
 

@@ -1,11 +1,12 @@
-    import React, { useState, useEffect } from 'react'
-    import '../styles/PerfilAdmin.css'
-    import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom';
 
-    import Users_UsuariosServices from '../services/Users_UsuariosServices';
-    import usersServices from '../services/usersServices';
-    import usuariosServices from '../services/usuariosServices';
-    import GetCookie from '../services/GetCookie';
+import Users_UsuariosServices from '../services/Users_UsuariosServices';
+import usersServices from '../services/usersServices';
+import usuariosServices from '../services/usuariosServices';
+import GetCookie from '../services/GetCookie';
+import '../styles/PerfilAdmin.css'
+import { CerrarDashboard } from './CerrarDashboard';
 
     function PerfilAdmin() {
         const navigate = useNavigate();
@@ -74,7 +75,7 @@
         const [editPerfil, setEditPerfil] = useState(perfil);
 
         function exitDashboard() {
-            navigate("/PrincipalPage")
+            CerrarDashboard(navigate)
         }
 
 

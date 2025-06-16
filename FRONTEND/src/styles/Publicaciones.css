@@ -78,11 +78,12 @@
 .imgOfertaAdmin {
     margin-top: 5px;
     margin-bottom: 15px;
+    min-height: 200px;
+    max-height: 200px;
+    min-width: 60%;
     border-radius: 10px;
-    min-width: 300px;
-    min-height: 250px;
-    width: 100%;
-    border: solid gray 0.1px;
+    width: 60%;
+    border: solid;
 }
 
 .SDM {

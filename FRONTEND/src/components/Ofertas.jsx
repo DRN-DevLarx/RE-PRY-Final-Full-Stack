@@ -70,8 +70,6 @@ function Ofertas() {
 
             <input type="text" placeholder='Palabra clave' /> 
 
-            <button id='btnBuscar'> Buscar </button>
-
           </div>
 
           

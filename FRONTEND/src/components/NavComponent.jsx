@@ -3,6 +3,7 @@ import {useNavigate} from "react-router-dom"
 import "../styles/NavPrincipal.css"
 import BotonesAdmin from "./BotonesAdmin"
 import GetCookie from '../services/GetCookie'
+import Swal from 'sweetalert2'
 
 function NavComponent() {
 
@@ -11,8 +12,22 @@ function NavComponent() {
 
   
   function CerrarSesion() {
-    document.cookie.split(";").forEach(cookie => document.cookie = cookie.split("=")[0] + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;");
-    navigate("/login")
+    Swal.fire({
+        background: "#1a1a1a",
+        icon: "question",
+        iconColor: "#2ae2b6",
+        title: "¿Deseas cerrar sesión?",
+        color: "white",
+        confirmButtonText: "Sí, salir",
+        confirmButtonColor: "#2ae2b6",
+        cancelButtonText: "No",
+        showCancelButton: true,
+    }).then((result) => {
+        if (result.isConfirmed) {
+          document.cookie.split(";").forEach(cookie => document.cookie = cookie.split("=")[0] + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;");
+          navigate("/login")
+        }
+    });
   }
 
   const Rol = GetCookie.getCookie("role")

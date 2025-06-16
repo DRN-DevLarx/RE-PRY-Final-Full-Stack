@@ -1,19 +1,20 @@
+import { useState, useEffect } from "react";
+import usuariosServices from '../services/usuariosServices';
 import PerfilAdmin from '../components/PerfilAdmin'
 import Publicaciones from '../components/Publicaciones'
 import UserRegi from '../components/UserRegi'
 import Alerts from '../components/Alerts'
+import RegisterAdmin from "./RegisterAdmin";
 
 import "../styles/AsideDashboard.css";
 
-import { useState, useEffect } from "react";
-import usuariosServices from '../services/usuariosServices';
 
     const opciones = [
         { nombre: "Perfil", esPerfil: true, componente: <PerfilAdmin /> },
         { nombre: "Publicaciones", esPerfil: false, componente: <Publicaciones /> },
         { nombre: "Usuarios registrados", esPerfil: false, componente: <UserRegi /> },
-        { nombre: "Alertas", esPerfil: false, componente: <Alerts /> }
-
+        { nombre: "Alertas", esPerfil: false, componente: <Alerts /> },
+        { nombre: "Registrar admin", esPerfil: false, componente: <RegisterAdmin /> }
     ];
 
     let IMgUser = "https://res.cloudinary.com/dw65xvmgp/image/upload/v1749743238/FB_chiuol.avif"

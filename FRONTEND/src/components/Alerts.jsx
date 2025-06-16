@@ -1,14 +1,14 @@
 import React from 'react';
 import '../styles/UsRegi.css';
 import { useNavigate } from 'react-router-dom';
-
+import { CerrarDashboard } from './CerrarDashboard';
 
 
 function Alerts() {
   const navigate = useNavigate();
 
   function exitDashboard() {
-    navigate("/PrincipalPage");
+    CerrarDashboard(navigate)
   }
   const users = [
   {  },

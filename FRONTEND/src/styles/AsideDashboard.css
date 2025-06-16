@@ -14,7 +14,7 @@
 }
 
 .asideDashboard h3 {
-    padding-top: 10px;
+    padding: 17px;
 }
 
 .perfilDashboard {
@@ -35,13 +35,15 @@
     justify-content: center;
     cursor: pointer;
     font-weight: bold;
-    border-bottom: solid 0.5px;
+    border-bottom: solid 0.5px ;
+    border-top: solid 0.5px ;
 }
 
 .contenedor.activo {
     background-color: #222838;
     color: white;
     font-weight: bold;
+    border: none;
 }
 
 .contenido {
