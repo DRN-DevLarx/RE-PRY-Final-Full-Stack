@@ -8,8 +8,6 @@ const cloudinary = new Cloudinary({
 
 const uploadImage = async (file) => {
   if (!file) return null;
-
-  console.log(file.name);
   
   const formData = new FormData();
   formData.append("file", file);

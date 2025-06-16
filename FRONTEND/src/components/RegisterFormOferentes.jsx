@@ -47,8 +47,6 @@ function RegisterForm1() {
     "{", "}", ":", ";", "'", '"', "<", ">", "/", "\\", "|", "=", "+"
   ];
 
-
-
   const palabrasProhibidas = [
     "admin", "superuser", "password", "puta", "madre","pendejo", "mierda", "caca", "culo", "verga", "coño",
     "chingar", "pendeja", "puto", "cabrón", "cabron", "gilipollas", "maricón", "bollera", "zorra", "pene",  

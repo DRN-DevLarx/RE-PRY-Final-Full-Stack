@@ -12,15 +12,6 @@ const PrivateRoute = ({ element }) => {
   
   const isAuthenticated = GetCookie.getCookie("access_token");
 
-            // Swal.fire({
-            //     icon: "success",
-            //     text: "Publicación exitosa.",
-            //     background: "#1a1a1a",
-            //     color: "#ffffff",
-            //     showConfirmButton: false,
-            //     timer: 1400,
-            // });
-
   useEffect(() => {
     // Si el usuario no está autenticado, mostramos el mensaje de alerta
     if (!isAuthenticated && !isRedirecting) {

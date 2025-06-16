@@ -1,6 +1,9 @@
 import '../styles/UsRegi.css';
 import { useNavigate } from 'react-router-dom';
 import usersServices from '../services/usersServices';
+import usuariosServices from '../services/usuariosServices';
+import Users_UsuariosServices from '../services/Users_UsuariosServices';
+
 import { useState, useEffect } from 'react'
 
 import {CerrarDashboard} from "./CerrarDashboard"
@@ -12,12 +15,21 @@ function UserRegi() {
     CerrarDashboard(navigate)
   }
 
+  const IMgUser = "https://res.cloudinary.com/dw65xvmgp/image/upload/v1749743238/FB_chiuol.avif"
+
+  const [ContVerUser, setContVerUser] = useState(false)
+  const [isEditing, setIsEditing] = useState(false);
+  const [idUser, setidUser] = useState()
 
   const [Users, setUsers] = useState([]);
   const [ErrorUsers, setErrorUsers] = useState(null);
 
+  const [Usuarios, setUsuarios] = useState([]);
+  const [ErrorUsuarios, setErrorUsuarios] = useState(null);
+
+  const [DatosIntermedios, setDatosIntermedios] = useState([]);
   useEffect(() => {
-      let isMounted = true;
+      let isMounted = true;   //La variable isMounted se usa aquí para evitar actualizaciones de estado en un componente de React que haya sido desmontado antes de completar una operación asíncrona.
       const fetch = async () => {
           try {
               const DatosUsers = await usersServices.GetUser();
@@ -41,6 +53,61 @@ function UserRegi() {
       
   }, []);
 
+  useEffect(() => {
+      let isMounted = true;
+      
+      const fetchData = async () => {
+          try {
+              const datosIntermedios = await Users_UsuariosServices.GetUserUsuario();
+              
+              if (datosIntermedios.length > 0) {
+                  const userIds = datosIntermedios.map(item => item.user);
+                  const usuarioIds = datosIntermedios.map(item => item.usuario);
+                  
+                  const datosUsers = await usersServices.GetUsersByIds(userIds);
+                  const datosUsuarios = await usuariosServices.GetUsuariosByIds(usuarioIds);
+                  
+                  
+                  if (isMounted) {
+                      setUsers(datosUsers);
+                      setUsuarios(datosUsuarios);
+                      setDatosIntermedios(datosIntermedios);
+                  }
+              }
+          } catch (error) {
+              console.error("Error al obtener los datos:", error);
+          }
+      };
+
+      fetchData();
+      
+      return () => {
+          isMounted = false;
+      };
+  }, []);
+          
+  const IDusuario = DatosIntermedios.find(item => item.user == idUser)?.usuario;
+
+  Usuarios.find((user) => {
+      if(user.referenciaIMG_oferente != "") {
+          IMgUser = user.referenciaIMG_oferente
+      }
+  })
+
+  function VerUser(id) {
+    setidUser(id)
+    setContVerUser(true)
+  }
+
+
+
+  function EditarPerfil() {
+      setEditPerfil(perfil); // Cargar datos actuales al iniciar edición
+      setIsEditing(true);
+  }
+
+
+
   return (
     <div id='ContUltimasPublicaciones'>
       <div className='headerUltimasPublicaciones'>
@@ -52,24 +119,117 @@ function UserRegi() {
       </div>
 
 
+    {!ContVerUser && (
       <div className='Cont2'>
         {Users.map((user, index) => (
-          <div className='User' key={index}>
+          <div onClick={(e) => VerUser(user.id)} className='User' key={index}>
+
             <div className='user-card-header'>
               <div className='user-icon'>
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" className="bi bi-person-fill" viewBox="0 0 16 16">
                   <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
                 </svg>
               </div>
               <div className='registration-label'>Fecha de registro</div>
             </div>
+
             <div className='user-card-body'>
               <div className='user-name'>{user.username}</div>
               <div className='registration-date'> {new Date(user.date_joined).toLocaleString()}</div>
             </div>
+
           </div>
         ))}
-</div>
+      </div>
+    )}
+
+    {ContVerUser && (
+      <div id='ContPerfilAdmin'>
+          <main>
+              {!isEditing ? (
+                  // VISTA NORMAL
+
+                  Users.map((useer, index) => (useer.id == idUser && (
+                      Usuarios.filter(usuaario => usuaario.id == IDusuario).map((usuario, index2) => (
+                  
+                          <div key={`${index}${index2}`} id='PerfilAdmin'>
+                              <div className='itemPerfil SubContPerfilAdmin1'>
+                                  <div align="center">
+                                      <img src={IMgUser} alt="" />
+                                  </div>
+                                  <br />
+                                  <div style={{ width: "80%", margin: "0 auto" }}>
+                                  
+                                      <label>Identificación</label>
+                                      <p>{usuario.identificacion_oferente}</p>
+
+                                      <label>Nombre completo</label>
+                                      <p>{useer.first_name} {useer.last_name}</p>
+      
+                                  </div>
+                              </div>
+      
+                              <div className='itemPerfil SubContPerfilAdmin2'>
+                                  <label>Usuario</label>
+                                  <p>{useer.username}</p>        
+
+                                  <label>Teléfono</label>
+                                  <p>{usuario.telefono_oferente}</p>
+      
+                                  <label>Correo Electrónico</label>
+                                  <p>{useer.email}</p>
+                                  <br /><br />
+                                  <div className='contbtnEditar' style={{ textAlign: "right", width: "80%" }}>
+                                      <button onClick={EditarPerfil}>Editar perfil</button>
+                                  </div>
+                              </div>
+                          </div>
+                      ))
+                  )))
+
+              ) : (
+                  // MODO EDICIÓN
+                  Users.map((useer, index) => (useer.id == idUser && (
+                      Usuarios.filter(usuaario => usuaario.id == IDusuario).map((usuario, index2) => (
+                  
+                          <div key={`${index}${index2}`} id='PerfilAdmin'>
+                              <div className='itemPerfil SubContPerfilAdmin1'>
+                                  <div align="center">
+                                      <img src={IMgUser} alt="" />
+                                  </div>
+                                  <br />
+                                  <div style={{ width: "80%", margin: "0 auto" }}>
+                                  
+                                      <label>Contraseña actual</label>
+                                      <input className='inputEdit' type="password" placeholder='contraseña atual' />
+
+                                      <label>Nueva contraseña</label>
+                                      <input className='inputEdit' type="password" placeholder='Nueva contraseña' />
+                                      
+                                  </div>
+                              </div>
+      
+                              <div className='itemPerfil SubContPerfilAdmin2'>
+                                  <label>Usuario</label><br />
+                                  <input className='inputEdit' type="text" placeholder={useer.username}/><br />
+
+                                  <label>Teléfono</label><br />
+                                  <input className='inputEdit' type="text" placeholder={usuario.telefono_oferente}/><br />
+      
+                                  <label>Correo Electrónico</label><br />
+                                  <input className='inputEdit' type="text" placeholder={useer.email}/><br />
+                                  <br /><br />
+                                  <div className='contbtnEditar' style={{ textAlign: "right", width: "80%" }}>
+                                      <button onClick={GuardarCambios}> Guardar cambios</button>
+                                  </div>
+                              </div>
+                          </div>
+                      ))
+                  )))
+              )}
+          </main>
+      </div>
+    )}
 
 
     </div>

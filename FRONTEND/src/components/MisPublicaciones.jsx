@@ -1,27 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import "../styles/Publicaciones.css"
 
 import InteresesServices from '../services/interesesServices';
 import OfertasServices from '../services/ofertasServices';
-import usersServices from '../services/usersServices';
-
+import GetCookie from '../services/GetCookie';
 
 import { CerrarDashboard } from './CerrarDashboard';
 
-function Publicaciones() {
+import "../styles/Publicaciones.css"
 
+function MisPublicaciones() {
+  
   const navigate = useNavigate();
-
+  
+    
   const [Intereses, setIntereses] = useState([]);
   const [ErrorIntereses, setErrorIntereses] =  useState(null);
 
   const [Ofertas, setOfertas] = useState([]);
   const [ErrorOfertas, setErrorOfertas] = useState(null);
-
-  const [Users, setUsers] = useState([]);
-  const [ErrorUsers, setErrorUsers] = useState(null);
-
 
   const [ContDetalles, setContDetalles] = useState(false)
   const [ButtonActivar, setButtonActivar] = useState(false)
@@ -32,10 +29,11 @@ function Publicaciones() {
   const [FiltroEstado, setFiltroEstado] = useState("")
   const [FiltroInput, setFiltroInput] = useState("")
 
-
+  const idUser = GetCookie.getCookie("user_id")
   const [IDOferta, setIDOferta] = useState()
   const [EstadoOferta, setEstadoOferta] = useState("")
 
+  console.log(idUser);
   
 
   useEffect(() => {
@@ -44,7 +42,6 @@ function Publicaciones() {
           try {
               const DatosIntereses = await InteresesServices.GetIntereses();
               const DatosOfertas = await OfertasServices.GetOfertas();
-              const DatosUsers = await usersServices.GetUser();
 
               if(EstadoOferta == "desactiva") {
                 setButtonActivar(true)
@@ -53,7 +50,6 @@ function Publicaciones() {
               if (isMounted) {
                   setIntereses(DatosIntereses);
                   setOfertas(DatosOfertas);
-                  setUsers(DatosUsers);
               }
           } catch (error) {
               if (isMounted) {
@@ -210,22 +206,25 @@ function Publicaciones() {
 
               <div id='containerOfAdmin'>
                               
-                {Filtrado.map((oferta, index) => {
-                  let interesesRelacionados = Intereses.filter(INTERES => INTERES.id == oferta.intereses);
+{Filtrado.filter(oferta => oferta.empresa == idUser).map((oferta, index) => {
+    const interesesRelacionados = Intereses.filter(INTERES => INTERES.id === oferta.intereses);
 
-                  let statusOferta = oferta.estado_oferta === "desactiva" ? "statusDesactiva" : "StatusActiva";
+    // Definimos la clase según el estado de la oferta
+    const statusOferta = oferta.estado_oferta === "desactiva" ? "statusDesactiva" : "StatusActiva";
 
-                  return (
-                    <article className={statusOferta} onClick={() => VerDetallesAdmin(oferta.id, oferta.estado_oferta)} key={index}>
-                      <h3>{oferta.titulo_oferta}</h3>
-                      <img className='imgOfertaAdmin' src={oferta.referenciaIMG_oferta} alt="Imagen de oferta"/>
-                      <p><b>Área de trabajo: </b>{interesesRelacionados.map(i => i.nombre_interes).join(', ')}</p>
-                      <p><b>Vacantes: </b>{oferta.vacantes_oferta}</p>
-                      <p><b>Ubicación: </b>{oferta.ubicacion_oferta}</p>
-                      <p><b>Fecha de Publicación:</b> {new Date(oferta.fecha_oferta).toLocaleString()}</p>
-                    </article>
-                  );
-                })}
+    return (
+        <article className={statusOferta} onClick={() => VerDetallesAdmin(oferta.id, oferta.estado_oferta)} key={index}>
+            <h3>{oferta.titulo_oferta}</h3>
+            <img className='imgOfertaAdmin' src={oferta.referenciaIMG_oferta} alt="Imagen de oferta"/>
+            <p><b>Área de trabajo: </b>{interesesRelacionados.map(i => i.nombre_interes).join(', ')}</p>
+            <p><b>Vacantes: </b>{oferta.vacantes_oferta}</p>
+            <p><b>Ubicación: </b>{oferta.ubicacion_oferta}</p>
+            <p><b>Fecha de Publicación:</b> {new Date(oferta.fecha_oferta).toLocaleString()}</p>
+        </article>
+    );
+})}
+
+
               </div>
 
 
@@ -246,15 +245,11 @@ function Publicaciones() {
             
 
             {Ofertas.filter(Ofertaa => Ofertaa.id === IDOferta).map(Oferts => {
-              let DetallesIntereses = Intereses.filter(INTERES => INTERES.id == Oferts.intereses);
-              let User_Oferta = Users.filter(USER => USER.id == Oferts.empresaUser);
-              
-              console.log(User_Oferta);
+              let InteresesDetalles = Intereses.filter(INTERES => INTERES.id == Oferts.intereses);
               
               return ( 
                 <div key={Oferts.id} className='ContMainDetallesAdmin'>
                   <h2 className="titulo-ofertaAdmin">{Oferts.titulo_oferta}</h2>
-                  <h4>{User_Oferta.map(us => us.first_name).join(', ')}</h4>
 
                   <div className="grid-detallesAdmin">
                     <div className="columna">
@@ -264,7 +259,7 @@ function Publicaciones() {
                     </div>
 
                     <div className="columna">
-                      <div className="item"><span role="img" aria-label="área">🔲</span> <b className='b'> Área de trabajo: </b> {DetallesIntereses.map(i => i.nombre_interes).join(', ')}</div>
+                      <div className="item"><span role="img" aria-label="área">🔲</span> <b className='b'> Área de trabajo: </b> {InteresesDetalles.map(i => i.nombre_interes).join(', ')}</div>
                       <div className="item"><span role="img" aria-label="vacantes">🧮</span> <b className='b'> Vacantes: </b> {Oferts.vacantes_oferta}</div>
                       <div className="item"><span role="img" aria-label="perfil">👤</span> <b className='b'> Nombre del puesto: </b> {Oferts.nombre_puesto_oferta}</div>
                     </div>
@@ -300,4 +295,4 @@ function Publicaciones() {
   );
 }
 
-export default Publicaciones;
+export default MisPublicaciones;

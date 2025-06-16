@@ -74,7 +74,7 @@ class Ofertas(models.Model):
     descripcion_oferta = models.TextField()
     referenciaIMG_oferta = models.CharField(max_length=100)
     estado_oferta = models.CharField(max_length=10)
-    empresa = models.ForeignKey(User, on_delete=models.CASCADE)
+    empresaUser = models.ForeignKey(User, on_delete=models.CASCADE)
     
     def __str__(self):
         return " ".join(vars(self).values())

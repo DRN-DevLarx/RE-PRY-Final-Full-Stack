@@ -9,8 +9,8 @@ function PrincipalPage() {
   return (
     <div>
         <NavComponent/>
+        {/* <PerfilUsuario /> */}
         <Notificaciones/>
-        <PerfilUsuario />
         <Ofertas/>
         <Footer/>
     </div>

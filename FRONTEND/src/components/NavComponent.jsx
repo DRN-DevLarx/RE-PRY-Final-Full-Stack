@@ -34,12 +34,6 @@ function NavComponent() {
 
   const [IsAdmin, setIsAdmin] = useState(false)
   
-  // useEffect(() => {
-  //   if (Rol != "oferente") {
-  //     setIsAdmin(true);
-  //   }
-  // }, [Rol]);
-    
   const accessToken = GetCookie.getCookie("access_token");
   
   useEffect(() => {
@@ -83,7 +77,7 @@ function NavComponent() {
       fetchUserData();
   }, [Rol]);
   
-    
+      
   return (
     <div id='contbodyadmin'>
       <div className='barra'>

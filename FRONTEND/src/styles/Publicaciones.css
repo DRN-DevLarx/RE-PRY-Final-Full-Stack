@@ -160,9 +160,11 @@
 }
 
 .descripcionAdmin {
-    background-color: rgba(86, 78, 78, 0.433);
+    background-color: rgba(203, 194, 194, 0.595);
+    color: black;
     border-radius: 20px;
     padding: 20px;
+    word-wrap: break-word;
 }
 
 

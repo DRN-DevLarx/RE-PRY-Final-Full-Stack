@@ -60,10 +60,10 @@ DEFAULT_AUTHENTICATION_CLASSES = [
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
-    'AUTH_COOKIE': 'jwt_token',
-    'AUTH_COOKIE_SECURE': False,
-    'AUTH_COOKIE_HTTP_ONLY': True,
-    'AUTH_COOKIE_SAMESITE': 'Lax',
+    'AUTH_COOKIE': 'jwt_token',    #Nombre de la cookie que almacenará el JWT.
+    'AUTH_COOKIE_SECURE': False,    #Si está en False, la cookie se enviará incluso en conexiones no seguras (HTTP). Debería estar en True en producción.
+    'AUTH_COOKIE_HTTP_ONLY': True,  #Si está en True, impide que el cliente acceda a la cookie mediante JavaScript (mayor seguridad contra ataques XSS).
+    'AUTH_COOKIE_SAMESITE': 'Lax',  #Se establece en 'Lax', lo que significa que la cookie solo se enviará en solicitudes de primer nivel o navegación. Previene ataques CSRF sin bloquear completamente los enlaces de terceros.z
 }
 
 
@@ -131,11 +131,6 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
-    
-    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
-    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
-    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
-    {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
 ]
 
 
@@ -153,11 +148,9 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
-CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_CREDENTIALS = True   #permite que las solicitudes cross-origin incluyan credenciales como cookies, autenticaciones HTTP o encabezados de autorización.
 
 CORS_ALLOWED_ORIGINS=[
     "http://localhost:5173",
