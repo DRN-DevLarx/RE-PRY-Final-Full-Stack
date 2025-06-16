@@ -52,7 +52,7 @@ function RegisterForm1() {
     "chingar", "pendeja", "puto", "cabrón", "cabron", "gilipollas", "maricón", "bollera", "zorra", "pene",  
     "putón", "pendejita", "pendejito","prostituta", "prostituto", "putas", "putos", "pendejos", "pendejas", 
     "cago", "cagó", "cagada", "cagado", "cagarse", "cagón", "cagones", "cagar", "cagando", "como", "vagina", 
-    "putita", "meto", "cojo", "cojer"];
+    "putita", "meto", "cojo", "cojer", "hdp"];
 
   useEffect(() => {
       let isMounted = true; 

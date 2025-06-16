@@ -1,0 +1,158 @@
+.chat-contenedor {
+  display: flex;
+  height: 100vh;
+  font-family: sans-serif;
+}
+
+.barra-lateral {
+  width: 35%;
+  background-color: #008069;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.buscar-chat {
+  padding: 10px;
+  background-color: #075E54;
+}
+
+.buscar-chat input {
+  width: 100%;
+  padding: 8px;
+  border-radius: 20px;
+  border: none;
+  outline: none;
+}
+
+.item-usuario {
+  display: flex;
+  align-items: center;
+  padding: 30px;
+  font-size: 20px;
+  cursor: pointer;
+  border-bottom: 1px solid #00725f;
+}
+
+.item-usuario.activo {
+  background-color: #075e54;
+}
+
+.icono-usuario {
+  width: 40px;
+  height: 40px;
+  background-color: #eee;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.area-chat {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #ece5dd;
+}
+
+.encabezado-chat {
+  background-color: #075E54;
+  color: white;
+  padding: 15px;
+  font-weight: bold;
+}
+
+.mensajes-chat {
+  flex: 1;
+  padding: 80px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.mensaje {
+  width: auto;
+  max-width: 60%;
+  padding: 10px 15px;
+  border-radius: 10px;
+  position: relative;
+  word-wrap: break-word;
+}
+
+.mensaje.enviado {
+  align-self: flex-end;
+  background-color: #dcf8c6;
+  border-bottom-right-radius: 0;
+}
+
+.mensaje.recibido {
+  align-self: flex-start;
+  background-color: white;
+  border-bottom-left-radius: 0;
+}
+
+.encabezado-mensaje {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.avatar-pequeño {
+  width: 24px;
+  height: 24px;
+  background-color: #ccc;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.nombre-remitente {
+  font-weight: bold;
+  font-size: 0.85rem;
+}
+
+.hora-mensaje {
+  font-size: 0.75em;
+  color: #999;
+  margin-top: 4px;
+  text-align: right;
+}
+
+.entrada-mensaje {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  background-color: #f0f0f0;
+  gap: 10px;
+}
+
+.entrada-mensaje input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 20px;
+  border: none;
+  outline: none;
+  background-color: white;
+}
+
+.boton-mas,
+.boton-enviar {
+  background-color: #008069;
+  border: none;
+  color: white;
+  font-size: 1.2rem;
+  padding: 8px 12px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.esperando-chat {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #aaa;
+}
+
+.icono-grande {
+  font-size: 5rem;
+}

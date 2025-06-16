@@ -1,0 +1,160 @@
+/* CSS */
+
+.chat-wrapper {
+  display: flex;
+  height: 100vh;
+  font-family: sans-serif;
+}
+
+.sidebar {
+  width: 35%;
+  background-color: #008069;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.search-bar {
+  padding: 10px;
+  background-color: #075E54;
+}
+
+.search-bar input {
+  width: 100%;
+  padding: 8px;
+  border-radius: 20px;
+  border: none;
+  outline: none;
+}
+
+.user-item {
+  display: flex;
+  align-items: center;
+  padding: 30px;
+  font-size: 20px;
+  cursor: pointer;
+  border-bottom: 1px solid #00725f;
+}
+
+.user-item.active {
+  background-color: #075e54;
+}
+
+.user-icon {
+  width: 40px;
+  height: 40px;
+  background-color: #eee;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.chat-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #ece5dd;
+}
+
+.chat-header {
+  background-color: #075E54;
+  color: white;
+  padding: 15px;
+  font-weight: bold;
+}
+
+.chat-messages {
+  flex: 1;
+  padding: 80px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.message {
+  width:auto;
+  max-width: 60%;
+  padding: 10px 15px;
+  border-radius: 10px;
+  position: relative;
+  word-wrap: break-word;
+}
+
+.message.sent {
+  align-self: flex-end;
+  background-color: #dcf8c6;
+  border-bottom-right-radius: 0;
+}
+
+.message.received {
+  align-self: flex-start;
+  background-color: white;
+  border-bottom-left-radius: 0;
+}
+
+.message-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.avatar-small {
+  width: 24px;
+  height: 24px;
+  background-color: #ccc;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.sender-name {
+  font-weight: bold;
+  font-size: 0.85rem;
+}
+
+.timestamp {
+  font-size: 0.75em;
+  color: #999;
+  margin-top: 4px;
+  text-align: right;
+}
+
+.chat-input {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  background-color: #f0f0f0;
+  gap: 10px;
+}
+
+.chat-input input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 20px;
+  border: none;
+  outline: none;
+  background-color: white;
+}
+
+.plus-button,
+.send-button {
+  background-color: #008069;
+  border: none;
+  color: white;
+  font-size: 1.2rem;
+  padding: 8px 12px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.chat-placeholder {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #aaa;
+}
+
+.display-icon {
+  font-size: 5rem;
+}
