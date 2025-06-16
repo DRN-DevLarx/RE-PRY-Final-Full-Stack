@@ -3,6 +3,7 @@
   right: 103px;
   top: 20px;
   display: inline-block;
+  z-index: 1000;
 }
 
 .campana-btn {
@@ -23,7 +24,7 @@
   border-radius: 8px;
   padding: 30px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-  z-index: 999;
+  z-index: 9999;
 }
 
 .barra-notificaciones h3 {
@@ -37,6 +38,11 @@
   margin-top: 10px;
   border-radius: 6px;
   position: relative;
+  transition: background-color 0.2s ease;
+}
+
+.notificacion-item:hover {
+  background-color: #e0e0e0;
 }
 
 .notificacion-item p {
