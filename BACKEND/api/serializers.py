@@ -50,6 +50,22 @@ class UsersSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         user = User.objects.create_user(**validated_data)
         return user
+    
+    def update(self, instance, validated_data):
+        try:
+            password = validated_data.pop('password', None)
+            
+            for attr, value in validated_data.items() :
+                setattr(instance, attr, value)
+                
+            if password :
+                instance.set_password(password)
+            instance.save()
+            return instance
+        
+        except Exception as e:
+            print(f"Error al actualizar usuario: {e}")  # Log para depuración
+            raise serializers.ValidationError({"error": "No se pudo actualizar el usuario."})
 
 class EmpresasSerializer(serializers.ModelSerializer):
 
@@ -64,9 +80,7 @@ class Users_EmpresasSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 class OfertasSerializer(serializers.ModelSerializer):
-    # titulo_oferta = serializers.CharField(validators=[MinLengthValidator(3)])
-    # nombre_puesto_oferta = serializers.CharField(validators=[MinLengthValidator(3)])
-
+    
     class Meta:
         model = Ofertas
         fields = "__all__"
@@ -104,18 +118,3 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
 
         return data
     
-    
-class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
-    def validate(self, attrs):
-        data = super().validate(attrs)
-
-        # Obtener el grupo del usuario (rol)
-        groups = self.user.groups.values_list('name', flat=True)
-
-        # Agrega el primer grupo como 'role'
-        data['role'] = groups[0] if groups else None
-
-        # Id del usuario
-        data['user_id'] = self.user.id
-
-        return data
