@@ -8,8 +8,7 @@ function Inicio() {
 
   return (
     <div>
-
-    {/* --- Main --- */}
+      
       <main>
         <div className="contenedorInicial">
           <div className="derecha">

@@ -417,7 +417,6 @@ function PerfilAdmin() {
 
             <main>
                 {!isEditing ? (
-                    // VISTA NORMAL
 
                     Users.map((useer, index) => (useer.id == IDUser && (
                         Usuarios.filter(usuaario => usuaario.id == IDusuario).map((usuario, index2) => (
@@ -458,7 +457,7 @@ function PerfilAdmin() {
                     )))
 
                 ) : (
-                    // MODO EDICIÓN
+
                     Users.map((useer, index) => (useer.id == IDUser && (
                         Usuarios.filter(usuaario => usuaario.id == IDusuario).map((usuario, index2) => (
                     

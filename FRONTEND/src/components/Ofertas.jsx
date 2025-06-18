@@ -36,7 +36,6 @@ function Ofertas() {
       return () => {
           isMounted = false;
       };
-
       
   }, []);
 
@@ -47,9 +46,7 @@ function Ofertas() {
           <h1 className='b'>Ofertas Disponibles</h1>
           <hr className='hh' />
           <br />
-
             
-
           <div className='filtros'>
             
               <select name="" id="">

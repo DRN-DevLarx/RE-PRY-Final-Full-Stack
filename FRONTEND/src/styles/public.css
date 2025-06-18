@@ -86,3 +86,34 @@
     background-color: rgba(0, 0, 0, 0.66);
     /* color: black; */
 }
+.imginp{
+  width:150px;
+  height:150px; 
+  border:1px
+   dashed #ccc;
+   display:flex;
+   justify-Content:center;
+    align-Items:center;
+    cursor:pointer;
+    font-Size:14px;
+    color:#666
+}
+.vistp{
+  width: "150px";
+   height: "150px"; border: "solid";
+    object-Fit: "cover";
+     border-Radius: "5px";
+}
+.bntelimens{
+  position: "absolute";
+  top: "-5px";
+  right: "5px";
+  background: "transparent";
+  color: "white";
+  font-Weight: "bolder";
+  border: "none";
+  border-Radius: "50%";
+  width: "25px";
+  height: "25px";
+  cursor: "pointer"
+}
