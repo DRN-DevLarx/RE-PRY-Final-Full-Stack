@@ -4,9 +4,10 @@ import { useNavigate } from 'react-router-dom';
 import Users_UsuariosServices from '../services/Users_UsuariosServices';
 import usersServices from '../services/usersServices';
 import usuariosServices from '../services/usuariosServices';
-import GetCookie from '../services/GetCookie';
-
 import { CerrarDashboard } from './CerrarDashboard';
+
+import GetCookie from '../services/GetCookie';
+import cloudDinaryServices from '../services/cloudDinaryServices';
 import Swal from 'sweetalert2';
 
 import '../styles/PerfilAdmin.css'
@@ -50,19 +51,15 @@ function PerfilAdmin() {
     let IMgUser = "https://res.cloudinary.com/dw65xvmgp/image/upload/v1749743238/FB_chiuol.avif"
     
     const [isEditing, setIsEditing] = useState(false);
-    const IDUser = GetCookie.getCookie("user_id")
     
     const [DatosIntermedios, setDatosIntermedios] = useState([])
     const [Users, setUsers] = useState([])
     const [Usuarios, setUsuarios] = useState([])
     
     const [ContrasenaActual, setContrasenaActual] = useState("")
-
     const [UsuarioAEditar, setUsuarioAEditar] = useState("")
     const [TelefonoAEditar, setTelefonoAEditar] = useState("")
     const [CorreoAEditar, setCorreoAEditar] = useState("")
-
-    const [ContrasenaCorrecta, setContrasenaCorrecta] = useState(false)
  
     const simbolosNoPermitidos = [
         "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "[", "]",
@@ -76,15 +73,16 @@ function PerfilAdmin() {
         "cago", "cagó", "cagada", "cagado", "cagarse", "cagón", "cagones", "cagar", "cagando", "como", "vagina", 
         "putita", "meto", "cojo", "cojer"
     ];
-    
+
+    const IDUser = GetCookie.getCookie("user_id")
     const IDusuario = DatosIntermedios.find(item => item.user == IDUser)?.usuario;
 
     const [ImagenSeleccionada, setImagenSeleccionada] = useState(null);
     const [VistaIMG, setVistaIMG] = useState(null);
 
-
-    Usuarios.find((user) => {
-        if(user.referenciaIMG_oferente != "") {
+    Usuarios.filter((user) => {
+                
+        if(user.id == IDusuario && user.referenciaIMG_oferente != "" && user.referenciaIMG_oferente != "null" && user.referenciaIMG_oferente != null) {
             IMgUser = user.referenciaIMG_oferente
         }
     })
@@ -363,20 +361,26 @@ function PerfilAdmin() {
 
         console.log(UsuarioAEditar);
         
+        
+        
         const UpdateData = {
             password: NuevaContraseña,
             username: UsuarioAEditar,
             email: CorreoAEditar,
         }
-
+        
         const respuestaUpdateData = await usersServices.PutUserPatch(IDUser, UpdateData);
-
+        
         console.log(respuestaUpdateData);
         
         if(respuestaUpdateData) {
+            const uploadedUrl = await cloudDinaryServices.uploadImage(ImagenSeleccionada);
 
+            console.log(uploadedUrl);
+            
             const UpdateUsuarioData = {
                 telefono_oferente: TelefonoAEditar,
+                referenciaIMG_oferente: uploadedUrl,
             }
 
             const respuestaUpdateUsuarioData = await usuariosServices.PutUsuarioPatch(IDusuario, UpdateUsuarioData)
@@ -425,7 +429,7 @@ function PerfilAdmin() {
                             <div key={`${index}${index2}`} id='PerfilAdmin'>
                                 <div className='itemPerfil SubContPerfilAdmin1'>
                                     <div align="center">
-                                        <img src={IMgUser} alt="" />
+                                        <img src={IMgUser} alt="Imagen de usuario" />
                                     </div>
                                     <br />
                                     <div style={{ width: "80%", margin: "0 auto" }}>
@@ -476,8 +480,7 @@ function PerfilAdmin() {
 
                                             <img src={IMgUser} alt="" />
 
-                                            <input id="imageInput" type="file"
-                                            accept="image/*" style={{ display: "none" }} onChange={(e) => CambioImagen(e)} /></label>
+                                            <input id="imageInput" type="file" accept="image/*" style={{ display: "none" }} onChange={(e) => CambioImagen(e)} /></label>
                                     ) : (
 
                                         <div style={{ position: "relative" }}>
