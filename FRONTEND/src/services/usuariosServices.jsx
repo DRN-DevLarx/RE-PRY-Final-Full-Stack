@@ -77,6 +77,27 @@ async function PutUsuario(id, obj) {
     }
 }
 
+async function PutUsuarioPatch(id, obj) {
+    try {
+        const response = await fetch(`http://127.0.0.1:8000/api/usuarios/${id}/`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(obj)
+        });
+
+        if (!response.ok) {
+            throw new Error('Error al actualizar usuario');
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error('Error al actualizar usuario:', error);
+        throw error;
+    }
+}
+
 async function DeleteUsuario(id) {
     try {
         const response = await fetch(`http://127.0.0.1:8000/api/usuarios/${id}/`, {
@@ -94,5 +115,5 @@ async function DeleteUsuario(id) {
     }
 }
 
-export default { GetUsuario, GetUsuariosByIds, PostUsuario, PutUsuario, DeleteUsuario };
+export default { GetUsuario, GetUsuariosByIds, PostUsuario, PutUsuario, PutUsuarioPatch, DeleteUsuario };
 

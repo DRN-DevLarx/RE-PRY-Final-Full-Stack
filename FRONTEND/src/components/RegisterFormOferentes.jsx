@@ -55,35 +55,34 @@ function RegisterForm1() {
     "putita", "meto", "cojo", "cojer", "hdp"];
 
   useEffect(() => {
-      let isMounted = true; 
-      const fetch = async () => {
-          try {
-              const DatosIntereses = await InteresesServices.GetIntereses();
-              const DatosUsuarios = await UsersServices.GetUser();
-              const DatosTableUsuarios = await usuariosServices.GetUsuario();
-              
-              if (isMounted) {
-                  setIntereses(DatosIntereses);
-                  setUsuarios(DatosUsuarios);
-                  setTableUsuarios(DatosTableUsuarios);
-              }
+    let isMounted = true; 
+    const fetch = async () => {
+      try {
+        const DatosIntereses = await InteresesServices.GetIntereses();
+        const DatosUsuarios = await UsersServices.GetUser();
+        const DatosTableUsuarios = await usuariosServices.GetUsuario();
+        
+        if (isMounted) {
+            setIntereses(DatosIntereses);
+            setUsuarios(DatosUsuarios);
+            setTableUsuarios(DatosTableUsuarios);
+        }
 
-          } catch (error) {
-              if (isMounted) {
-                  setErrorIntereses(error.message);
-                  setErrorUsuarios(error.message);
-                  setErrorTableUsuarios(error.message);
-              }
-          }
-      };
-  
-      fetch();
-  
-      return () => {
-          isMounted = false;
-      };
+      } catch (error) {
+        if (isMounted) {
+            setErrorIntereses(error.message);
+            setErrorUsuarios(error.message);
+            setErrorTableUsuarios(error.message);
+        }
+      }
+    };
 
-      
+    fetch();
+
+    return () => {
+        isMounted = false;
+    };
+  
   }, []);
 
 
@@ -95,27 +94,27 @@ function RegisterForm1() {
   }
 
 
-function btnSiguiente() {
-    // Validar que la identificación solo contenga números y tenga exactamente 9 dígitos
-    const regex = /^[0-9]+$/;
+  function btnSiguiente() {
+      // Validar que la identificación solo contenga números y tenga exactamente 9 dígitos
+      const regex = /^[0-9]+$/;
 
-    // const VerifarIdentificacion = TableUsuarios.find(TableUsuario => TableUsuario.identificacion_oferente == Identificacion)
-    const VerifarIdentificacion = TableUsuarios.some((TableUsuario) => TableUsuario.identificacion_oferente == Identificacion)
-        
-    
-    if (!regex.test(Identificacion) || Identificacion.length !== 9) {
-        Swal.fire({
-            icon: "info",
-            text: "La identificación debe tener 9 dígitos y solo contener números.",
-            confirmButtonColor: "#2ae2b6",
-            background: "#1a1a1a",
-            color: "red",
-            confirmButtonText: "Verificar",
-            iconColor: "#2ae2b6",
-        });
-    }
+      // const VerifarIdentificacion = TableUsuarios.find(TableUsuario => TableUsuario.identificacion_oferente == Identificacion)
+      const VerifarIdentificacion = TableUsuarios.some((TableUsuario) => TableUsuario.identificacion_oferente == Identificacion)
+          
+      
+      if (!regex.test(Identificacion) || Identificacion.length !== 9) {
+          Swal.fire({
+              icon: "info",
+              text: "La identificación debe tener 9 dígitos y solo contener números.",
+              confirmButtonColor: "#2ae2b6",
+              background: "#1a1a1a",
+              color: "red",
+              confirmButtonText: "Verificar",
+              iconColor: "#2ae2b6",
+          });
+      }
 
-    else if (Identificacion !== ConfirmacionID) {
+      else if (Identificacion !== ConfirmacionID) {
         Swal.fire({
             icon: "error",
             iconColor: "#2ae2b6",
@@ -125,74 +124,74 @@ function btnSiguiente() {
             color: "#ffffff",
             confirmButtonText: "Verificar",
         });
-    }
-    else if (VerifarIdentificacion) {
-      Swal.fire({
-        icon: "error",
-        text: "La identifcación ya está registrada, por favor inicia sesión.",
-        confirmButtonColor: "#2ae2b6",
-        background: "#1a1a1a",
-        color: "#ffffff",
-        showConfirmButton: false,
-        timer: 3000,
-      });
+      }
+      else if (VerifarIdentificacion) {
+        Swal.fire({
+          icon: "error",
+          text: "La identifcación ya está registrada, por favor inicia sesión.",
+          confirmButtonColor: "#2ae2b6",
+          background: "#1a1a1a",
+          color: "#ffffff",
+          showConfirmButton: false,
+          timer: 3000,
+        });
 
-      return false;
-    }
-    else {
+        return false;
+      }
+      else {
 
 
-      // Llamar API para verificar si la identificación existe
-      const fetchUsers = async () => {
-          try {
-              const response = await fetch(`https://apis.gometa.org/cedulas/${Identificacion}`, {
-    
-              });
+        // Llamar API para verificar si la identificación existe
+        const fetchUsers = async () => {
+            try {
+                const response = await fetch(`https://apis.gometa.org/cedulas/${Identificacion}`, {
+      
+                });
 
-              const data = await response.json();
+                const data = await response.json();
 
-              console.log(data);
-              
-                if (data.resultcount == 0) {
-                    Swal.fire({
-                        icon: "error",
-                        text: "Identificación inválida o no encontrada.",
-                        confirmButtonColor: "#2ae2b6",
-                        background: "#1a1a1a",
-                        color: "red",
-                        confirmButtonText: "Verificar",
-                        iconColor: "#2ae2b6",
-                    });
-                  return;
-              }
-              const firstname = data.results?.[0]?.firstname;
-              const lastname = data.results?.[0]?.lastname;
+                console.log(data);
+                
+                  if (data.resultcount == 0) {
+                      Swal.fire({
+                          icon: "error",
+                          text: "Identificación inválida o no encontrada.",
+                          confirmButtonColor: "#2ae2b6",
+                          background: "#1a1a1a",
+                          color: "red",
+                          confirmButtonText: "Verificar",
+                          iconColor: "#2ae2b6",
+                      });
+                    return;
+                }
+                const firstname = data.results?.[0]?.firstname;
+                const lastname = data.results?.[0]?.lastname;
 
-              setNombre(firstname)
-              setApellido(lastname)
-              
-              // Si pasa todas las validaciones, proceder al siguiente paso
-              setTimeout(() => {
-                  setContenedor2(true);
-              }, 200);
+                setNombre(firstname)
+                setApellido(lastname)
+                
+                // Si pasa todas las validaciones, proceder al siguiente paso
+                setTimeout(() => {
+                    setContenedor2(true);
+                }, 200);
 
-          } catch (error) {
-              console.error("Error al validar identificación:", error);
-              Swal.fire({
-                  icon: "error",
-                  text: "Ocurrió un error al consultar la identificación. Intenta nuevamente.",
-                  confirmButtonColor: "#2ae2b6",
-                  background: "#1a1a1a",
-                  color: "red",
-                  confirmButtonText: "Intentar de nuevo",
-                  iconColor: "#2ae2b6",
-              });
-          }
-      };
+            } catch (error) {
+                console.error("Error al validar identificación:", error);
+                Swal.fire({
+                    icon: "error",
+                    text: "Ocurrió un error al consultar la identificación. Intenta nuevamente.",
+                    confirmButtonColor: "#2ae2b6",
+                    background: "#1a1a1a",
+                    color: "red",
+                    confirmButtonText: "Intentar de nuevo",
+                    iconColor: "#2ae2b6",
+                });
+            }
+        };
 
-      fetchUsers();
-    }
-}
+        fetchUsers();
+      }
+  }
 
 
   function btnSiguiente2() {
@@ -452,7 +451,6 @@ ejecutarValidaciones();
 
 
       } catch (error) {
-        console.error("Error en el proceso de registro:", error);
 
         Swal.fire({
           icon: "error",

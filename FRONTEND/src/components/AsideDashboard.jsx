@@ -34,7 +34,7 @@ const Menu = () => {
             ]
         }
     
-    const IMgUser = "https://res.cloudinary.com/dw65xvmgp/image/upload/v1749743238/FB_chiuol.avif"
+    let IMgUser = "https://res.cloudinary.com/dw65xvmgp/image/upload/v1749743238/FB_chiuol.avif"
     
     const [activo, setActivo] = useState(0); // Estado para la opción seleccionada
 
