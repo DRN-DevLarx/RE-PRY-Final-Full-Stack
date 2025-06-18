@@ -88,11 +88,11 @@ function UserRegi() {
           
   const IDusuario = DatosIntermedios.find(item => item.user == idUser)?.usuario;
 
-  Usuarios.find((user) => {
-      if(user.referenciaIMG_oferente != "") {
-          IMgUser = user.referenciaIMG_oferente
-      }
-  })
+//   Usuarios.find((user) => {
+//       if(user.referenciaIMG_oferente != "") {
+//           IMgUser = user.referenciaIMG_oferente
+//       }
+//   })
 
   function VerUser(id) {
     setidUser(id)

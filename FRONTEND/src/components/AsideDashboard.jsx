@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import usuariosServices from '../services/usuariosServices';
 import PerfilAdmin from '../components/PerfilAdmin'
 import Publicaciones from '../components/Publicaciones'
 import UserRegi from '../components/UserRegi'
@@ -10,11 +9,57 @@ import GetCookie from "../services/GetCookie";
 import MisPublicaciones from "./MisPublicaciones";
 import ChatsNotifics from "./ChatsNotifics";
 
+import Users_UsuariosServices from '../services/Users_UsuariosServices';
+import usersServices from '../services/usersServices';
+import usuariosServices from '../services/usuariosServices';
+
+
 import "../styles/AsideDashboard.css";
 
 const Menu = () => {
+
+    useEffect(() => {
+        let isMounted = true;
+        
+        const fetchData = async () => {
+            try {
+                const datosIntermedios = await Users_UsuariosServices.GetUserUsuario();
+                
+                if (datosIntermedios.length > 0) {
+                    const userIds = datosIntermedios.map(item => item.user);
+                    const usuarioIds = datosIntermedios.map(item => item.usuario);
+                    
+                    const datosUsers = await usersServices.GetUsersByIds(userIds);
+                    const datosUsuarios = await usuariosServices.GetUsuariosByIds(usuarioIds);
+                    
+                    
+                    if (isMounted) {
+                        setUsers(datosUsers);
+                        setUsuarios(datosUsuarios);
+                        setDatosIntermedios(datosIntermedios);
+                    }
+                }
+            } catch (error) {
+                console.error("Error al obtener los datos:", error);
+            }
+        };
+
+        fetchData();
+        
+        return () => {
+            isMounted = false;
+        };
+    }, []);
+
+    const [DatosIntermedios, setDatosIntermedios] = useState([])
+    const [Users, setUsers] = useState([])
+    // const [Usuarios, setUsuarios] = useState([])
     
     const RolUser = GetCookie.getCookie("role");
+
+    const IDUser = GetCookie.getCookie("user_id")
+    const IDusuario = DatosIntermedios.find(item => item.user == IDUser)?.usuario;
+
 
     let Opciones = []
         if (RolUser == "admin") {
@@ -60,10 +105,12 @@ const Menu = () => {
 
 
     Usuarios.find((user) => {
-        if(user.referenciaIMG_oferente != "") {
+                
+        if(user.id == IDusuario && user.referenciaIMG_oferente != "" && user.referenciaIMG_oferente != "null" && user.referenciaIMG_oferente != null) {
             IMgUser = user.referenciaIMG_oferente
         }
     })
+
 
     return (
         <div className='ContDashboard'>
