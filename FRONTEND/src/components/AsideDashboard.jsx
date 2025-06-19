@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import PerfilAdmin from '../components/PerfilAdmin'
 import Publicaciones from '../components/Publicaciones'

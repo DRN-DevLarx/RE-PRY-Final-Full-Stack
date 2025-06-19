@@ -44,7 +44,6 @@ function Ofertas() {
       return () => {
           isMounted = false;
       };
-
       
   }, []);
 
@@ -82,8 +81,8 @@ function Ofertas() {
           <h1 className='b'>Ofertas Disponibles</h1>
           <hr className='hh' />
           <br />
-
             
+<<<<<<< HEAD
 
             <div className='filtrosAdmin'>
               
@@ -92,6 +91,15 @@ function Ofertas() {
                 {Intereses.map((interes, index) => (
                   <option key={index} value={interes.id}>
                     {interes.nombre_interes}
+=======
+          <div className='filtros'>
+            
+              <select name="" id="">
+              <option value="">Area de trabajo</option>
+            {Intereses.map((interes, index) => (
+                <option key={index} value={interes.nombre_interes}>
+                  {interes.nombre_interes}
+>>>>>>> f0f616070bc47ac7f4eeb0d1045c0b8174b27d6e
                   </option>
                 ))}
               </select>

@@ -37,7 +37,6 @@ const EditPerf = () => {
             ></i>
           </div>
 
-          {/* Campo Confirmar Contraseña */}
           <div className="input-icon confirmar">
             <input
               type={mostrarConfirmacion ? 'text' : 'password'}

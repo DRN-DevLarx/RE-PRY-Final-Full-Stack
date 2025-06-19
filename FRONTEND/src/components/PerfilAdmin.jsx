@@ -446,7 +446,6 @@ function PerfilAdmin() {
 
             <main>
                 {!isEditing ? (
-                    // VISTA NORMAL
 
                     <div id='PerfilAdmin'>                                                                
 

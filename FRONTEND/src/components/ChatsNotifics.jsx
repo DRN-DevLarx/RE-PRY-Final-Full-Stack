@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import '../styles/ChatNotific.css';
 import { useLocation } from 'react-router-dom';
-// Lista de personas con las que se puede chatear
+
 const personas = [
   { nombre: 'Juan Andrés Ruiz Venegas', id: 2 },
   { nombre: 'Andrea Quesada Ordoñez', id: 1 },
@@ -10,12 +10,12 @@ const personas = [
 ];
 const ChatNotific = () => {
   const ubicacion = useLocation();
-  // Si venimos de notificaciones, obtenemos estos datos
+
   const { id, nombre, mensaje } = ubicacion.state || {};
   const [chatActivo, setChatActivo] = useState(id || null);
   const [mensajeEscrito, setMensajeEscrito] = useState('');
   const [mensajesPorPersona, setMensajesPorPersona] = useState({});
-  // Si llegó un mensaje desde otra pantalla (como notificaciones), lo agregamos
+
   useEffect(() => {
     if (id && mensaje) {
       setMensajesPorPersona((anterior) => {
@@ -53,7 +53,7 @@ const ChatNotific = () => {
     }));
     setMensajeEscrito('');
   };
-  // Cuando abro un chat, se marcan como "leído" los mensajes que me mandaron
+
   useEffect(() => {
     if (chatActivo !== null) {
       setMensajesPorPersona((anterior) => {

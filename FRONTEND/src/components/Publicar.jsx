@@ -258,7 +258,7 @@ function Publicar() {
                 <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "10px" }}>
                   {!VistaIMG ? (
                     <label 
-                      htmlFor="imageInput"style={{width: "150px",height: "150px", border: "1px dashed #ccc",display: "flex",justifyContent: "center", alignItems: "center",cursor: "pointer",fontSize: "14px",color: "#666"}}>
+                      htmlFor="imageInput" className='imginp'>
                         
                       Seleccionar imagen
                       <input id="imageInput" type="file" accept="image/*" style={{ display: "none" }} onChange={(e) => CambioImagen(e)} 
@@ -267,9 +267,9 @@ function Publicar() {
                   ) : (
                     <div style={{ position: "relative" }}>
 
-                      <img src={VistaIMG} alt="Vista previa" style={{ width: "150px", height: "150px", border: "solid", objectFit: "cover", borderRadius: "5px" }} />
+                      <img src={VistaIMG} alt="Vista previa" className='vistp'/>
 
-                      <button onClick={manejarEliminarImagen}  style={{ position: "absolute", top: "-5px", right: "5px", background: "transparent", color: "white", fontWeight: "bolder", border: "none", borderRadius: "50%", width: "25px", height: "25px", cursor: "pointer"}}> ✖ </button>
+                      <button onClick={manejarEliminarImagen} className='bntelimens'> ✖ </button>
                     </div>
                   )}
                   <br />

@@ -7,7 +7,7 @@ const Notificaciones = () => {
   const ref = useRef();
   const navigate = useNavigate();
 
-  // Notificaciones con nombre, mensaje y un id único para cada usuario (importante para chat)
+
   const notificaciones = [
     {
       id: 1,
@@ -41,7 +41,7 @@ const Notificaciones = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Navega al chat enviando id, nombre y mensaje por state
+
   const irAlChat = (notificacion) => {
     navigate('/chat', { state: { id: notificacion.id, nombre: notificacion.nombre, mensaje: notificacion.mensaje } });
   };

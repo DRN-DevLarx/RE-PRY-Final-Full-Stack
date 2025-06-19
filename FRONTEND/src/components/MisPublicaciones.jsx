@@ -81,7 +81,7 @@ function MisPublicaciones() {
   
  
   function filtrarOfertas(Ofertas, FiltroAreaTrabajo, FiltroUbicacion, FiltroSalario, FiltroEstado, FiltroInput) {
-    // Si todos los filtros están vacíos, devuelve la lista completa
+
     if (
       FiltroAreaTrabajo == "" || FiltroAreaTrabajo == undefined &&
       FiltroUbicacion == "" &&
@@ -103,7 +103,7 @@ function MisPublicaciones() {
     });
   }
 
-  // Llamada a la función
+
   let Filtrado = filtrarOfertas(Ofertas, FiltroAreaTrabajo, FiltroUbicacion, FiltroSalario, FiltroEstado, FiltroInput);
   
   function Volver() {
@@ -209,7 +209,6 @@ function MisPublicaciones() {
 {Filtrado.filter(oferta => oferta.empresa == idUser).map((oferta, index) => {
     const interesesRelacionados = Intereses.filter(INTERES => INTERES.id === oferta.intereses);
 
-    // Definimos la clase según el estado de la oferta
     const statusOferta = oferta.estado_oferta === "desactiva" ? "statusDesactiva" : "StatusActiva";
 
     return (
@@ -223,10 +222,7 @@ function MisPublicaciones() {
         </article>
     );
 })}
-
-
               </div>
-
 
             </div>
           </div>

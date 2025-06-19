@@ -123,18 +123,11 @@ const AplicacionEmpleo = () => {
           {fileUrl && (
             <div className="pdf-viewer-container">
               <iframe
-                src={`${fileUrl}#toolbar=0&navpanes=0&scrollbar=0`}
-                title="PDF Preview"
-                width="100%"
-                height="300px"
-                style={{ border: 'none' }}
-              ></iframe>
+                src={`${fileUrl}#toolbar=0&navpanes=0&scrollbar=0`} title="PDF Preview" width="100%" height="300px" style={{ border: 'none' }}></iframe>
             </div>
           )}
 
-          <button type="submit" className="submit-btn">
-            Enviar solicitud
-          </button>
+          <button type="submit" className="submit-btn"> Enviar solicitud </button>
         </form>
       </div>
     </div>
