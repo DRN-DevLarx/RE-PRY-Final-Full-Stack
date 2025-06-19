@@ -68,7 +68,7 @@ const Menu = () => {
                 { nombre: "Perfil", esPerfil: true, componente: <PerfilAdmin /> },
                 { nombre: "Publicaciones", esPerfil: false, componente: <Publicaciones /> },
                 { nombre: "Usuarios registrados", esPerfil: false, componente: <UserRegi /> },
-                { nombre: "Alertas", esPerfil: false, componente: <Alerts /> },
+                { nombre: "Quejas", esPerfil: false, componente: <Alerts /> },
                 { nombre: "Registrar admin", esPerfil: false, componente: <RegisterAdmin /> }
             ];
         } else if (RolUser == "empresa") {

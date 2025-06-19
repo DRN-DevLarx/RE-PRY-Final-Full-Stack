@@ -1,7 +1,5 @@
 
-#ContPerfilAdmin {
-    height: 100vh;
-}
+
 
 
 .headerPerfilAdmin {
@@ -24,6 +22,7 @@
 #PerfilAdmin {
     color: white;
     display: flex;
+    height: 70vh;
     margin: 50px auto;
     padding: 10px 100px;
 }
@@ -40,6 +39,7 @@
 
 .itemPerfil p {
     padding: 7px;
+    width: auto;
 }
 
 .SubContPerfilAdmin1 img {

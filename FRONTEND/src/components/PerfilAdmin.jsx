@@ -15,6 +15,32 @@ import '../styles/PerfilAdmin.css'
 function PerfilAdmin() {
     const navigate = useNavigate();
 
+    let IMgUser = "https://res.cloudinary.com/dw65xvmgp/image/upload/v1749743238/FB_chiuol.avif"
+    
+    const [isEditing, setIsEditing] = useState(false);
+    
+    const [DatosIntermedios, setDatosIntermedios] = useState([])
+    const [Users, setUsers] = useState([])
+    const [Usuarios, setUsuarios] = useState([])
+    
+
+
+    const [Identificacion, setIdentificacion] = useState("")
+    const [ContrasenaActual, setContrasenaActual] = useState("")
+    const [UsuarioAEditar, setUsuarioAEditar] = useState("")
+    const [FirstName, setFirstName] = useState("")
+    const [LastName, setLastName] = useState("")
+    const [TelefonoAEditar, setTelefonoAEditar] = useState("")
+    const [CorreoAEditar, setCorreoAEditar] = useState("")
+
+
+    
+    const IDUser = GetCookie.getCookie("user_id")
+    const IDusuario = DatosIntermedios.find(item => item.user == IDUser)?.usuario;
+    
+    const [ImagenSeleccionada, setImagenSeleccionada] = useState(null);
+    const [VistaIMG, setVistaIMG] = useState(null);
+
     useEffect(() => {
         let isMounted = true;
         
@@ -35,6 +61,23 @@ function PerfilAdmin() {
                         setUsuarios(datosUsuarios);
                         setDatosIntermedios(datosIntermedios);
                     }
+
+                    datosUsers.filter((useer) => (useer.id == IDUser && (
+                        setUsuarioAEditar(useer.username),
+                        setFirstName(useer.first_name),
+                        setLastName(useer.last_name),
+                        setCorreoAEditar(useer.email)
+                    )))
+
+
+                    const IDusuario = datosIntermedios.find(item => item.user == IDUser)?.usuario;
+                    
+                    datosUsuarios.filter((usu) => (usu.id == IDusuario && (
+                        setIdentificacion(usu.identificacion_oferente),
+                        setTelefonoAEditar(usu.telefono_oferente)
+                    )))
+
+                    
                 }
             } catch (error) {
                 console.error("Error al obtener los datos:", error);
@@ -48,19 +91,7 @@ function PerfilAdmin() {
         };
     }, []);
     
-    let IMgUser = "https://res.cloudinary.com/dw65xvmgp/image/upload/v1749743238/FB_chiuol.avif"
-    
-    const [isEditing, setIsEditing] = useState(false);
-    
-    const [DatosIntermedios, setDatosIntermedios] = useState([])
-    const [Users, setUsers] = useState([])
-    const [Usuarios, setUsuarios] = useState([])
-    
-    const [ContrasenaActual, setContrasenaActual] = useState("")
-    const [UsuarioAEditar, setUsuarioAEditar] = useState("")
-    const [TelefonoAEditar, setTelefonoAEditar] = useState("")
-    const [CorreoAEditar, setCorreoAEditar] = useState("")
- 
+
     const simbolosNoPermitidos = [
         "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "[", "]",
         "{", "}", ":", ";", "'", '"', "<", ">", "/", "\\", "|", "=", "+"
@@ -73,12 +104,6 @@ function PerfilAdmin() {
         "cago", "cagó", "cagada", "cagado", "cagarse", "cagón", "cagones", "cagar", "cagando", "como", "vagina", 
         "putita", "meto", "cojo", "cojer"
     ];
-
-    const IDUser = GetCookie.getCookie("user_id")
-    const IDusuario = DatosIntermedios.find(item => item.user == IDUser)?.usuario;
-
-    const [ImagenSeleccionada, setImagenSeleccionada] = useState(null);
-    const [VistaIMG, setVistaIMG] = useState(null);
 
     Usuarios.filter((user) => {
                 
@@ -132,7 +157,7 @@ function PerfilAdmin() {
     if(UsuarioAEditar.length < 5) {
         Swal.fire({
             icon: "error",
-            text: "El usuario debe contener 5 carácteres mínimo.",
+            text: "El usuario debe contener al menos 5 carácteres.",
             confirmButtonColor: "#2ae2b6",
             background: "#1a1a1a",
             color: "#ffffff",
@@ -297,7 +322,9 @@ function PerfilAdmin() {
                     confirmButtonColor: "#2ae2b6",
                     background: "#1a1a1a",
                     color: "#ffffff",
-                    confirmButtonText: "Cambiar",
+                    confirmButtonText: "Aceptar",
+                    showCancelButton: true,
+                    cancelButtonText: "Cancelar",
                     html: `
                         <input id="swal-input1" class="swal2-input" placeholder="Contraseña">
                         <input id="swal-input2" class="swal2-input" placeholder="Confirmar Contraseña">
@@ -314,7 +341,7 @@ function PerfilAdmin() {
                         Swal.fire({
                             icon: "error",
                             iconColor: "#2ae2b6",
-                            text: "Por favor digita tu nueva contraseña.",
+                            text: "Por favor digita la nueva contraseña.",
                             confirmButtonColor: "#2ae2b6",
                             background: "#1a1a1a",
                             color: "#ffffff",
@@ -360,8 +387,6 @@ function PerfilAdmin() {
     async function ActualizarDatos(NuevaContraseña) {
 
         console.log(UsuarioAEditar);
-        
-        
         
         const UpdateData = {
             password: NuevaContraseña,
@@ -423,51 +448,45 @@ function PerfilAdmin() {
                 {!isEditing ? (
                     // VISTA NORMAL
 
-                    Users.map((useer, index) => (useer.id == IDUser && (
-                        Usuarios.filter(usuaario => usuaario.id == IDusuario).map((usuario, index2) => (
-                    
-                            <div key={`${index}${index2}`} id='PerfilAdmin'>
-                                <div className='itemPerfil SubContPerfilAdmin1'>
-                                    <div align="center">
-                                        <img src={IMgUser} alt="Imagen de usuario" />
-                                    </div>
-                                    <br />
-                                    <div style={{ width: "80%", margin: "0 auto" }}>
-                                    
-                                        <label>Identificación</label>
-                                        <p>{usuario.identificacion_oferente}</p>
+                    <div id='PerfilAdmin'>                                                                
 
-                                        <label>Nombre completo</label>
-                                        <p>{useer.first_name} {useer.last_name}</p>
-        
-                                    </div>
-                                </div>
-        
-                                <div className='itemPerfil SubContPerfilAdmin2'>
-                                    <label>Usuario</label>
-                                    <p>{useer.username}</p>        
-
-                                    <label>Teléfono</label>
-                                    <p>{usuario.telefono_oferente}</p>
-        
-                                    <label>Correo Electrónico</label>
-                                    <p>{useer.email}</p>
-                                    <br /><br />
-                                    <div className='contbtnEditar' style={{ textAlign: "right", width: "80%" }}>
-                                        <button onClick={EditarPerfil}>Editar perfil</button>
-                                    </div>
-                                </div>
+                        <div className='itemPerfil SubContPerfilAdmin1'>
+                            <div align="center">
+                                <img src={IMgUser} alt="Imagen de usuario" />
                             </div>
-                        ))
-                    )))
+                            <br />
+                            <div style={{ width: "80%", margin: "0 auto" }}>
+                            
+                                <label>Identificación</label>
+                                <p>{Identificacion}</p>
+
+                                <label>Nombre completo</label>
+                                <p>{FirstName} {LastName}</p>
+
+                            </div>
+                        </div>
+
+                        <div className='itemPerfil SubContPerfilAdmin2'>
+                            <label>Usuario</label>
+                            <p>{UsuarioAEditar}</p>        
+
+                            <label>Teléfono</label>
+                            <p>{TelefonoAEditar}</p>
+
+                            <label>Correo Electrónico</label>
+                            <p>{CorreoAEditar}</p>
+                            <br /><br />
+                            <div className='contbtnEditar' style={{ textAlign: "right", width: "80%" }}>
+                                <button onClick={EditarPerfil}>Editar perfil</button>
+                            </div>
+                        </div>
+                    </div>
+
 
                 ) : (
                     // MODO EDICIÓN
-                    Users.map((useer, index) => (useer.id == IDUser && (
-                        Usuarios.filter(usuaario => usuaario.id == IDusuario).map((usuario, index2) => (
-                    
-                            <div key={`${index}${index2}`} id='PerfilAdmin'>
 
+                            <div id='PerfilAdmin'>
                                 <div className='itemPerfil SubContPerfilAdmin1'>
 
                                     <h5>Selecciona una imagen</h5>
@@ -504,13 +523,13 @@ function PerfilAdmin() {
         
                                 <div className='itemPerfil SubContPerfilAdmin2'>
                                     <label> Nuevo Usuario</label><br />
-                                    <input value={UsuarioAEditar} onChange={(e) => setUsuarioAEditar(e.target.value)} className='inputEdit' type="text" placeholder={useer.username}/><br />
+                                    <input value={UsuarioAEditar} onChange={(e) => setUsuarioAEditar(e.target.value)} className='inputEdit' type="text" /><br />
 
                                     <label> Nuevo Teléfono</label><br />
-                                    <input value={TelefonoAEditar} onChange={(e) => setTelefonoAEditar(e.target.value)} className='inputEdit' type="text" placeholder={usuario.telefono_oferente}/><br />
+                                    <input value={TelefonoAEditar} onChange={(e) => setTelefonoAEditar(e.target.value)} className='inputEdit' type="text"/><br />
         
                                     <label>Nuevo Correo Electrónico</label><br />
-                                    <input value={CorreoAEditar} onChange={(e) => setCorreoAEditar(e.target.value)} className='inputEdit' type="text" placeholder={useer.email}/><br />
+                                    <input value={CorreoAEditar} onChange={(e) => setCorreoAEditar(e.target.value)} className='inputEdit' type="text"/><br />
                                     <br /><br />
 
                                     <div className='contbtnEditar' style={{ textAlign: "right", width: "80%" }}>
@@ -519,8 +538,7 @@ function PerfilAdmin() {
 
                                 </div>
                             </div>
-                        ))
-                    )))
+
                 )}
             </main>
         </div>
