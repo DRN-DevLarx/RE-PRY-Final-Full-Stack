@@ -31,7 +31,7 @@ async function PostOfertas(obj) {
         const status = response.status;
 
         if (!response.ok) {
-            throw new Error(`Error al crear oferta. Código: ${status}`);
+            throw new Error(`Error al crear oferta. código: ${status}`);
         }
 
         const data = await response.json();
@@ -63,6 +63,28 @@ async function PutOfertas(id, obj) {
     }
 }
 
+async function PutPatcOfertas(id, obj) {
+    try {
+        const response = await fetch(`http://127.0.0.1:8000/api/ofertas/${id}/`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(obj)
+        });
+
+        if (!response.ok) {
+            throw new Error('Error al actualizar oferta');
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error('Error al actualizar oferta:', error);
+        throw error;
+    }
+}
+
+
 async function DeleteOfertas(id) {
     try {
         const response = await fetch(`http://127.0.0.1:8000/api/ofertas/${id}/`, {
@@ -80,5 +102,5 @@ async function DeleteOfertas(id) {
     }
 }
 
-export default {GetOfertas, PostOfertas, PutOfertas, DeleteOfertas};
+export default {GetOfertas, PostOfertas, PutOfertas, PutPatcOfertas, DeleteOfertas};
 

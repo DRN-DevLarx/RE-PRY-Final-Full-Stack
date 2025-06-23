@@ -1,21 +1,17 @@
-
-
-
-
-.headerPerfilAdmin {
+.headerDashboard {
     display: flex;
     justify-content: space-around;
     color: white;
     background-color: #9293936a;
-    padding: 17px;
     text-align: center;
+    padding: 17px;
+    margin-bottom: 20px;
 }
-
-.headerPerfilAdmin h3 {
+.headerDashboard h3 {
     width: 100%;
 }
 
-.headerPerfilAdmin svg:hover {
+.headerDashboard svg:hover {
     transform: scale(1.2);
 }
 
@@ -72,6 +68,7 @@
     padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
+    margin: 0;
 }
 
 .contbtnEditar button:hover {

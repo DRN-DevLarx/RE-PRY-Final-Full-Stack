@@ -5,6 +5,7 @@ from .models import Usuarios, Intereses, InteresesUsuarios, Users_Usuarios,  Ofe
 from django.contrib.auth.models import User, Group
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
+UserGroup = User.groups.through
 
 class InteresesSerializer(serializers.ModelSerializer):
     class Meta:
@@ -15,8 +16,6 @@ class InteresesSerializer(serializers.ModelSerializer):
 class UsuariosSerializer(serializers.ModelSerializer):
     telefono_oferente = serializers.CharField(max_length=20, allow_null=True, allow_blank=True, validators=[RegexValidator(regex=r'^\d{8,12}$', message="Debe contener entre 8 y 12 dígitos numéricos.")]
     )
-    # intereses = InteresesSerializer(many=True, write_only=True)
-    # intereses_ids = serializers.PrimaryKeyRelatedField(queryset=Intereses.objects.all(), many=True, write_only=True, source="Intereses")
 
     class Meta:
         model = Usuarios
@@ -36,17 +35,27 @@ class Users_UsuariosSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 class user_groupsSerializer(serializers.ModelSerializer):
+    
     class Meta:
-        model = User.groups.through
-        fields = ["user", "group"]
+        model = UserGroup
+        fields = "__all__"
 
 
 class UsersSerializer(serializers.ModelSerializer):
+    # groups = user_groupsSerializer(many=True)
+
     class Meta:
         model = User
         fields = "__all__"
         extra_kwargs = {'password': {'write_only': True}}
 
+    # def validate(self, attrs):
+    #     data = super().validate(attrs)
+    #     # Obtener el grupo del usuario (rol)
+    #     groups = self.user.groups.values_list('name', flat=True)
+    #     data['role'] = groups[0] if groups else None
+    #     return data
+    
     def create(self, validated_data):
         user = User.objects.create_user(**validated_data)
         return user
@@ -66,6 +75,7 @@ class UsersSerializer(serializers.ModelSerializer):
         except Exception as e:
             print(f"Error al actualizar usuario: {e}")  # Log para depuración
             raise serializers.ValidationError({"error": "No se pudo actualizar el usuario."})
+
 
 class EmpresasSerializer(serializers.ModelSerializer):
 

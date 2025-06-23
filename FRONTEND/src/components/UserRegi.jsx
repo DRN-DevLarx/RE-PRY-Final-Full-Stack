@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import usersServices from '../services/usersServices';
 import usuariosServices from '../services/usuariosServices';
 import Users_UsuariosServices from '../services/Users_UsuariosServices';
+import User_groupsServices from '../services/User_groupsServices';
 
 import { useState, useEffect } from 'react'
 
@@ -29,22 +30,25 @@ function UserRegi() {
 
     const navigate = useNavigate();
 
-    function volver() {
+    function CerrarD() {
         CerrarDashboard(navigate)
-    }
 
-    let IMgUser = "https://res.cloudinary.com/dw65xvmgp/image/upload/v1749743238/FB_chiuol.avif"
+    }
     
+    const [IMgUser, setIMgUser] = useState("https://res.cloudinary.com/dateuzds4/image/upload/v1750454292/FB_sby2fv.avif");
+    
+    const [DatosIntermedios, setDatosIntermedios] = useState([]);
+
     const [Users, setUsers] = useState([]);
     const [ErrorUsers, setErrorUsers] = useState(null);
     
     const [Usuarios, setUsuarios] = useState([]);
     const [ErrorUsuarios, setErrorUsuarios] = useState(null);
     
-    const [DatosIntermedios, setDatosIntermedios] = useState([]);
+    const [DatosGroups, setDatosGroups] = useState([]);
     
     const [ContVerUser, setContVerUser] = useState(false)
-    const [isEditing, setIsEditing] = useState(false);
+    const [Editando, setEditando] = useState(false);
     const [IsActivo, setIsActivo] = useState(true);
 
     const [idUser, setidUser] = useState()
@@ -78,11 +82,13 @@ function UserRegi() {
 
                 const datosUsers = await usersServices.GetUsersByIds(userIds);
                 const datosUsuarios = await usuariosServices.GetUsuariosByIds(usuarioIds);
+                const datosGroups = await User_groupsServices.GetUser_group();
 
                 if (isMounted) {
+                    setDatosIntermedios(datosIntermedios);
                     setUsers(datosUsers);
                     setUsuarios(datosUsuarios);
-                    setDatosIntermedios(datosIntermedios);
+                    setDatosGroups(datosGroups);
                 }
             }
     }
@@ -94,6 +100,11 @@ function UserRegi() {
     };
     }, []);
        
+
+    function volver() {
+        setidUser()
+        setContVerUser(false)        
+    }
 
     function VerUser(id) {
         setidUser(id)
@@ -121,23 +132,60 @@ function UserRegi() {
             setTelefonoAEditar(usuario.telefono_oferente)
         })
 
-        setIsEditing(true);
+        setEditando(true);
     }
 
-    Usuarios.filter((user) => {
-                
-        if(user.id == IDusuario && user.referenciaIMG_oferente != "" && user.referenciaIMG_oferente != "null" && user.referenciaIMG_oferente != null) {
-            IMgUser = user.referenciaIMG_oferente
-        }
-    })
+    useEffect(() => {
+    const userEncontrado = Usuarios.find(
+        (user) =>
+        user.id == IDusuario &&
+        user.referenciaIMG_oferente &&
+        user.referenciaIMG_oferente !== "null"
+    );
 
+    if (userEncontrado) {
+        setIMgUser(userEncontrado.referenciaIMG_oferente);
+    }
+    }, [Usuarios, IDusuario]);
+
+
+    
+    // Usuarios.filter((user) => {
+    //     console.log(idUser);
+    //     console.log(IDusuario);
+        
+        
+    //     if(user.id == IDusuario && user.referenciaIMG_oferente != "" && user.referenciaIMG_oferente != "null" && user.referenciaIMG_oferente != null) {
+    //         setIMgUser(user.referenciaIMG_oferente)
+    //     }
+    // })
+
+    const InsertIMGDefault = (e) => {
+        setIMgUser("https://res.cloudinary.com/dateuzds4/image/upload/v1750454292/FB_sby2fv.avif")
+    }
+    
     const CambioImagen = (e) => {
-        const file = e.target.files[0];
-
-        if (file) {
+      const file = e.target.files[0];
+    
+      if (file) {
+        const validTypes = ['image/jpeg', 'image/png', 'image/webp'];
+        const validExtensions = ['.jpg', '.jpeg', '.png', '.webp'];
+        const fileExtension = file.name.substring(file.name.lastIndexOf('.')).toLowerCase();
+    
+        if (!validTypes.includes(file.type) || !validExtensions.includes(fileExtension)) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Formato no permitido',
+            text: 'Solo se permiten archivos JPG, JPEG, PNG o WEBP.',
+    
+          });
+          e.target.value = ''; // Limpia el input
+          return;
+        }
+    
         setVistaIMG(URL.createObjectURL(file));
         setImagenSeleccionada(file);
-        }
+      }
     };
 
     const manejarEliminarImagen = () => {
@@ -419,7 +467,11 @@ function UserRegi() {
                     is_active: false,
                 };
 
+                console.log(idUser);
+                
                 const PutUser = await usersServices.PutUserPatch(idUser, obj);
+                
+                console.log(PutUser);
                 
                 if(PutUser) {
                     Swal.fire({
@@ -432,6 +484,17 @@ function UserRegi() {
                         timer: 1500,
                     })
                     setIsActivo(false)
+                }
+                else {
+                    Swal.fire({
+                        icon: "error",
+                        iconColor: "#2ae2b6",
+                        text: "Ocurrió un error al actualizar el usuario",
+                        showConfirmButton: false,
+                        background: "#1a1a1a",
+                        color: "#ffffff",
+                        timer: 1500,
+                    })
                 }
             }
         });
@@ -567,11 +630,12 @@ function UserRegi() {
 
     }
 
+
   return (
     <div id='ContUltimasPublicaciones'>
-      <div className='headerUltimasPublicaciones'>
+      <div className='headerDashboard'>
         <h3>Usuarios registrados</h3>
-        <svg onClick={volver} xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="white" className="bi bi-box-arrow-right" viewBox="0 0 16 16">
+        <svg onClick={CerrarD} xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="white" className="bi bi-box-arrow-right" viewBox="0 0 16 16">
           <path fillRule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z"/>
           <path fillRule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z"/>
         </svg>
@@ -585,6 +649,8 @@ function UserRegi() {
                 const user = Users.find((u) => u.id == dato.user);
                 const usuario = Usuarios.find((us) => us.id == dato.usuario);
 
+
+
                 if (!user || !usuario) return null;
 
                 const IMgUser2 = usuario.referenciaIMG_oferente && usuario.referenciaIMG_oferente !== "null" && usuario.referenciaIMG_oferente !== "" ? usuario.referenciaIMG_oferente
@@ -592,19 +658,17 @@ function UserRegi() {
 
                 return (
                 <div onClick={(e) => VerUser(user.id)} className="User" key={index}>
-                    <div className="user-card-header">
-                    <div className="user-icon">
-                        <img src={IMgUser2} alt="Imagen de usuario" style={{ width: "70px", height: "70px", borderRadius: "50%" }}
-                        />
-                    </div>
-                    <div className="registration-label">Fecha de registro</div>
+
+                    <div className='UserLeft'>
+                        <div className='UserIcon'>
+                            <img src={IMgUser2} alt="Imagen de usuario" style={{ width: "70px", height: "70px", borderRadius: "50%" }}/>
+                            {user.username}
+                        </div>
                     </div>
 
-                    <div className="user-card-body">
-                    <div className="user-name">{user.username}</div>
-                    <div className="registration-date">
+                    <div className='UserRight'>
+                        <p>Fecha de registro</p>
                         {new Date(user.date_joined).toLocaleString()}
-                    </div>
                     </div>
                 </div>
                 );
@@ -614,142 +678,144 @@ function UserRegi() {
     )}
 
     {ContVerUser && (
-      <div>
-          <main>
-              {!isEditing ? (
-                  // VISTA NORMAL       
-                  DatosIntermedios.map((dato, index) => {
+        <main>
+            {!Editando ? (
+                // VISTA NORMAL       
+                DatosIntermedios.map((dato, index) => {
+                
+                    const user = Users.find((u) => u.id == idUser && u.id == dato.user);
+                    const usuario = Usuarios.find((us) => us.id == IDusuario && us.id == dato.usuario);
                     
-                      const user = Users.find((u) => u.id == idUser && u.id == dato.user);
-                      const usuario = Usuarios.find((us) => us.id == IDusuario && us.id == dato.usuario);
-                      
-                      if (!user || !usuario) return null;
-        
-                        const IMgUser2 = usuario.referenciaIMG_oferente && usuario.referenciaIMG_oferente !== "null" && usuario.referenciaIMG_oferente !== "" ? usuario.referenciaIMG_oferente
-                            : IMgUser;
-
-                        return (
-                          <div key={{index}} id='PerfilUser'>
-                              <div className='itemPerfil SubContPerfilAdmin1'>
-                                <svg onClick={() => setContVerUser(false)} xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="#2ae2b6" className="bi bi-arrow-left-circle" viewBox="0 0 16 16">
+                    if (!user || !usuario) return null;
+    
+                    const IMgUser2 = usuario.referenciaIMG_oferente && usuario.referenciaIMG_oferente !== "null" && usuario.referenciaIMG_oferente !== "" ? usuario.referenciaIMG_oferente
+                        : IMgUser;
+                        
+                    return (
+                        <div key={{index}} id='PerfilUser'>
+                            <div className='itemPerfil SubContPerfilAdmin1'>
+                                <svg onClick={volver} xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="#2ae2b6" className="bi bi-arrow-left-circle" viewBox="0 0 16 16">
                                     <path d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
                                 </svg>
 
-                                  <div align="center">
+                                <div align="center">
                                     <img src={IMgUser2} alt="" />
-                                  </div>
-                                  <br />
-                                  <div style={{ width: "80%", margin: "0 auto" }}>
-                                  
-                                      <label>Identificación</label>
-                                      <p>{usuario.identificacion_oferente}</p>
+                                </div>
+                                <br />
 
-                                      <label>Nombre completo</label>
-                                      <p>{user.first_name} {user.last_name}</p>
-      
-                                  </div>
-                              </div>
-      
-                              <div className='itemPerfil SubContPerfilAdmin2'>
+                                <div style={{ width: "80%", margin: "0 auto" }}>
+                                    <label>Identificación</label>
+                                    <p>{usuario.identificacion_oferente}</p>
+
+                                    <label>Nombre completo</label>
+                                    <p>{user.first_name} {user.last_name}</p>
+                                </div>
+
+                            </div>
+    
+                            <div className='itemPerfil SubContPerfilAdmin2'>
                                 <label>Usuario</label>
                                 <p>{user.username}</p>        
 
                                 <label>Teléfono</label>
                                 <p>{usuario.telefono_oferente}</p>
-    
+
                                 <label>Correo Electrónico</label>
                                 <p>{user.email}</p>
 
-                                <label>Rol de usuario</label>
-                                  <p>{user.email}</p>
-
-
-
-                                    <div className='contbtnAcciones' style={{ textAlign: "right", width: "80%" }}>
-                                        <button className='BtnEditar' onClick={(e) => EditarPerfil(user.id, usuario.id)} >Editar</button>
-
-                                        {IsActivo && (
-                                            <button className='BtnDesactivar' onClick={(e) => DesactivarUsuario(user.id, usuario.id)} >Desactivar</button>
-                                        )}
-
-                                        {!IsActivo && (
-                                            <button className='BtnActivar' onClick={(e) => ActivarUsuario(user.id, usuario.id)} >Activar</button>
-                                        )}
-
-                                        <button className='BtnEliminar' onClick={(e) => EliminarUsuario(user.id, usuario.id)} >Eliminar</button>
+                                {DatosGroups.map((group, indexG) => group.id == user.groups[0] && (
+                                        <div key={indexG}>                                        
+                                        <label>Rol de usuario</label>
+                                        <p>{group.name}</p>
                                     </div>
-                                
-                                
+                                ))}
+                                <br />
 
-                              </div>
-                          </div>
-                        );
-                      
-                })
+                                <div className='contbtnAcciones' style={{ textAlign: "right", width: "80%" }}>
 
-                ) : (
-                    // MODO EDICIÓN
+                                    <button className='BtnEditar' onClick={(e) => EditarPerfil()} >Editar</button>
 
-                            <div id='PerfilUser'>
-                                <div className='itemPerfil SubContPerfilAdmin1'>
-                                    
-                                    <svg onClick={() => setIsEditing(false)} xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="#2ae2b6" className="bi bi-arrow-left-circle" viewBox="0 0 16 16">
-                                        <path d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
-                                    </svg>
-                                    <br />
+                                    {IsActivo && (
+                                        <button className='BtnDesactivar' onClick={(e) => DesactivarUsuario()} >Desactivar</button>
+                                    )}
 
-                                    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "10px" }}>
-                                        {!VistaIMG ? (
-                                            <label htmlFor="imageInput" style={{width: "150px", height: "150px", borderRadius: "50%", border: "solid" ,display: "flex",justifyContent:"center", 
-                                                alignItems: "center",cursor: "pointer",fontSize: "14px",color: "#666"}}> 
-                                                
+                                    {!IsActivo && (
+                                        <button className='BtnActivar' onClick={(e) => ActivarUsuario()} >Activar</button>
+                                    )}
 
-                                                <img className='ImgEdit' src={IMgUser} alt="" />
-
-                                                <input id="imageInput" type="file" accept="image/*" style={{ display: "none" }} onChange={(e) => CambioImagen(e)} />
-                                            </label>
-
-                                        
-                                        ) : (
-
-                                            <div style={{ position: "relative" }}>
-
-                                            <img src={VistaIMG} className='VistaIMG' alt="Vista previa" style={{ width: "150px", height: "150px", borderRadius: "50%", border: "solid", objectFit: "cover" }} />
-
-                                            <button onClick={manejarEliminarImagen} className='btnEquiz' style={{ position: "absolute", top: "-5px", right: "5px", background: "transparent", color: "white", fontWeight: "bolder", border: "none", borderRadius: "50%", width: "25px", height: "25px", cursor: "pointer"}}> ❌ </button>
-                                            </div>
-                                        )}
-
-                                    <br />
-                                    </div>
-
-                                    <div style={{ width: "80%", margin: "0 auto" }}>
-                                        <label>Contraseña Admin</label>
-                                        <input value={ContraAdmin} onChange={(e) => setContraAdmin(e.target.value)} className='inputEdit' type="password"/>
-                                    </div>
-
+                                    <button className='BtnEliminar' onClick={(e) => EliminarUsuario()} >Eliminar</button>
                                 </div>
-        
-                                <div className='itemPerfil SubContPerfilAdmin2'>
-                                    <label> Nuevo Usuario</label><br />
-                                    <input value={UsuarioAEditar} onChange={(e) => setUsuarioAEditar(e.target.value)} className='inputEdit' type="text" /><br />
 
-                                    <label> Nuevo Teléfono</label><br />
-                                    <input value={TelefonoAEditar} onChange={(e) => setTelefonoAEditar(e.target.value)} className='inputEdit' type="text"/><br />
-        
-                                    <label>Nuevo Correo Electrónico</label><br />
-                                    <input value={CorreoAEditar} onChange={(e) => setCorreoAEditar(e.target.value)} className='inputEdit' type="text"/><br />
-                                    <br /><br />
+                            </div>
+                        </div>
+                    );
+                    
+            })
 
-                                    <div className='contbtnEditar' style={{ textAlign: "right", width: "80%" }}>
-                                        <button onClick={GuardarCambios}> Guardar cambios</button>
-                                    </div>
+            ) : (
+                // MODO EDICIÓN
+
+                        <div id='PerfilUser'>
+                            <div className='itemPerfil SubContPerfilAdmin1'>
+                                
+                                <svg onClick={() => setEditando(false)} xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="#2ae2b6" className="bi bi-arrow-left-circle" viewBox="0 0 16 16">
+                                    <path d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
+                                </svg>
+                                <br />
+
+                                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "10px" }}>
+                                    {!VistaIMG ? (
+                                        <label htmlFor="imageInput" style={{position: "relative", width: "150px", height: "150px", borderRadius: "50%", border: "solid" ,display: "flex",justifyContent:"center", 
+                                            alignItems: "center",cursor: "pointer",fontSize: "14px",color: "#666"}}> 
+                                            
+
+                                            <img className='ImgEdit' src={IMgUser} alt="" />
+
+                                            <button onClick={(e) => InsertIMGDefault(e)} className='btnEquiz' style={{ position: "absolute", top: "-5px", right: "5px", background: "transparent", color: "white", fontWeight: "bolder", border: "none", borderRadius: "50%", width: "25px", height: "25px", cursor: "pointer"}}> ❌ </button>
+
+                                            <input id="imageInput" type="file" accept="image/*" style={{ display: "none" }} onChange={(e) => CambioImagen(e)} />
+                                        </label>
+
+                                    
+                                    ) : (
+
+                                        <div style={{ position: "relative" }}>
+
+                                        <img src={VistaIMG} className='VistaIMG' alt="Vista previa" style={{ width: "150px", height: "150px", borderRadius: "50%", border: "solid", objectFit: "cover" }} />
+
+                                        <button onClick={manejarEliminarImagen} className='btnEquiz' style={{ position: "absolute", top: "-5px", right: "5px", background: "transparent", color: "white", fontWeight: "bolder", border: "none", borderRadius: "50%", width: "25px", height: "25px", cursor: "pointer"}}> ❌ </button>
+                                        </div>
+                                    )}
+
+                                <br />
+                                </div>
+
+                                <div style={{ width: "80%", margin: "0 auto" }}>
+                                    <label>Contraseña Admin</label>
+                                    <input value={ContraAdmin} onChange={(e) => setContraAdmin(e.target.value)} className='inputEdit' type="password"/>
+                                </div>
+
+                            </div>
+    
+                            <div className='itemPerfil SubContPerfilAdmin2'>
+                                <label> Nuevo Usuario</label><br />
+                                <input value={UsuarioAEditar} onChange={(e) => setUsuarioAEditar(e.target.value)} className='inputEdit' type="text" /><br />
+
+                                <label> Nuevo Teléfono</label><br />
+                                <input value={TelefonoAEditar} onChange={(e) => setTelefonoAEditar(e.target.value)} className='inputEdit' type="text"/><br />
+    
+                                <label>Nuevo Correo Electrónico</label><br />
+                                <input value={CorreoAEditar} onChange={(e) => setCorreoAEditar(e.target.value)} className='inputEdit' type="text"/><br />
+                                <br /><br />
+
+                                <div className='contbtnEditar' style={{ textAlign: "right", width: "80%" }}>
+                                    <button onClick={GuardarCambios}> Guardar cambios</button>
                                 </div>
                             </div>
+                        </div>
 
-                )}
-          </main>
-      </div>
+            )}
+        </main>
     )}
 
 

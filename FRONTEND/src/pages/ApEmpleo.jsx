@@ -5,7 +5,6 @@ function ApEmpleo() {
   return (
     <div>
       <AplicasionEmpleo/>
-      <BTNAplicar/>
     </div>
   )
 }

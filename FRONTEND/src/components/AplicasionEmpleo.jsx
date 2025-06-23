@@ -46,7 +46,7 @@ const AplicacionEmpleo = () => {
       iconColor: '#2ae2b6'
     }).then((result) => {
       if (result.isConfirmed) {
-        // navigate("/")          Averiguar a quien pertenece para agregar el vinculo.
+        navigate("/detallesOferta");
       }
     });
   };
@@ -59,19 +59,6 @@ const AplicacionEmpleo = () => {
         icon: 'warning',
         title: 'Falta archivo',
         text: 'Debes subir un archivo PDF.',
-        confirmButtonColor: '#2ae2b6',
-        background: '#1a1a1a',
-        color: '#fff',
-        iconColor: '#ffcc00'
-      });
-      return;
-    }
-
-    if (comment.trim() === '') {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Falta comentario',
-        text: 'Por favor escribe un comentario antes de enviar.',
         confirmButtonColor: '#2ae2b6',
         background: '#1a1a1a',
         color: '#fff',
@@ -101,7 +88,7 @@ const AplicacionEmpleo = () => {
   return (
     <div className="modal-container">
       <div className="modal-box">
-        <button className="close-btn" onClick={handleClose}>X</button>
+        <button className="close-btn" onClick={handleClose}>✖️</button>
         <h2 className="modal-title"><em>Aplicar al empleo</em></h2>
 
         <label className="comment-label"><em>Comentario:</em></label>
@@ -123,7 +110,7 @@ const AplicacionEmpleo = () => {
           {fileUrl && (
             <div className="pdf-viewer-container">
               <iframe
-                src={`${fileUrl}#toolbar=0&navpanes=0&scrollbar=0`} title="PDF Preview" width="100%" height="300px" style={{ border: 'none' }}></iframe>
+                src={`${fileUrl}#toolbar=0&navpanes=0&scrollbar=0`} title="PDF Preview" width="100%" height="250px" style={{ border: 'none' }}></iframe>
             </div>
           )}
 

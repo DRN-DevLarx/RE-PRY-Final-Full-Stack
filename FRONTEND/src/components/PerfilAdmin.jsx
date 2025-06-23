@@ -15,7 +15,7 @@ import '../styles/PerfilAdmin.css'
 function PerfilAdmin() {
     const navigate = useNavigate();
 
-    let IMgUser = "https://res.cloudinary.com/dw65xvmgp/image/upload/v1749743238/FB_chiuol.avif"
+    let IMgUser = "https://res.cloudinary.com/dateuzds4/image/upload/v1750454292/FB_sby2fv.avif"
     
     const [isEditing, setIsEditing] = useState(false);
     
@@ -123,13 +123,27 @@ function PerfilAdmin() {
     }
 
     const CambioImagen = (e) => {
-     const file = e.target.files[0];
+    const file = e.target.files[0];
 
-        if (file) {
+    if (file) {
+        const validTypes = ['image/jpeg', 'image/png', 'image/webp'];
+        const validExtensions = ['.jpg', '.jpeg', '.png', '.webp'];
+        const fileExtension = file.name.substring(file.name.lastIndexOf('.')).toLowerCase();
+
+        if (!validTypes.includes(file.type) || !validExtensions.includes(fileExtension)) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Formato no permitido',
+            text: 'Solo se permiten archivos JPG, JPEG, PNG o WEBP.',
+
+        });
+        e.target.value = ''; // Limpia el input
+        return;
+        }
+
         setVistaIMG(URL.createObjectURL(file));
         setImagenSeleccionada(file);
-        }
-        
+    }
     };
 
     const manejarEliminarImagen = () => {
@@ -436,7 +450,7 @@ function PerfilAdmin() {
 
     return (
         <div id='ContPerfilAdmin'>
-            <div className='headerPerfilAdmin'>
+            <div className='headerDashboard'>
                 <h3>Perfil</h3>
                 <svg onClick={exitDashboard} xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="white" className="bi bi-box-arrow-right" viewBox="0 0 16 16">
                     <path d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z"/>

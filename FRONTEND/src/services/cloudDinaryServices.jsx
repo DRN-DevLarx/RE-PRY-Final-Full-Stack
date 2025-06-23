@@ -2,7 +2,7 @@ import { Cloudinary } from "@cloudinary/url-gen";
 
 const cloudinary = new Cloudinary({
   cloud: {
-    cloudName: "dw65xvmgp"
+    cloudName: "dateuzds4"
   }
 });
 
@@ -16,7 +16,7 @@ const uploadImage = async (file) => {
   console.log(formData);
   
   try {
-    const response = await fetch(`https://api.cloudinary.com/v1_1/dw65xvmgp/image/upload`,
+    const response = await fetch(`https://api.cloudinary.com/v1_1/dateuzds4/image/upload`,
       {
         method: "POST",
         body: formData,

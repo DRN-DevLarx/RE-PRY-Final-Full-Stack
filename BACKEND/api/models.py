@@ -14,7 +14,7 @@ class Intereses(models.Model):
 class Usuarios (models.Model):
     identificacion_oferente = models.IntegerField(unique=True)
     telefono_oferente = models.CharField(unique=True, max_length=20, blank=True, null=True)
-    referenciaIMG_oferente = models.CharField(max_length=30, blank=True, null=True)
+    referenciaIMG_oferente = models.TextField(blank=True, null=True)
     estado_oferente = models.CharField(max_length=30)
     
     intereses = models.ManyToManyField(Intereses, through='InteresesUsuarios', related_name='Usuarios')
@@ -46,8 +46,8 @@ class Users_Usuarios(models.Model):
 class Empresas(models.Model):
     identificacion_empresa = models.BigIntegerField(unique=True)
     telefono_empresa = models.CharField(max_length=30, validators=[MinLengthValidator(8)], unique=True,)
-    ubicacion_empresa = models.TextField()
-    referenciaIMG_empresa = models.CharField(max_length=30)
+    ubicacion_empresa = models.TextField(blank=True, null=True)
+    referenciaIMG_empresa = models.TextField(blank=True, null=True)
     estado_empresa = models.CharField(max_length=30)
     
     empresa_info = models.ManyToManyField(User, through='Users_Empresas', related_name='Empresas')
@@ -70,7 +70,7 @@ class Ofertas(models.Model):
     vacantes_oferta = models.IntegerField()
     ubicacion_oferta = models.CharField(max_length=30)
     fecha_oferta = models.DateTimeField(auto_now_add=True)
-    salario_oferta = models.CharField(max_length=30)
+    salario_oferta = models.TextField(blank=True, null=True)
     descripcion_oferta = models.TextField()
     referenciaIMG_oferta = models.CharField(max_length=100)
     estado_oferta = models.CharField(max_length=10)
@@ -93,6 +93,8 @@ class Postulaciones(models.Model):
     usuario = models.ForeignKey(Usuarios, on_delete=models.CASCADE)
     oferta = models.ForeignKey(Ofertas, on_delete=models.CASCADE)
     fecha_postulacion =models.DateTimeField(auto_now_add=True)
+    referenciaPDF = models.TextField(blank=True, null=True)
+    comentario = models.TextField(blank=True, null=True)
     
     def __str__(self):
         return " ".join(vars(self).values())
@@ -100,7 +102,7 @@ class Postulaciones(models.Model):
     
 class AuditoriaOfertas(models.Model):
     oferta = models.ForeignKey(Ofertas, on_delete=models.CASCADE)
-    motivo = models.TextField()
+    motivo = models.TextField(blank=True, null=True)
     fecha_auditoria = models.DateTimeField (auto_now_add=True)
 
     def __str__(self):

@@ -17,6 +17,7 @@ import PrincipalPage from '../pages/PrincipalPage';
 
 import ApEmpleo from '../pages/ApEmpleo';
 import ChatNotif from'../pages/ChatNotif';
+import DetallesOfertaPage from '../pages/DetallesOfertaPage';
 
 import PrivateRoute from '../components/PrivateRoute';
 
@@ -47,8 +48,9 @@ function Routing() {
             <Route path="/public"element={<PrivateRoute element={<Publicar/>} />}/>
             <Route path="/dashboard" element={<PrivateRoute element={<DashboardPage />} />} />
             <Route path="/editperf" element={<PrivateRoute element={<EditarPerfil />} />} />
-            <Route path="/ApEmpleo" element={<PrivateRoute element={<ApEmpleo />} />} />
+            <Route path="/aplicar" element={<PrivateRoute element={<ApEmpleo />} />} />
             <Route path="/chat" element={<PrivateRoute element={<ChatNotif />} />} />
+            <Route path="/detallesOferta" element={<PrivateRoute element={<DetallesOfertaPage />} />} />
         </Routes>
     </Router>
   

@@ -1,23 +1,21 @@
 
-
-
-async function GetIntereses() {
+async function GetInteUser() {
     try {
         const response = await fetch("http://127.0.0.1:8000/api/intereses-usuarios/");
 
         if (!response.ok) {
-            throw new Error('Error al obtener intereses');
+            throw new Error('Error al obtener User');
         }
 
         return await response.json();
         
     } catch (error) {
-        console.error('Error al obtener intereses:', error);
+        console.error('Error al obtener User:', error);
         throw error;
     }
 }
 
-async function PostIntereses(obj) {
+async function PostInteUser(obj) {
     
     try {
         const response = await fetch("http://127.0.0.1:8000/api/intereses-usuarios/", {
@@ -29,18 +27,18 @@ async function PostIntereses(obj) {
         });
 
         if (!response.ok) {
-            throw new Error('Error al crear intereses');
+            throw new Error('Error al crear User');
         }
 
         return await response.json();
 
     } catch (error) {
-        console.error('Error al crear intereses:', error);
+        console.error('Error al crear User:', error);
         throw error;
     }
 }
 
-async function PutIntereses(id, obj) {
+async function PutInteUser(id, obj) {
     try {
         const response = await fetch(`http://127.0.0.1:8000/api/intereses-usuarios/${id}/`, {
             method: 'PUT',
@@ -51,32 +49,32 @@ async function PutIntereses(id, obj) {
         });
 
         if (!response.ok) {
-            throw new Error('Error al actualizar intereses');
+            throw new Error('Error al actualizar User');
         }
 
         return await response.json();
     } catch (error) {
-        console.error('Error al actualizar intereses:', error);
+        console.error('Error al actualizar User:', error);
         throw error;
     }
 }
 
-async function DeleteIntereses(id) {
+async function DeleteInteUser(id) {
     try {
         const response = await fetch(`http://127.0.0.1:8000/api/intereses-usuarios/${id}/`, {
             method: 'DELETE',
         });
 
         if (!response.ok) {
-            throw new Error('Error al eliminar intereses');
+            throw new Error('Error al eliminar User');
         }
 
-        return { message: "intereses eliminado correctamente" };
+        return { message: "User eliminado correctamente" };
     } catch (error) {
-        console.error('Error al eliminar intereses:', error);
+        console.error('Error al eliminar User:', error);
         throw error;
     }
 }
 
-export default {GetIntereses, PostIntereses, PutIntereses, DeleteIntereses};
+export default {GetInteUser, PostInteUser, PutInteUser, DeleteInteUser};
 

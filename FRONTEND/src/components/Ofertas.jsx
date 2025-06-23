@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import "../styles/ofertas.css";
 import InteresesServices from '../services/interesesServices';
 import OfertasServices from '../services/ofertasServices';
-
+import GetCookie from '../services/GetCookie';
 
 function Ofertas() {
 
+  const navigate = useNavigate();
   const [Intereses, setIntereses] = useState([]);
   const [ErrorIntereses, setErrorIntereses] =  useState(null);
 
@@ -19,7 +21,13 @@ function Ofertas() {
   const [FiltroEstado, setFiltroEstado] = useState("")
   const [FiltroInput, setFiltroInput] = useState("")
 
+  let UsuarioLogiado = false;
+  const Access_token = GetCookie.getCookie("access_token");
 
+  if (Access_token) {
+    UsuarioLogiado = true;
+  }
+  
   useEffect(() => {
       let isMounted = true;
       const fetch = async () => {
@@ -68,11 +76,13 @@ function Ofertas() {
     });
   }
 
-  // Llamada a la función
   let Filtrado = filtrarOfertas(Ofertas, FiltroAreaTrabajo, FiltroUbicacion, FiltroSalario, FiltroEstado, FiltroInput);
   
-  console.log(Filtrado);
-  
+  const VerDetalles = (id) => {    
+    document.cookie = `IdOferta=${id}; path=/; secure; SameSite=Strict`;
+
+    navigate("/detallesOferta");
+  }
 
   return (
     <div>
@@ -82,7 +92,6 @@ function Ofertas() {
           <hr className='hh' />
           <br />
             
-<<<<<<< HEAD
 
             <div className='filtrosAdmin'>
               
@@ -91,15 +100,6 @@ function Ofertas() {
                 {Intereses.map((interes, index) => (
                   <option key={index} value={interes.id}>
                     {interes.nombre_interes}
-=======
-          <div className='filtros'>
-            
-              <select name="" id="">
-              <option value="">Area de trabajo</option>
-            {Intereses.map((interes, index) => (
-                <option key={index} value={interes.nombre_interes}>
-                  {interes.nombre_interes}
->>>>>>> f0f616070bc47ac7f4eeb0d1045c0b8174b27d6e
                   </option>
                 ))}
               </select>
@@ -141,14 +141,11 @@ function Ofertas() {
 
             </div>
 
-          
-            <div id='SectOfertas'>
-
-              <div id='containerOf'>
-              {
-                Filtrado.map((oferta, index) => (
-                  
-                    <article  key={index}>
+            {UsuarioLogiado && (
+              <div id='SectOfertas'>
+                <div id='containerOf'>
+                  {Filtrado.map((oferta, index) => (
+                    <article onClick={(e) => VerDetalles(oferta.id)} key={index}>
                       <h3>{oferta.titulo_oferta}</h3>
                       <img className='imgOferta' src={oferta.referenciaIMG_oferta} alt=""/>
                       <p><b>Interes: </b>{oferta.intereses}</p>
@@ -156,12 +153,27 @@ function Ofertas() {
                       <p><b>Ubicacion: </b> {oferta.ubicacion_oferta}</p>
                       <p><b>Fecha de Publicación:</b> {new Date(oferta.fecha_oferta).toLocaleString()}</p>
                     </article>
-              ))
-            }
-            </div>
+                  ))}
+                </div>
+              </div>
+            )}
 
-              
-            </div>
+            {!UsuarioLogiado && (
+              <div id='SectOfertas'>
+                  <div id='containerOf'>
+                    {Filtrado.map((oferta, index) => (
+                      <article  key={index}>
+                        <h3>{oferta.titulo_oferta}</h3>
+                        <img className='imgOferta' src={oferta.referenciaIMG_oferta} alt=""/>
+                        <p><b>Interes: </b>{oferta.intereses}</p>
+                        <p><b>Vacantes: </b>{oferta.vacantes_oferta}</p>
+                        <p><b>Ubicacion: </b> {oferta.ubicacion_oferta}</p>
+                        <p><b>Fecha de Publicación:</b> {new Date(oferta.fecha_oferta).toLocaleString()}</p>
+                      </article>
+                    ))}
+                </div>
+              </div>
+            )}
            
         </div>
     </div>

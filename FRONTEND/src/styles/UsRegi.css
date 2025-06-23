@@ -1,28 +1,10 @@
 
-
 #PerfilUser {
     color: white;
     display: flex;
     height: 70vh;
     margin: 50px auto;
-    padding: 10px 100px;
-}
-
-.headerUltimasPublicaciones {
-    display: flex;
-    justify-content: space-around;
-    color: white;
-    background-color: #9293936a;
-    text-align: center;
-    padding: 17px;
-    margin-bottom: 20px;
-}
-.headerUltimasPublicaciones h3 {
-    width: 100%;
-}
-
-.headerUltimasPublicaciones svg:hover {
-    transform: scale(1.2);
+    padding: 0px 100px;
 }
 
 .Cont2 {
@@ -36,16 +18,40 @@
 .User {
   background-color: #0c4d3d98;
   border-radius: 8px;
-  padding: 10px 80px;
+  padding: 10px 100px;
   margin-bottom: 10px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
   color: white;
   font-size: 18px;
+
+  display: flex;
+
 }
 
 .User:hover {
     background-color: #2ae2b6;
     transform: scale(1.03);
+}
+
+.UserLeft {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: left;
+}
+
+.UserIcon {
+  width: 30%;
+  text-align: center;
+}
+
+.UserRight {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  justify-content: center;
 }
 
 .user-card-header {
@@ -59,44 +65,11 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-
-.contbtnAcciones {
-  padding: 20px 0;
-  width: 100%;
-  display: flex;
-  gap: 10px;
-}
-
-.contbtnAcciones button {
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 5px;
-}
-
-.BtnEditar {
-  background-color: #2ae2b77b;
-}
-
-.BtnDesactivar {
-  background-color: yellowgreen;
-}
-
-.BtnActivar {
   background-color: green;
+  padding-left: 10px;
 }
 
-.BtnEliminar {
-  background-color: crimson;
-}
 
-.contbtnAcciones button:hover {
-  transform: translateY(-5px);
-  color: black;
-  font-weight: bold;
-  box-shadow: 0px 0px 25px white;
-}
 
 .ImgEdit {
   padding: 5px;

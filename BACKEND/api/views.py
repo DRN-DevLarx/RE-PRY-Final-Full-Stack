@@ -1,11 +1,12 @@
 from rest_framework import viewsets
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
-from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.generics import CreateAPIView
 from django.contrib.auth.models import User, Group
 from rest_framework_simplejwt.views import TokenObtainPairView
+
+UserGroup = User.groups.through
 
 from .models import (
     Usuarios, Intereses, InteresesUsuarios, Users_Usuarios, Ofertas, Empresas, Users_Empresas,
@@ -13,9 +14,10 @@ from .models import (
 )
 from .serializers import (
     UsuariosSerializer, UsersSerializer, InteresesSerializer, InteresesUsuariosSerializer, Users_UsuariosSerializer,
-    user_groupsSerializer, EmpresasSerializer, Users_EmpresasSerializer, OfertasSerializer, OfertasEmpresasSerializer,
-    PostulacionesSerializer, AuditoriaOfertasSerializer, CustomTokenObtainPairSerializer
+    EmpresasSerializer, Users_EmpresasSerializer, OfertasSerializer, OfertasEmpresasSerializer,
+    PostulacionesSerializer, AuditoriaOfertasSerializer, CustomTokenObtainPairSerializer, user_groupsSerializer
 )
+
 
 class CustomTokenObtainPairView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
@@ -47,7 +49,7 @@ class UsersViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UsersSerializer
     permission_classes = [AllowAny]
-
+        
 class InteresesViewSet(viewsets.ModelViewSet):
     queryset = Intereses.objects.all()
     serializer_class = InteresesSerializer
@@ -66,7 +68,7 @@ class Users_UsuariosViewSet(viewsets.ModelViewSet):
 
 
 class auth_user_groups(viewsets.ModelViewSet):
-    queryset = Group.objects.all()
+    queryset = UserGroup.objects.all()
     serializer_class = user_groupsSerializer
     permission_classes = [AllowAny]
 

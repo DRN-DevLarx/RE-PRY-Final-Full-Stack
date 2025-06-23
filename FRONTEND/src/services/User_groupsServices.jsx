@@ -2,7 +2,7 @@
 
 async function GetUser_group() {
     try {
-        const response = await fetch("http://127.0.0.1:8000/api/User_group-usuarios/");
+        const response = await fetch("http://127.0.0.1:8000/api/user-group/");
 
         if (!response.ok) {
             throw new Error('Error al obtener User_group');

@@ -73,15 +73,30 @@ function Publicar() {
     }, []);
 
   
-  const CambioImagen = (e) => {
-    const file = e.target.files[0];
+const CambioImagen = (e) => {
+  const file = e.target.files[0];
 
-    if (file) {
-      setVistaIMG(URL.createObjectURL(file));
-      setImagenSeleccionada(file);
+  if (file) {
+    const validTypes = ['image/jpeg', 'image/png', 'image/webp'];
+    const validExtensions = ['.jpg', '.jpeg', '.png', '.webp'];
+    const fileExtension = file.name.substring(file.name.lastIndexOf('.')).toLowerCase();
+
+    if (!validTypes.includes(file.type) || !validExtensions.includes(fileExtension)) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Formato no permitido',
+        text: 'Solo se permiten archivos JPG, JPEG, PNG o WEBP.',
+
+      });
+      e.target.value = ''; // Limpia el input
+      return;
     }
-    
-  };
+
+    setVistaIMG(URL.createObjectURL(file));
+    setImagenSeleccionada(file);
+  }
+};
+
 
   const manejarEliminarImagen = () => {
     setVistaIMG(null);
@@ -187,44 +202,52 @@ function Publicar() {
             
       const uploadedUrl = await cloudDinaryServices.uploadImage(ImagenSeleccionada);
       
-      const obj_Oferta = {
-        titulo_oferta: Titulo,
-        nombre_puesto_oferta: NombrePuesto,
-        intereses: Number(AreaTrabajo),
-        vacantes_oferta: Number(Nvacantes),
-        ubicacion_oferta: Lugar,
-        salario_oferta: Salario,
-        descripcion_oferta: Descripcion,
-        referenciaIMG_oferta: uploadedUrl,
-        estado_oferta: "activa",
-        empresa: Number(IDEmpresa),
-      }      
+      console.log(uploadedUrl);
+      
+      if (uploadedUrl) {
+        
+        const obj_Oferta = {
+          titulo_oferta: Titulo,
+          nombre_puesto_oferta: NombrePuesto,
+          intereses: Number(AreaTrabajo),
+          vacantes_oferta: Number(Nvacantes),
+          ubicacion_oferta: Lugar,
+          salario_oferta: Salario,
+          descripcion_oferta: Descripcion,
+          referenciaIMG_oferta: uploadedUrl,
+          estado_oferta: "activa",
+          empresaUser: Number(IDEmpresa),
+        }
 
-      const respuestaServerOferta = await ofertasServices.PostOfertas(obj_Oferta);
+        console.log("Objeto de oferta:", obj_Oferta);
+        
 
-      console.log("Respuesta del servidor:", respuestaServerOferta);
-
-      if (respuestaServerOferta.status == 200 || respuestaServerOferta.status == 201) {
-          Swal.fire({
-              icon: "success",
-              text: "Publicación exitosa.",
-              background: "#1a1a1a",
-              color: "#ffffff",
-              showConfirmButton: false,
-              timer: 1400,
-          });
-          setTimeout(() => {
-            navigate("/PrincipalPage")
-          }, 1500);
-
-      } else {
-          Swal.fire({
-              icon: "error",
-              text: "Hubo un problema al publicar la oferta.",
-              background: "#1a1a1a",
-              color: "#ffffff",
-              showConfirmButton: true,
-          });
+        const respuestaServerOferta = await ofertasServices.PostOfertas(obj_Oferta);
+  
+        console.log("Respuesta del servidor:", respuestaServerOferta);
+  
+        if (respuestaServerOferta.status == 200 || respuestaServerOferta.status == 201) {
+            Swal.fire({
+                icon: "success",
+                text: "Publicación exitosa.",
+                background: "#1a1a1a",
+                color: "#ffffff",
+                showConfirmButton: false,
+                timer: 1400,
+            });
+            setTimeout(() => {
+              navigate("/PrincipalPage")
+            }, 1500);
+  
+        } else {
+            Swal.fire({
+                icon: "error",
+                text: "Hubo un problema al publicar la oferta.",
+                background: "#1a1a1a",
+                color: "#ffffff",
+                showConfirmButton: true,
+            });
+        }
       }
       
 
@@ -288,22 +311,22 @@ function Publicar() {
             <div className="cuadro">
               <h3>Lugar</h3>
               <select value={Lugar} onChange={(e) => setLugar(e.target.value)} className='selectPublicar' name="distritos_cercanos">
-                <option value="">Selecciona el lugar</option>
-                <option value="Puntarenas">Puntarenas</option>
-                <option value="Pitahaya">Pitahaya</option>
-                <option value="Chomes">Chomes</option>
-                <option value="Barranca">Barranca</option>
-                <option value="Chacarita">Chacarita</option>
-                <option value="Acapulco">Acapulco</option>
-                <option value="Arancibia">Arancibia</option>
-                <option value="Espiritu_santo">Espíritu Santo</option>
-                <option value="San Juan grande">San Juan Grande</option>
-                <option value="Macacona">Macacona</option>
-                <option value="San Rafael">San Rafael</option>
-                <option value="San Jeronimo">San Jerónimo</option>
-                <option value="Miramar">Miramar</option>
-                <option value="La Union">La Unión</option>
-                <option value="San Isidro">San Isidro</option>
+                  <option value="">Selecciona el lugar</option>
+                  <option value="Puntarenas">Puntarenas</option>
+                  <option value="Pitahaya">Pitahaya</option>
+                  <option value="Chomes">Chomes</option>
+                  <option value="Barranca">Barranca</option>
+                  <option value="chacarita">Chacarita</option>
+                  <option value="Acapulco">Acapulco</option>
+                  <option value="Arancibia">Arancibia</option>
+                  <option value="Espiritu_santo">Espíritu Santo</option>
+                  <option value="San_Juan_grande">San Juan Grande</option>
+                  <option value="Macacona">Macacona</option>
+                  <option value="San_Rafael">San Rafael</option>
+                  <option value="San_Jeronimo">San Jerónimo</option>
+                  <option value="Miramar">Miramar</option>
+                  <option value="La_Union">La Unión</option>
+                  <option value="San_Isidro">San Isidro</option>
               </select>
             
               <h3>Área de trabajo</h3>

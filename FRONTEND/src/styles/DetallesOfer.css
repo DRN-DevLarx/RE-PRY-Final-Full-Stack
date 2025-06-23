@@ -1,65 +1,148 @@
-/* 
-.bodyDetallesDashboard {
-    width: 80%;
-    
-}
-
-.headerPerfilDetalles {
-    display: flex;
-    justify-content: right;
-    gap:240px;
-    color: white;
-    background-color: #9293936a;
-    padding: 17px;
-
-}
-.headerPerfilAdmin h3 {
-    width: 90%;
-
-}
-
-.headerPerfilDetalles svg:hover {
-    transform: scale(1.2);
-}
 
 .ContMainDetalles {
     border-radius: 30px;
     background-color: rgba(0, 0, 0, 0.355);
-    padding: 30px 100px;
-    margin: 50px auto;
-    width: 80%;
-    color: #fff;
-    height: 600px;
-    overflow-y: scroll;
+
+    width: 70%;
+    margin: auto;
+    padding: 20px 60px 20px 80px;
+    color: white;
+    line-height: 20px;
+    box-shadow: 0 0 8px #aaa;
 }
 
 .titulo-oferta {
-  font-size: 2.5rem;
-  margin-bottom: 30px;
-  color: #fff;
-  text-align: center;
+    font-size: 2.5rem;
+    color: #fff;
+    text-align: center;
+    margin-bottom: 20px;
 }
 
+.titulOfertaEdit {
+    background-color: transparent;
+    border: solid 1px white;
+    color: white;
+    border-radius: 10px;
+    padding: 7px;
+    width: 50%;
+    text-align: center;
+}
 
 .grid-detalles {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 25px;
-  padding: 20px;
-  margin-bottom: 20px;
+    display: grid;
+    grid-template-columns: 1fr 0.8fr;
+    gap: 10px;
 }
 
-.columna {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+.grid-detalles2 {
+  display: grid;
+  grid-template-columns: 1fr 0.8fr;
+  gap: 10px;
+  
+}
+
+.grid-detalles2 select {
+    background-color: transparent;
+    border: solid 0.01px gray;
+    color: white;
+    border-radius: 10px;
+    width: 70%;
+
+    padding: 0;
 }
 
 .item {
   display: flex;
-  align-items: center;
-  gap: 10px;
+
+  gap: 5px;
+  padding: 0 5px;
   color: #30eec5;
   font-size: 1.2rem;
 }
- */
+
+.b {
+    width: 40%;
+}
+
+.bEmpresa {
+    width: 40%; 
+}
+
+.PEmpresa {
+    height: 60px;
+    overflow: hidden;
+}
+
+.inputEditOfertas {
+    background-color: transparent;
+    border: solid 1px white;
+    color: white;
+    border-radius: 10px;
+    padding: 0;
+    padding-left: 5px;
+    width: 50%;
+    height: 30px;
+}
+
+.card-contenedor {
+    min-height: 180px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.card-contenedor h4 {
+    align-self: start;
+}
+
+.descripcionOferta {
+    background-color: rgba(213, 211, 211, 0.274);
+    color: black;
+    border-radius: 20px;
+    padding: 20px;
+    word-wrap: break-word;
+    width: 100%;
+    margin-bottom: 20px;
+    height: auto;
+}
+
+.descripcionOfertaTextarea {
+    background-color: rgba(213, 211, 211, 0.274);
+    color: black;
+    border-radius: 20px;
+    padding: 20px;
+    word-wrap: break-word;
+    width: 100%;
+    min-height: 150px;
+    margin-bottom: 20px;
+    resize: none;
+}
+
+
+
+
+
+
+
+
+.boton-Aplicar {
+    display: flex;
+    justify-content: center;
+
+}
+.boton-Aplicar button {
+    padding: 10px;
+    width: 150px;
+    border-radius: 10px;
+    background-color: #117e66b1;
+    border: none;
+    font-weight: bold;
+    margin: 20px 0;
+    color: white;
+}
+
+.boton-Aplicar button:hover {
+    background-color: #00ffc8b6;
+    transform: scale(1.08);
+    color: black;
+}

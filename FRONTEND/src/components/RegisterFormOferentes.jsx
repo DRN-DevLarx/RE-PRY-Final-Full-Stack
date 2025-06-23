@@ -149,8 +149,6 @@ function RegisterForm1() {
                 });
 
                 const data = await response.json();
-
-                console.log(data);
                 
                   if (data.resultcount == 0) {
                       Swal.fire({
@@ -234,9 +232,7 @@ function RegisterForm1() {
 
     const validarTelefono = prefijosCostaRica.some(prefijo => Telefono.toString().startsWith(prefijo.toString()));
     
-    console.log(validarTelefono);
     
-
     const regex = /^[0-9]+$/;
 
     if (regex.test(Telefono) && Telefono.length >=8 && validarTelefono == true ) {
@@ -389,7 +385,9 @@ ejecutarValidaciones();
           last_name: Apellido,
           email: Correo,
         };
+        
         const respuestaServer = await UsersServices.PostUser(datosRegistroUsers);
+        console.log(respuestaServer);
         
 
         // Post a la tabla Usuarios
@@ -401,6 +399,7 @@ ejecutarValidaciones();
         };
 
         const respuestaServer2 = await usuariosServices.PostUsuario(datosRegistro);
+        console.log(respuestaServer2);
         
 
         // Post a la tabla intermedia de Usuarios e intereses
@@ -411,7 +410,8 @@ ejecutarValidaciones();
             usuario: respuestaServer2.id,
             intereses: INTERES,
           };
-          await InteUsuariosServices.PostIntereses(datos_A_InteUsuarios);
+          console.log(await InteUsuariosServices.PostInteUser(datos_A_InteUsuarios))
+           
         }
 
 
@@ -423,8 +423,8 @@ ejecutarValidaciones();
           usuario: respuestaServer2.id,
         };
 
-        await Users_UsuariosServices.PostUserUsuario(datos_A_UsersUsuarios);
-
+        console.log(await Users_UsuariosServices.PostUserUsuario(datos_A_UsersUsuarios));
+        
 
         // Post a la tabla intermedia de auth_user_groups
 
@@ -433,7 +433,9 @@ ejecutarValidaciones();
           group: 2,   // Rol Oferente
         };
 
-        await User_groupsServices.PostUser_group(datos_A_auth_user_groups) 
+        console.log(await User_groupsServices.PostUser_group(datos_A_auth_user_groups));
+        
+        
 
         
         Swal.fire({

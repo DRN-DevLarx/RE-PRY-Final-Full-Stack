@@ -1,3 +1,4 @@
+
 .trabajosDAdmin {
     width: 80%;
 }
@@ -23,13 +24,12 @@
 
 #SectOfertasAdmin {
     width: 100%;
-    overflow: hidden;
     height: 75vh;
     overflow-y: scroll;
     padding: 20px 50px;
-    margin-top: 20px;
-
+    margin-top: 30px;
 }
+
 
 #containerOfAdmin {
     display: flex;
@@ -37,6 +37,7 @@
     gap: 50px 0;
     width: 100%;
     justify-content: space-around;
+
 }
 
 
@@ -66,7 +67,6 @@
     text-align: center;
 }
 
-
 #containerOfAdmin article h3 {
     color: yellow;
     padding: 5px;
@@ -77,7 +77,6 @@
 
 .imgOfertaAdmin {
     margin-top: 5px;
-    margin-bottom: 15px;
     min-height: 200px;
     max-height: 200px;
     min-width: 60%;
@@ -110,104 +109,163 @@
 
 
 .SectionDetallesAdmin {
-    border-radius: 30px;
-    background-color: rgba(0, 0, 0, 0.355);
-    margin: auto;
-    margin-top: 20px;
-    padding: 10px;
-    width: 80%;
-    color: #fff;
+    margin-top: 30px;
+    width: 100%;
     overflow-y: scroll;
-
+    max-height: 85vh;
 }
 
-
 .ContMainDetallesAdmin {
+    border-radius: 30px;
+    background-color: rgba(0, 0, 0, 0.355);
+
     width: 80%;
     margin: auto;
+    padding: 20px 40px;
+    color: white;
+    line-height: 20px;
 }
 
 .titulo-ofertaAdmin {
-  font-size: 2.5rem;
-  margin-bottom: 30px;
-  color: #fff;
-  text-align: center;
+    font-size: 2.5rem;
+    color: #fff;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.titulOfertaEdit {
+    background-color: transparent;
+    border: solid 1px white;
+    color: white;
+    border-radius: 10px;
+    padding: 7px;
+    width: 50%;
+    text-align: center;
 }
 
 .grid-detallesAdmin {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 25px;
-  margin-bottom: 20px;
+    display: grid;
+    grid-template-columns: 1fr 0.8fr;
+    gap: 10px;
 }
 
-.columna {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+.grid-detallesAdmin2 {
+  display: grid;
+  grid-template-columns: 1fr 0.8fr;
+  gap: 10px;
+  
+}
+
+.grid-detallesAdmin2 select {
+    background-color: transparent;
+    border: solid 0.01px gray;
+    color: white;
+    border-radius: 10px;
+    width: 70%;
+
+    padding: 0;
 }
 
 .item {
   display: flex;
-  align-items: center;
-  gap: 10px;
+
+  gap: 5px;
+  padding: 0 5px;
   color: #30eec5;
   font-size: 1.2rem;
 }
 
-.card-contenedorAdmin {
-    min-height: 180px;
+.b {
+    width: 40%;
 }
 
-.descripcionAdmin {
-    background-color: rgba(203, 194, 194, 0.595);
+.bEmpresa {
+    width: 40%; 
+}
+
+.PEmpresa {
+    height: 60px;
+    overflow: hidden;
+}
+
+.inputEditOfertas {
+    background-color: transparent;
+    border: solid 1px white;
+    color: white;
+    border-radius: 10px;
+    padding: 0;
+    padding-left: 5px;
+    width: 50%;
+    height: 30px;
+}
+
+.card-contenedorAdmin {
+    min-height: 180px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.card-contenedorAdmin h4 {
+    align-self: start;
+}
+
+.descripcionOferta {
+    background-color: rgba(213, 211, 211, 0.274);
     color: black;
     border-radius: 20px;
     padding: 20px;
     word-wrap: break-word;
+    width: 100%;
+    margin-bottom: 20px;
+    height: auto;
 }
 
-
-.boton-desactivar {
-    display: flex;
-    justify-content: center;
+.descripcionOfertaTextarea {
+    background-color: rgba(213, 211, 211, 0.274);
+    color: black;
+    border-radius: 20px;
+    padding: 20px;
+    word-wrap: break-word;
+    width: 100%;
+    min-height: 150px;
+    margin-bottom: 20px;
+    resize: none;
 }
 
-.boton-desactivar button {
-    padding: 10px;
-    width: 150px;
-    border-radius: 10px;
-    background-color: rgb(164, 16, 16);
-    font-weight: bold;
-    margin: 20px 0;
+.contbtnAcciones {
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  justify-content: right;
+}
+
+.contbtnAcciones button {
+    color: white;
     border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
 }
 
-.boton-desactivar button:hover {
-    background-color: red;
+.contbtnAcciones button:hover {
+  transform: translateY(-5px);
+  color: black;
+  font-weight: bold;
+  box-shadow: 0px 0px 25px white;
 }
 
-.boton-activar {
-    display: flex;
-    justify-content: center;
+.BtnEditar {
+  background-color: #2ae2b77b;
 }
 
-.boton-activar button {
-    padding: 10px;
-    width: 150px;
-    border-radius: 10px;
-    background-color: #20c29fad;
-    font-weight: bold;
-    margin: 20px 0;
-    border: none;
+.BtnDesactivar {
+  background-color: yellowgreen;
 }
 
-.boton-activar button:hover {
-    background-color: #30eec5;
-} 
+.BtnActivar {
+  background-color: green;
+}
 
-#ContUltimasPublicaciones{
-    margin: 0 auto;
-    width: auto;
-    
+.BtnEliminar {
+  background-color: crimson;
 }
