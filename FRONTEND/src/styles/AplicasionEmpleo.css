@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Shrikhand&display=swap');
 
-.modal-container {
+.contenedor-modal {
   width: 100vw;
   height: 100vh;
   display: flex;
@@ -10,16 +10,16 @@
   overflow: hidden;
 }
 
-.modal-box {
-    background-color: rgba(0, 0, 0, 0.355);
-    padding: 20px 70px;
-    border-radius: 30px;
-    width: 50%;
-    position: relative;
-    box-shadow: 0 0 8px #aaa;
+.caja-modal {
+  background-color: rgba(0, 0, 0, 0.355);
+  padding: 20px 70px;
+  border-radius: 30px;
+  width: 50%;
+  position: relative;
+  box-shadow: 0 0 8px #aaa;
 }
 
-.modal-title {
+.titulo-modal {
   font-family: 'Shrikhand', cursive;
   text-align: center;
   color: #29e3c1;
@@ -27,7 +27,7 @@
   margin-bottom: 20px;
 }
 
-.close-btn {
+.boton-cierre {
   position: absolute;
   top: 15px;
   right: 15px;
@@ -41,46 +41,42 @@
   cursor: pointer;
 }
 
-.upload-label {
-  
+.etiqueta-subida {
+  font-family: 'Shrikhand', cursive;
   display: inline-block;
   background-color: #f1f1f1;
   padding: 12px 20px;
   border-radius: 15px;
   font-weight: bold;
   color: white;
-  background:#4a4844;
+  background: #4a4844;
   cursor: pointer;
   margin-bottom: 10px;
 }
 
-.upload-label:hover{
+.etiqueta-subida:hover {
   background-color: #29e3c1;
 }
 
-.upload-label input {
+.etiqueta-subida input {
   display: none;
 }
 
-
-.pdf-placeholder {
-  
+.contenedor-pdf {
   width: 100%;
   height: 100%;
   background-color: #888;
   border-radius: 20px;
-  
 }
 
-.comment-label {
-  display: block;
-  font-family: "Shrikhand", serif;;
-  font-style: italic;
+.etiqueta-comentario {
+  font-family: 'Shrikhand', cursive;
+  font-weight: bold;
   color: #29e3c1;
   font-size: 20px;  
 }
 
-.comment-box {
+.area-comentario {
   width: 100%;
   height: 80px;
   border-radius: 15px;
@@ -94,10 +90,10 @@
   padding-left: 20px;
 }
 
-.submit-btn {
+.boton-envio {
   display: block;
-  margin:  auto;
-  background-color: #f1f1f1;
+  margin: auto;
+  background-color: #10bb9b;
   border: none;
   padding: 12px 30px;
   border-radius: 10px;
@@ -107,6 +103,8 @@
   margin-top: 10px;
 }
 
-.submit-btn:hover {
+.boton-envio:hover {
   background-color: #29e3c1;
+  transform: translateY(-2px);
+  box-shadow: 0px 0px 20px #29e3c1;
 }

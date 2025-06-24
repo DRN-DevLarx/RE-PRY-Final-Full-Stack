@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import "../styles/ofertas.css";
 import InteresesServices from '../services/interesesServices';
 import OfertasServices from '../services/ofertasServices';
 import GetCookie from '../services/GetCookie';
+
+import "../styles/ofertas.css";
 
 function Ofertas() {
 
@@ -151,7 +152,7 @@ function Ofertas() {
                       <p><b>Interes: </b>{oferta.intereses}</p>
                       <p><b>Vacantes: </b>{oferta.vacantes_oferta}</p>
                       <p><b>Ubicacion: </b> {oferta.ubicacion_oferta}</p>
-                      <p><b>Fecha de Publicación:</b> {new Date(oferta.fecha_oferta).toLocaleString()}</p>
+                      <p><b>Fecha de Publicación:</b> {new Date(oferta.fecha_oferta).toLocaleDateString()}</p>
                     </article>
                   ))}
                 </div>
@@ -168,7 +169,7 @@ function Ofertas() {
                         <p><b>Interes: </b>{oferta.intereses}</p>
                         <p><b>Vacantes: </b>{oferta.vacantes_oferta}</p>
                         <p><b>Ubicacion: </b> {oferta.ubicacion_oferta}</p>
-                        <p><b>Fecha de Publicación:</b> {new Date(oferta.fecha_oferta).toLocaleString()}</p>
+                        <p><b>Fecha de Publicación:</b> {new Date(oferta.fecha_oferta).toLocaleDateString()}</p>
                       </article>
                     ))}
                 </div>

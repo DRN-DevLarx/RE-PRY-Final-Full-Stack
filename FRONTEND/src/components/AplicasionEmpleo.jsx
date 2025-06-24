@@ -1,23 +1,50 @@
-import React, { useState } from 'react';
-import {useNavigate} from "react-router-dom"
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
 import '../styles/AplicasionEmpleo.css';
 import Swal from "sweetalert2";
+import PostulacionesServices from '../services/PostulacionesServices';
+
+import GetCookie from '../services/GetCookie';
+import cloudDinaryServices from '../services/cloudDinaryServices';
 
 const AplicacionEmpleo = () => {
-  const [fileUrl, setFileUrl] = useState(null);
-  const [file, setFile] = useState(null);
-  const [comment, setComment] = useState('');
+  const [pdfPreviewUrl, setPdfPreviewUrl] = useState(null);
+  const [archivoPDF, setArchivoPDF] = useState(null);
+  const [comentario, setComentario] = useState('');
+  const [Postulaciones, setPostulaciones] = useState('');
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  const handleFileChange = (e) => {
-    const selectedFile = e.target.files[0];
+  const userid  = GetCookie.getCookie("user_id");
+  const idOferta = GetCookie.getCookie("IdOferta");
 
-    if (!selectedFile) return;
 
-    if (selectedFile.type !== 'application/pdf') {
-      setFile(null);
-      setFileUrl(null);
+  useEffect(() => {
+      const fetch = async () => {
+          try {
+            const DatosPostulaciones = await PostulacionesServices.GetPostulacion();
+
+              if (DatosPostulaciones) {
+                setPostulaciones(DatosPostulaciones)
+              }
+              
+          } catch (error) {
+            console.log("Error al obtener datos de postulaciones:", error);
+          }
+      };
+  
+      fetch();
+  }, []);
+
+  const manejarCambioArchivo = (e) => {
+    const archivoSeleccionado = e.target.files[0];
+
+    if (!archivoSeleccionado) return;
+
+    if (archivoSeleccionado.type !== 'application/pdf') {
+      setArchivoPDF(null);
+      setPdfPreviewUrl(null);
+
       Swal.fire({
         icon: 'error',
         title: 'Archivo inválido',
@@ -27,13 +54,14 @@ const AplicacionEmpleo = () => {
         color: '#fff',
         iconColor: 'red'
       });
+
     } else {
-      setFile(selectedFile);
-      setFileUrl(URL.createObjectURL(selectedFile));
+      setArchivoPDF(archivoSeleccionado);
+      setPdfPreviewUrl(URL.createObjectURL(archivoSeleccionado));
     }
   };
 
-  const handleClose = () => {
+  const manejarCerrarFormulario = () => {
     Swal.fire({
       icon: 'question',
       title: '¿Deseas cerrar el formulario?',
@@ -44,21 +72,25 @@ const AplicacionEmpleo = () => {
       background: '#1a1a1a',
       color: '#fff',
       iconColor: '#2ae2b6'
-    }).then((result) => {
-      if (result.isConfirmed) {
+    }).then((resultado) => {
+
+      if (resultado.isConfirmed) {
         navigate("/detallesOferta");
       }
+
     });
   };
 
-  const handleSubmit = (e) => {
+  const manejarEnvioFormulario = async (e) => {
     e.preventDefault();
 
-    if (!file) {
+    const PostulacionEncontrada = Postulaciones.some((dato) => dato.oferta == idOferta && dato.user == userid )
+    
+    if (PostulacionEncontrada) {
       Swal.fire({
         icon: 'warning',
-        title: 'Falta archivo',
-        text: 'Debes subir un archivo PDF.',
+        title: 'Ya has postulado',
+        text: 'Ya has enviado una solicitud para esta oferta.',
         confirmButtonColor: '#2ae2b6',
         background: '#1a1a1a',
         color: '#fff',
@@ -66,55 +98,116 @@ const AplicacionEmpleo = () => {
       });
       return;
     }
+    else {
 
-    Swal.fire({
-      icon: 'success',
-      title: 'Solicitud enviada',
-      text: 'Tu solicitud ha sido enviada con éxito.',
-      confirmButtonColor: '#2ae2b6',
-      background: '#1a1a1a',
-      color: 'white',
-      iconColor: '#2ae2b6',
-      timer: 2000,
-      showConfirmButton: false,
-    });
-
-    // Aquí puedes reiniciar el formulario o hacer una petición a backend
-    setFile(null);
-    setFileUrl(null);
-    setComment('');
+      if (!archivoPDF) {
+        Swal.fire({
+          icon: 'warning',
+          title: 'Falta archivo',
+          text: 'Debes subir un archivo PDF.',
+          confirmButtonColor: '#2ae2b6',
+          background: '#1a1a1a',
+          color: '#fff',
+          iconColor: '#ffcc00'
+        });
+        return;
+      } else {
+  
+        const UrlPDF = await cloudDinaryServices.uploadImage(archivoPDF);
+          
+        if (!UrlPDF) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error al subir PDF',
+            text: 'No se pudo subir el archivo PDF.',
+            confirmButtonColor: '#2ae2b6',
+            background: '#1a1a1a',
+            color: '#fff',
+            iconColor: 'red'
+          });
+          return;
+        }
+        else {
+          const ObjPostulaciones = {
+            user: userid,
+            oferta: idOferta,
+            comentario: comentario,
+            referenciaPDF: UrlPDF,
+          }
+    
+          const RespaPostPostulaciones = await PostulacionesServices.PostPostulaciones(ObjPostulaciones) 
+  
+          if (!RespaPostPostulaciones) {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error al enviar solicitud',
+              text: 'No se pudo enviar tu solicitud. Inténtalo de nuevo más tarde.',
+              confirmButtonColor: '#2ae2b6',
+              background: '#1a1a1a',
+              color: '#fff',
+              iconColor: 'red'
+            });
+            return;
+          } 
+          else {
+            
+            Swal.fire({
+              icon: 'success',
+              title: 'Solicitud enviada',
+              text: 'Tu solicitud ha sido enviada con éxito.',
+              confirmButtonColor: '#2ae2b6',
+              background: '#1a1a1a',
+              color: 'white',
+              iconColor: '#2ae2b6',
+              timer: 2000,
+              showConfirmButton: false,
+            });
+  
+            setTimeout(() => {
+              navigate("/PrincipalPage");
+            }, 2000);
+          }
+        }
+      }
+    }
+      
   };
 
   return (
-    <div className="modal-container">
-      <div className="modal-box">
-        <button className="close-btn" onClick={handleClose}>✖️</button>
-        <h2 className="modal-title"><em>Aplicar al empleo</em></h2>
+    <div className="contenedor-modal">
+      <div className="caja-modal">
+        <button className="boton-cierre" onClick={manejarCerrarFormulario}>✖️</button>
+        <h2 className="titulo-modal"><em>Aplicar al empleo</em></h2>
 
-        <label className="comment-label"><em>Comentario:</em></label>
+        <label className="etiqueta-comentario"><em>Comentario:</em></label>
         <textarea
-          className="comment-box"
-          value={comment}
-          onChange={(e) => setComment(e.target.value)}
+          className="area-comentario"
+          value={comentario}
+          onChange={(e) => setComentario(e.target.value)}
         ></textarea>
 
-        <form onSubmit={handleSubmit}>
-          <label className="upload-label">
+        <form onSubmit={manejarEnvioFormulario}>
+          <label className="etiqueta-subida">
             <input
               type="file"
               accept="application/pdf"
-              onChange={handleFileChange}
+              onChange={manejarCambioArchivo}
             />Subir PDF
           </label>
 
-          {fileUrl && (
-            <div className="pdf-viewer-container">
+          {pdfPreviewUrl && (
+            <div className="contenedor-pdf">
               <iframe
-                src={`${fileUrl}#toolbar=0&navpanes=0&scrollbar=0`} title="PDF Preview" width="100%" height="250px" style={{ border: 'none' }}></iframe>
+                src={`${pdfPreviewUrl}#toolbar=0&navpanes=0&scrollbar=0`}
+                title="Vista previa del PDF"
+                width="100%"
+                height="250px"
+                style={{ border: 'none' }}
+              ></iframe>
             </div>
           )}
 
-          <button type="submit" className="submit-btn"> Enviar solicitud </button>
+          <button className="boton-envio">Enviar solicitud</button>
         </form>
       </div>
     </div>

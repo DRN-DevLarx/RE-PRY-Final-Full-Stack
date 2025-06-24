@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import {useNavigate} from "react-router-dom"
-import "../styles/NavPrincipal.css"
 import BotonesAdmin from "./BotonesAdmin"
 import GetCookie from '../services/GetCookie'
 import Swal from 'sweetalert2'
+
+import "../styles/NavPrincipal.css"
 
 function NavComponent() {
 

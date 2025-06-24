@@ -1,17 +1,61 @@
 import React from 'react'
-import '../styles/CYS.css'
+import { v4 } from 'uuid';
+
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'
+import GetCookie from '../services/GetCookie';
+
+import '../styles/CYS.css'
 
 function CYS() {
 
     const navigate = useNavigate();
 
+    const [Nombre, setNombre] = React.useState('');
+    const [Apellido, setApellido] = React.useState('');
+    const [Correo, setCorreo] = React.useState('');
+    const [Telefono, setTelefono] = React.useState('');
+    const [Asunto, setAsunto] = React.useState('');
+    const [Mensaje, setMensaje] = React.useState('');
+
+    let cysID = GetCookie.getCookie('formUserId');
+
     function exit() {
         setTimeout(() => {
             navigate('/')            
         }, 200);
+    }
+
+    useEffect(() => {   
+    const cysID = GetCookie.getCookie('formUserId');
+
+    if (!cysID) {
+        cysID = v4();
+
+        document.cookie = `formUserId=${cysID}; path=/; max-age=${60 * 60 * 24 * 30}; SameSite=Lax`;
+    }
+    }, []);
+
+
+    function EnviarMensaje() {
+        if (!Nombre || !Apellido || !Correo || !Telefono || !Asunto || !Mensaje) {
+            alert('Por favor completa todos los campos');
+            return;
+        }
+
+
+        const data = {
+            id: cysID,
+            Nombre,
+            Apellido,
+            Correo,
+            Telefono,
+            Asunto,
+            Mensaje
+        };
 
     }
+
 
   return (
     <div id='bodyCYS'>
@@ -28,20 +72,19 @@ function CYS() {
         <main id='mainCYS'>
             <div id='subMainCYS'>
                 <div id='form'>
-                    <input type="text" placeholder='Nombre'/>
+                    <input value={Nombre} onChange={(e) => setNombre(e.target.value)} type="text" placeholder='Nombre'/>
 
-                    <input type="text" placeholder='Apellido' />
+                    <input value={Apellido} onChange={(e) => setApellido(e.target.value)} type="text" placeholder='Apellido' />
 
-                    <input type="text" placeholder='Correo electrónico' />
+                    <input value={Correo} onChange={(e) => setCorreo(e.target.value)} type="text" placeholder='Correo electrónico' />
 
-                    <input type="text" placeholder='Telefóno' />
+                    <input value={Telefono} onChange={(e) => setTelefono(e.target.value)} type="text" placeholder='Telefóno' />
 
-                    <input type="text" placeholder='Asunto' />
-                    <textarea rows={4} name="" id="" placeholder='Mensaje'></textarea>
+                    <input value={Asunto} onChange={(e) => setAsunto(e.target.value)} type="text" placeholder='Asunto' />
+                    
+                    <textarea value={Mensaje} onChange={(e) => setMensaje(e.target.value)} rows={4} name="" id="" placeholder='Mensaje'></textarea>
 
-                    <footer>
-                        <button>Enviar</button>
-                    </footer>
+                    <button onClick={EnviarMensaje} >Enviar</button>
                 </div>
 
                 <div id='IMG'>

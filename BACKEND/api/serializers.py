@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.core.validators import MinLengthValidator, EmailValidator, RegexValidator
 from django.contrib.auth.password_validation import validate_password
-from .models import Usuarios, Intereses, InteresesUsuarios, Users_Usuarios,  Ofertas, Empresas, OfertasEmpresas, Postulaciones, AuditoriaOfertas, Users_Empresas
+from .models import Usuarios, Intereses, InteresesUsuarios, Users_Usuarios,  Ofertas, Empresas, Postulaciones, AuditoriaOfertas, Users_Empresas, CYSMensajes
 from django.contrib.auth.models import User, Group
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
@@ -40,7 +40,6 @@ class user_groupsSerializer(serializers.ModelSerializer):
         model = UserGroup
         fields = "__all__"
 
-
 class UsersSerializer(serializers.ModelSerializer):
     # groups = user_groupsSerializer(many=True)
 
@@ -73,7 +72,7 @@ class UsersSerializer(serializers.ModelSerializer):
             return instance
         
         except Exception as e:
-            print(f"Error al actualizar usuario: {e}")  # Log para depuración
+            print(f"Error al actualizar usuario: {e}") 
             raise serializers.ValidationError({"error": "No se pudo actualizar el usuario."})
 
 
@@ -95,23 +94,23 @@ class OfertasSerializer(serializers.ModelSerializer):
         model = Ofertas
         fields = "__all__"
     
-
-class OfertasEmpresasSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = OfertasEmpresas
-        fields = "__all__"
-
 class PostulacionesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Postulaciones
         fields = "__all__"
 
+
+
+class CYSMensajesSerializer(serializers.Serializer):
+    class Meta:
+        model = CYSMensajes
+        fields = "__all__"    
+
+
 class AuditoriaOfertasSerializer(serializers.ModelSerializer):
     class Meta:
         model = AuditoriaOfertas
         fields = "__all__"
-
-
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     def validate(self, attrs):

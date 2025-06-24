@@ -13,6 +13,7 @@ function Header() {
           <div className="container-fluid">
             <img className="logo" src="../public/Iconlogo.png" alt="Logo" />
             <h2 id="tituloNav"><b>EmpleaTico</b></h2>
+            
             <button
               className="navbar-toggler"
               type="button"

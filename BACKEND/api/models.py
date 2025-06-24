@@ -32,7 +32,6 @@ class InteresesUsuarios(models.Model):
     def __str__(self):
         return f"usuario: + {self.usuario}, Interes: {self.intereses}"
     
-###
     
 class Users_Usuarios(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -40,8 +39,6 @@ class Users_Usuarios(models.Model):
 
     def __str__(self):
         return f"user: + {self.user}, Usuario: + {self.usuario}"  
-
-
 
 class Empresas(models.Model):
     identificacion_empresa = models.BigIntegerField(unique=True)
@@ -77,33 +74,36 @@ class Ofertas(models.Model):
     empresaUser = models.ForeignKey(User, on_delete=models.CASCADE)
     
     def __str__(self):
-        return " ".join(vars(self).values())
-
-
-class OfertasEmpresas(models.Model):
-    Ofertas_empresa_ID = models.IntegerField(primary_key=True)
-    oferta = models.ForeignKey(Ofertas, on_delete=models.CASCADE)
-    empresa = models.ForeignKey(Empresas, on_delete=models.CASCADE)
-    
-    def __str__(self):
-        return " ".join(vars(self).values())
-
+        return f"Titulo: + {self.titulo_oferta}, Area de Trabajo: + {self.intereses}, Ubicación: + {self.ubicacion_oferta}, Empresa: + {self.empresaUser}"  
 
 class Postulaciones(models.Model):
-    usuario = models.ForeignKey(Usuarios, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     oferta = models.ForeignKey(Ofertas, on_delete=models.CASCADE)
     fecha_postulacion =models.DateTimeField(auto_now_add=True)
     referenciaPDF = models.TextField(blank=True, null=True)
     comentario = models.TextField(blank=True, null=True)
     
     def __str__(self):
-        return " ".join(vars(self).values())
-    
-    
+        return f"Usuario: + {self.user}, Oferta: + {self.oferta}, Fecha de postulacion: + {self.fecha_postulacion}, Comentario: + {self.comentario}"  
+      
+      
+class CYSMensajes(models.Model):
+    nombre = models.CharField(max_length=50, validators=[MinLengthValidator(3)])
+    apellido = models.CharField(max_length=50, validators=[MinLengthValidator(3)])
+    correo = models.EmailField(validators=[EmailValidator()])
+    telefono = models.CharField(max_length=20, validators=[RegexValidator(r'^\+?1?\d{9,15}$')], blank=True, null=True)
+    asunto = models.CharField(max_length=100, validators=[MinLengthValidator(3)])
+    mensaje = models.TextField()
+    fecha_mensaje = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Nombre: + {self.nombre}, Apellido: + {self.apellido}, Mensaje: + {self.mensaje}, Fecha de mensaje: + {self.fecha_mensaje}"
+
+
 class AuditoriaOfertas(models.Model):
     oferta = models.ForeignKey(Ofertas, on_delete=models.CASCADE)
     motivo = models.TextField(blank=True, null=True)
     fecha_auditoria = models.DateTimeField (auto_now_add=True)
 
     def __str__(self):
-        return " ".join(vars(self).values())
+        return f"Oferta: + {self.oferta}, Motivo: + {self.motivo}, Fecha de auditoria: + {self.fecha_auditoria}"

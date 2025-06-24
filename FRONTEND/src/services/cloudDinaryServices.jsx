@@ -12,8 +12,6 @@ const uploadImage = async (file) => {
   const formData = new FormData();
   formData.append("file", file);
   formData.append("upload_preset", "empleaTico");
-
-  console.log(formData);
   
   try {
     const response = await fetch(`https://api.cloudinary.com/v1_1/dateuzds4/image/upload`,
