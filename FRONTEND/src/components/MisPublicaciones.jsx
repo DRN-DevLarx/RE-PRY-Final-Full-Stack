@@ -33,11 +33,8 @@ function MisPublicaciones() {
   const [IDOferta, setIDOferta] = useState()
   const [EstadoOferta, setEstadoOferta] = useState("")
 
-  console.log(idUser);
   
-
   useEffect(() => {
-      let isMounted = true;
       const fetch = async () => {
           try {
               const DatosIntereses = await InteresesServices.GetIntereses();
@@ -47,23 +44,16 @@ function MisPublicaciones() {
                 setButtonActivar(true)
               }
 
-              if (isMounted) {
+              if (DatosIntereses && DatosOfertas) {
                   setIntereses(DatosIntereses);
                   setOfertas(DatosOfertas);
               }
           } catch (error) {
-              if (isMounted) {
-                  setErrorIntereses(error.message);
-                  setErrorOfertas(error.message);
-              }
           }
       };
   
       fetch();
   
-      return () => {
-          isMounted = false;
-      };
   }, [EstadoOferta]);
 
 
@@ -130,7 +120,7 @@ function MisPublicaciones() {
     await OfertasServices.PutOfertas(IDOferta, obj)
     setButtonActivar(false)
   }
-  
+    
 
   return (
     <div id='ContPerfilAdmin'>
@@ -138,7 +128,7 @@ function MisPublicaciones() {
       {!ContDetalles && (
         <div>
 
-          <div className='headerUltimasPublicaciones'>
+          <div className='headerDashboard'>
             <h3>Publicaciones</h3>
             <svg onClick={exitDashboard} xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="white" className="bi bi-box-arrow-right" viewBox="0 0 16 16">
               <path fillRule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z"/>
@@ -177,21 +167,20 @@ function MisPublicaciones() {
                 <option value="San Isidro">San Isidro</option>
               </select>
 
-            <select value={FiltroSalario} onChange={(e) => setFiltroSalario(e.target.value)}  className='SalarioFiltro' name="">
-                <option value="">Salario</option>
-                <option value="₡100,000 - ₡300,000"> ₡100,000 - ₡300,000</option>
-                <option value="₡300,000 - ₡500,000"> ₡300,000 - ₡500,000</option>
-                <option value="₡500,000 - ₡700,000"> ₡500,000 - ₡700,000</option>
-                <option value="₡700,000 - ₡900,00"> ₡700,000 - ₡900,000</option>
-                <option value="₡900,000 - ₡1,100,000"> ₡900,000 - ₡1,100,000</option>
-                <option value="₡1,100,000 - ₡1,300,000"> ₡1,100,000 - ₡1,300,000</option>
-                <option value="₡1,300,000 - ₡1,600,000"> ₡1,300,000 - ₡1,600,000</option>
-                <option value="₡1,600,000 - ₡2,000,000"> ₡1,600,000 - ₡2,000,000</option>
-                <option value="₡2,000,000 - ₡2,500,000"> ₡2,000,000 - ₡2,500,000</option>
-                <option value="₡2,500,000 - ₡3,000,000"> ₡2,500,000 - ₡3,000,000</option>
-            </select>
-
-              
+              <select value={FiltroSalario} onChange={(e) => setFiltroSalario(e.target.value)}  className='SalarioFiltro' name="">
+                  <option value="">Salario</option>
+                  <option value="₡100,000 - ₡300,000"> ₡100,000 - ₡300,000</option>
+                  <option value="₡300,000 - ₡500,000"> ₡300,000 - ₡500,000</option>
+                  <option value="₡500,000 - ₡700,000"> ₡500,000 - ₡700,000</option>
+                  <option value="₡700,000 - ₡900,00"> ₡700,000 - ₡900,000</option>
+                  <option value="₡900,000 - ₡1,100,000"> ₡900,000 - ₡1,100,000</option>
+                  <option value="₡1,100,000 - ₡1,300,000"> ₡1,100,000 - ₡1,300,000</option>
+                  <option value="₡1,300,000 - ₡1,600,000"> ₡1,300,000 - ₡1,600,000</option>
+                  <option value="₡1,600,000 - ₡2,000,000"> ₡1,600,000 - ₡2,000,000</option>
+                  <option value="₡2,000,000 - ₡2,500,000"> ₡2,000,000 - ₡2,500,000</option>
+                  <option value="₡2,500,000 - ₡3,000,000"> ₡2,500,000 - ₡3,000,000</option>
+              </select>
+    
               <select value={FiltroEstado} onChange={(e) => setFiltroEstado(e.target.value)} name="" id="">
                   <option value="">Estado</option>
                   <option value="activas">Activas</option>
@@ -206,22 +195,25 @@ function MisPublicaciones() {
 
               <div id='containerOfAdmin'>
                               
-{Filtrado.filter(oferta => oferta.empresa == idUser).map((oferta, index) => {
-    const interesesRelacionados = Intereses.filter(INTERES => INTERES.id === oferta.intereses);
+                {/* {Filtrado.filter(oferta => oferta.empresa == idUser).map((oferta, index) => { */}
+                {Filtrado.filter(oferta => oferta).map((oferta, index) => {
+                  
+                    const interesesRelacionados = Intereses.filter(INTERES => INTERES.id === oferta.intereses);
 
-    const statusOferta = oferta.estado_oferta === "desactiva" ? "statusDesactiva" : "StatusActiva";
+                    const statusOferta = oferta.estado_oferta === "desactiva" ? "statusDesactiva" : "StatusActiva";
 
-    return (
-        <article className={statusOferta} onClick={() => VerDetallesAdmin(oferta.id, oferta.estado_oferta)} key={index}>
-            <h3>{oferta.titulo_oferta}</h3>
-            <img className='imgOfertaAdmin' src={oferta.referenciaIMG_oferta} alt="Imagen de oferta"/>
-            <p><b>Área de trabajo: </b>{interesesRelacionados.map(i => i.nombre_interes).join(', ')}</p>
-            <p><b>Vacantes: </b>{oferta.vacantes_oferta}</p>
-            <p><b>Ubicación: </b>{oferta.ubicacion_oferta}</p>
-            <p><b>Fecha de Publicación:</b> {new Date(oferta.fecha_oferta).toLocaleString()}</p>
-        </article>
-    );
-})}
+                    
+                    return (
+                        <article className={statusOferta} onClick={() => VerDetallesAdmin(oferta.id, oferta.estado_oferta)} key={index}>
+                            <h3>{oferta.titulo_oferta}</h3>
+                            <img className='imgOfertaAdmin' src={oferta.referenciaIMG_oferta} alt="Imagen de oferta"/>
+                            <p><b>Área de trabajo: </b>{interesesRelacionados.map(i => i.nombre_interes).join(', ')}</p>
+                            <p><b>Vacantes: </b>{oferta.vacantes_oferta}</p>
+                            <p><b>Ubicación: </b>{oferta.ubicacion_oferta}</p>
+                            <p><b>Fecha de Publicación:</b> {new Date(oferta.fecha_oferta).toLocaleString()}</p>
+                        </article>
+                    );
+                })}
               </div>
 
             </div>

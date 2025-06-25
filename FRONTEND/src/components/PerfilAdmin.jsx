@@ -212,7 +212,7 @@ function PerfilAdmin() {
     };
 
     const validarTelefono = (TelefonoAEditar) => {
-    const prefijosCostaRica = [8, 7, 6, 57, 21, 22, 24, 25, 26, 27,800];
+    const prefijosCostaRica = [5, 8, 7, 6, 57, 21, 22, 24, 25, 26, 27];
 
     const validarTelefono = prefijosCostaRica.some(prefijo => TelefonoAEditar.toString().startsWith(prefijo.toString()));
         

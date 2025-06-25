@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.core.validators import MinLengthValidator, EmailValidator, RegexValidator
 from django.contrib.auth.password_validation import validate_password
-from .models import Usuarios, Intereses, InteresesUsuarios, Users_Usuarios,  Ofertas, Empresas, Postulaciones, AuditoriaOfertas, Users_Empresas, CYSMensajes
+from .models import Usuarios, Intereses, InteresesUsuarios, Users_Usuarios,  Ofertas, Empresas, Postulaciones, AuditoriaOfertas, Users_Empresas
 from django.contrib.auth.models import User, Group
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
@@ -101,11 +101,13 @@ class PostulacionesSerializer(serializers.ModelSerializer):
 
 
 
-class CYSMensajesSerializer(serializers.Serializer):
-    class Meta:
-        model = CYSMensajes
-        fields = "__all__"    
+# class CYSMensajesSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = CYSMensajes
+#         fields = "__all__"
+            
 
+        
 
 class AuditoriaOfertasSerializer(serializers.ModelSerializer):
     class Meta:

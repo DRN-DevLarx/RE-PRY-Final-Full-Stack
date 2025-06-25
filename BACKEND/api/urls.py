@@ -2,9 +2,8 @@ from django.urls import path
 from rest_framework.routers import DefaultRouter
 from .views import (
     UsuariosViewSet, UsersViewSet, InteresesViewSet, InteresesUsuariosViewSet, Users_UsuariosViewSet, EmpresasViewSet,
-    OfertasViewSet,
-    PostulacionesViewSet, AuditoriaOfertasViewSet,
-    Users_EmpresasViewSet, auth_user_groups, CustomTokenObtainPairView, UserDataView, CYSMensajesViewSet
+    OfertasViewSet, PostulacionesViewSet, AuditoriaOfertasViewSet, Users_EmpresasViewSet, auth_user_groups, 
+    CustomTokenObtainPairView, UserDataView, CYSMensajesViewSet
 )
 
 
@@ -13,7 +12,7 @@ from rest_framework_simplejwt.views import( TokenRefreshView)
 # Configuración del router para ViewSets
 router = DefaultRouter()
 
-router.register(r'mensajesCYS', CYSMensajesViewSet)
+router.register(r'mensajesCYS', CYSMensajesViewSet, basename='mensajesCYS')
 router.register(r'users', UsersViewSet)
 router.register(r'usuarios', UsuariosViewSet)
 router.register(r'users-usuarios', Users_UsuariosViewSet)
