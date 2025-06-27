@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import Users_UsuariosServices from '../services/Users_UsuariosServices';
 import usersServices from '../services/usersServices';
 import usuariosServices from '../services/usuariosServices';
+import empresasServices from '../services/empresasServices';
+
 import { CerrarDashboard } from './CerrarDashboard';
 
 import GetCookie from '../services/GetCookie';
@@ -11,6 +13,7 @@ import cloudDinaryServices from '../services/cloudDinaryServices';
 import Swal from 'sweetalert2';
 
 import '../styles/PerfilAdmin.css'
+import Users_EmpresasServices from '../services/Users_EmpresasServices';
 
 function PerfilAdmin() {
     const navigate = useNavigate();
@@ -19,9 +22,11 @@ function PerfilAdmin() {
     
     const [isEditing, setIsEditing] = useState(false);
     
-    const [DatosIntermedios, setDatosIntermedios] = useState([])
+    const [DatosIntermediosUsuarios, setDatosIntermediosUsuarios] = useState([])
+    const [DatosIntermediosEmpresas, setDatosIntermediosEmpresas] = useState([])
     const [Users, setUsers] = useState([])
     const [Usuarios, setUsuarios] = useState([])
+    const [Empresas, setEmpresas] = useState([])
     
 
 
@@ -34,50 +39,70 @@ function PerfilAdmin() {
     const [CorreoAEditar, setCorreoAEditar] = useState("")
 
 
-    
+    const Rol = GetCookie.getCookie("role")
     const IDUser = GetCookie.getCookie("user_id")
-    const IDusuario = DatosIntermedios.find(item => item.user == IDUser)?.usuario;
+
+
+
+    const [IDusuario, setIDusuario] = useState();
+    const [IDempresa, setIDempresa] = useState();
     
     const [ImagenSeleccionada, setImagenSeleccionada] = useState(null);
     const [VistaIMG, setVistaIMG] = useState(null);
 
     useEffect(() => {
-        let isMounted = true;
-        
         const fetchData = async () => {
             try {
-                const datosIntermedios = await Users_UsuariosServices.GetUserUsuario();
+                const datosIntermediosUsuarios = await Users_UsuariosServices.GetUserUsuario();
+                const datosIntermediosEmpresa = await Users_EmpresasServices.GetUserEmpresa();
                 
-                if (datosIntermedios.length > 0) {
-                    const userIds = datosIntermedios.map(item => item.user);
-                    const usuarioIds = datosIntermedios.map(item => item.usuario);
-                    
-                    const datosUsers = await usersServices.GetUsersByIds(userIds);
+                if (datosIntermediosUsuarios.length > 0) {
+                    const userIds = datosIntermediosUsuarios.map(item => item.user);
+                    const usuarioIds = datosIntermediosUsuarios.map(item => item.usuario);
+                    const empresaIds = datosIntermediosEmpresa.map(item => item.empresa);                    
+      
+                    const datosUsers = await usersServices.GetUser();
+                    const datosUsersIDS = await usersServices.GetUsersByIds(userIds);
                     const datosUsuarios = await usuariosServices.GetUsuariosByIds(usuarioIds);
+                    const datosEmpresas = await empresasServices.GetEmpresaByIds(empresaIds);
+                                        
                     
-                    
-                    if (isMounted) {
+                    if (datosUsersIDS && datosUsuarios && datosEmpresas) {
                         setUsers(datosUsers);
                         setUsuarios(datosUsuarios);
-                        setDatosIntermedios(datosIntermedios);
-                    }
+                        setEmpresas(datosEmpresas);
 
-                    datosUsers.filter((useer) => (useer.id == IDUser && (
+                        setDatosIntermediosUsuarios(datosIntermediosUsuarios);
+                        setDatosIntermediosEmpresas(datosIntermediosEmpresa);
+                    }
+                                        
+                    const IDusuario = datosIntermediosUsuarios.find(item => item.user == IDUser)?.usuario;
+                    setIDusuario(IDusuario)
+                    
+                    const IDempresa = datosIntermediosEmpresa.find(item => item.user == IDUser)?.empresa;
+                    setIDempresa(IDempresa)
+                    
+                    
+                    if(Rol == "admin") {
+                        datosUsuarios.filter((usu) => (usu.id == IDusuario && (
+                            setIdentificacion(usu.identificacion_oferente),
+                            setTelefonoAEditar(usu.telefono_oferente)
+                        )))
+                    }
+                    else {
+                        datosEmpresas.filter((usu) => (usu.id == IDempresa && (
+                            setIdentificacion(usu.identificacion_empresa),
+                            setTelefonoAEditar(usu.telefono_empresa)
+                        )))
+                    }
+                    
+                    datosUsers.filter((useer) => (useer.id == IDUser && (                        
                         setUsuarioAEditar(useer.username),
                         setFirstName(useer.first_name),
                         setLastName(useer.last_name),
                         setCorreoAEditar(useer.email)
                     )))
-
-
-                    const IDusuario = datosIntermedios.find(item => item.user == IDUser)?.usuario;
-                    
-                    datosUsuarios.filter((usu) => (usu.id == IDusuario && (
-                        setIdentificacion(usu.identificacion_oferente),
-                        setTelefonoAEditar(usu.telefono_oferente)
-                    )))
-
-                    
+               
                 }
             } catch (error) {
                 console.error("Error al obtener los datos:", error);
@@ -86,9 +111,6 @@ function PerfilAdmin() {
 
         fetchData();
         
-        return () => {
-            isMounted = false;
-        };
     }, []);
     
 
@@ -105,12 +127,24 @@ function PerfilAdmin() {
         "putita", "meto", "cojo", "cojer"
     ];
 
-    Usuarios.filter((user) => {
-                
-        if(user.id == IDusuario && user.referenciaIMG_oferente != "" && user.referenciaIMG_oferente != "null" && user.referenciaIMG_oferente != null) {
-            IMgUser = user.referenciaIMG_oferente
-        }
-    })
+    if(Rol === "admin") {
+
+        Usuarios.filter((user) => {
+                    
+            if(user.id == IDusuario && user.referenciaIMG_oferente != "" && user.referenciaIMG_oferente != "null" && user.referenciaIMG_oferente != null) {
+                IMgUser = user.referenciaIMG_oferente
+            }
+        })
+    } else {
+
+        Empresas.filter((empresa) => {
+                    
+            if(empresa.id == IDempresa && empresa.referenciaIMG_empresa != "" && empresa.referenciaIMG_empresa != "null" && empresa.referenciaIMG_empresa != null) {
+                IMgUser = empresa.referenciaIMG_empresa
+            }
+        })
+    }
+
 
     function exitDashboard() {
         CerrarDashboard(navigate)
@@ -248,9 +282,10 @@ function PerfilAdmin() {
             });
             return false;
         }
-
         
-        if (Users.some(user => user.email == correo)) {
+        const UsuarioEncontrado = Users.find((UsFind) => UsFind.id == IDUser)
+        
+        if (Users.some(user => user.email == correo && user != UsuarioEncontrado)) {
             Swal.fire({
                 icon: "error",
                 text: "El correo ya está registrado.",
@@ -283,6 +318,7 @@ function PerfilAdmin() {
     async function ValidarContrasena(ContrasenaActual) {
 
         const UserFind = Users.find(user => user.id == IDUser);
+        
         const UsernameFind = UserFind.username
 
         const credentials = {
@@ -382,9 +418,7 @@ function PerfilAdmin() {
                             confirmButtonText: "Verificar",
                         });
                     } else {
-                        setTimeout(() => {
-                            ActualizarDatos(result.value[0]);
-                        }, 3000);
+                        ActualizarDatos(result.value[0]);
                     }
                 });
 
@@ -413,20 +447,37 @@ function PerfilAdmin() {
         console.log(respuestaUpdateData);
         
         if(respuestaUpdateData) {
+
+            let respuestaServer = false;
+
             const uploadedUrl = await cloudDinaryServices.uploadImage(ImagenSeleccionada);
 
             console.log(uploadedUrl);
             
-            const UpdateUsuarioData = {
-                telefono_oferente: TelefonoAEditar,
-                referenciaIMG_oferente: uploadedUrl,
+            if(Rol == "admin") {
+                const UpdateUsuarioData = {
+                    telefono_oferente: TelefonoAEditar,
+                    referenciaIMG_oferente: uploadedUrl,
+                }
+    
+                respuestaServer = await usuariosServices.PutUsuarioPatch(IDusuario, UpdateUsuarioData)
+                    
+
+            } else if(Rol == "empresa") {
+                const UpdateEmpresaData = {
+                    telefono_empresa: TelefonoAEditar,
+                    referenciaIMG_empresa: uploadedUrl,
+                }   
+
+                console.log("Holaa");
+                
+                respuestaServer = await empresasServices.PutPachEmpresa(IDempresa, UpdateEmpresaData)
+                
             }
 
-            const respuestaUpdateUsuarioData = await usuariosServices.PutUsuarioPatch(IDusuario, UpdateUsuarioData)
-
-            console.log(respuestaUpdateUsuarioData);
+            console.log(respuestaServer);
             
-            if (respuestaUpdateUsuarioData) {
+            if (respuestaServer) {
                 Swal.fire({
                     icon: "success",
                     text: "Registro exitoso.",

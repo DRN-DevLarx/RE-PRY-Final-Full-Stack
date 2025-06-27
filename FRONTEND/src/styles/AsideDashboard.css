@@ -3,7 +3,6 @@
     display: flex;
 }
 
-
 .asideDashboard {
     width: 20%;
     height: 100vh;
@@ -11,6 +10,7 @@
     flex-direction: column;
     background-color: #2ae2b798;
     text-align: center;
+    box-shadow: 5px 0px 30px gray;
 }
 
 .asideDashboard h3 {
@@ -39,8 +39,17 @@
     border-top: solid 0.5px ;
 }
 
+.contenedor:hover {
+    transform: scale(1.07);
+    background-color: #222838c4;
+    color: white;
+    box-shadow: -5px 10px 30px gray;
+}
+
 .contenedor.activo {
     background-color: #222838;
+    transform: scale(1.07);
+
     color: white;
     font-weight: bold;
     border: none;

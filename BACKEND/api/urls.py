@@ -3,9 +3,8 @@ from rest_framework.routers import DefaultRouter
 from .views import (
     UsuariosViewSet, UsersViewSet, InteresesViewSet, InteresesUsuariosViewSet, Users_UsuariosViewSet, EmpresasViewSet,
     OfertasViewSet, PostulacionesViewSet, AuditoriaOfertasViewSet, Users_EmpresasViewSet, auth_user_groups, 
-    CustomTokenObtainPairView, UserDataView, CYSMensajesViewSet
+    CustomTokenObtainPairView, UserDataView, CYSMensajesViewSet, EnviarClaveTemporalViewSet
 )
-
 
 from rest_framework_simplejwt.views import( TokenRefreshView)
 
@@ -13,6 +12,7 @@ from rest_framework_simplejwt.views import( TokenRefreshView)
 router = DefaultRouter()
 
 router.register(r'mensajesCYS', CYSMensajesViewSet, basename='mensajesCYS')
+router.register(r'claveTemporal', EnviarClaveTemporalViewSet, basename='EnviarClaveTemporal')
 router.register(r'users', UsersViewSet)
 router.register(r'usuarios', UsuariosViewSet)
 router.register(r'users-usuarios', Users_UsuariosViewSet)

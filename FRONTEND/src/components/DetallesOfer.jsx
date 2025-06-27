@@ -16,9 +16,7 @@ function DetallesOfer() {
     const navigate = useNavigate()
 
 
-    function exitDashboard() {
-        navigate("/PrincipalPage")
-    }
+
 
     const [FiltroAreaTrabajo, setFiltroAreaTrabajo] = useState()
     const [FiltroUbicacion, setFiltroUbicacion] = useState("")
@@ -41,8 +39,11 @@ function DetallesOfer() {
     const [RImagenOferta, setRImagenOferta] = useState("")
 
     const IdOferta = GetCookie.getCookie("IdOferta");
-    
+    const Rol = GetCookie.getCookie("role");
+
+    const [IsOferente, setIsOferente] = useState(false)
         
+
     useEffect(() => {
         const fetch = async () => {
             try {
@@ -50,6 +51,10 @@ function DetallesOfer() {
                 const DatosIntereses = await InteresesServices.GetIntereses();
                 const DatosUsers = await usersServices.GetUser();
 
+
+                if(Rol === "oferente"){
+                  setIsOferente(true)
+                }
 
                 if (DatosOfertas && DatosIntereses && DatosUsers) {
 
@@ -79,6 +84,13 @@ function DetallesOfer() {
     
         fetch();
     }, []);
+
+    
+    function exitDashboard() {
+        navigate("/PrincipalPage")
+    }
+
+
 
     function AplicarAEmpleo() {
       navigate("/aplicar")
@@ -120,9 +132,11 @@ function DetallesOfer() {
                         {DescripcionOferta}
                       </div>
 
-                      <div className="boton-Aplicar">
-                        <button onClick={AplicarAEmpleo}> Aplicar </button>
-                      </div>
+                      {IsOferente && (
+                        <div className="boton-Aplicar">
+                          <button onClick={AplicarAEmpleo}> Aplicar </button>
+                        </div>
+                      )}
                     </div>
 
                   </div>

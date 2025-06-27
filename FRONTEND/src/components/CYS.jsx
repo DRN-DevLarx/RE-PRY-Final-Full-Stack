@@ -3,7 +3,7 @@ import usePersistentFingerprint from "./usePersistentFingerprint";
 
 import {useState } from 'react';
 import { useNavigate } from 'react-router-dom'
-import PostMensajesCYS from "../services/CysMensajesServices";
+import PostMensajesCYS from "../services/EmailDjangoServices";
 import Swal from "sweetalert2";
 
 import '../styles/CYS.css'

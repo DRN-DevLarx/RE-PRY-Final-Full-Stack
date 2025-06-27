@@ -18,6 +18,7 @@ function Publicaciones() {
   const navigate = useNavigate();
 
   const idUserCookie = GetCookie.getCookie("user_id")
+  const Rol = GetCookie.getCookie("role")
   
   const [Intereses, setIntereses] = useState([]);
 
@@ -35,6 +36,8 @@ function Publicaciones() {
   const [FiltroInput, setFiltroInput] = useState("")
 
   const [IsActivo, setIsActivo] = useState(true);
+  const [IsEmpresa, setIsEmpresa] = useState(false);
+
   const [EmpresaDeOfertaSeleccionada, setEmpresaDeOfertaSeleccionada] = useState()
   const [IDOferta, setIDOferta] = useState()
   const [EstadoOferta, setEstadoOferta] = useState("")
@@ -63,62 +66,55 @@ function Publicaciones() {
 
 
   useEffect(() => {
-      let isMounted = true;
       const fetch = async () => {
-          try {
-              const DatosIntereses = await InteresesServices.GetIntereses();
-              const DatosOfertas = await OfertasServices.GetOfertas();
-              const DatosUsers = await usersServices.GetUser();
+        const DatosIntereses = await InteresesServices.GetIntereses();
+        const DatosOfertas = await OfertasServices.GetOfertas();
+        const DatosUsers = await usersServices.GetUser();
 
-              if(EstadoOferta == "desactiva") {
-                setIsActivo(false)
-              }
+        if(EstadoOferta == "desactiva") {
+          setIsActivo(false)
+        }
+        if(Rol == "empresa") {
+          setIsEmpresa(true)
+        }
 
-              if (isMounted) {
-                  setIntereses(DatosIntereses);
-                  setOfertas(DatosOfertas);
-                  setUsers(DatosUsers);
-                  
-                                 
-                  DatosOfertas.filter((dato) => dato.id == IDOferta).map((oferta) => {
-                                               
+        if (DatosIntereses && DatosOfertas && DatosUsers) {
+          setIntereses(DatosIntereses);
+          setOfertas(DatosOfertas);
+          setUsers(DatosUsers);
+          
+                          
+          DatosOfertas.filter((dato) => dato.id == IDOferta).map((oferta) => {
+                                        
 
-                    setTituloOferta(oferta.titulo_oferta),
-                    setPuestoOferta(oferta.nombre_puesto_oferta),
-                    
-                    setVacantesOferta(oferta.vacantes_oferta),
-                    setUbicacionOferta(oferta.ubicacion_oferta),
-                    setFechaOferta(oferta.fecha_oferta)
-                    
-                    setSalarioOferta(oferta.salario_oferta),
-                    setDescripcionOferta(oferta.descripcion_oferta)
-                    setRImagenOferta(oferta.referenciaIMG_oferta)
-                      
-                    setInteresOfertaID(oferta.intereses)
-                    setEmpresaDeOfertaSeleccionada(oferta.empresaUser)
+            setTituloOferta(oferta.titulo_oferta),
+            setPuestoOferta(oferta.nombre_puesto_oferta),
+            
+            setVacantesOferta(oferta.vacantes_oferta),
+            setUbicacionOferta(oferta.ubicacion_oferta),
+            setFechaOferta(oferta.fecha_oferta)
+            
+            setSalarioOferta(oferta.salario_oferta),
+            setDescripcionOferta(oferta.descripcion_oferta)
+            setRImagenOferta(oferta.referenciaIMG_oferta)
+              
+            setInteresOfertaID(oferta.intereses)
+            setEmpresaDeOfertaSeleccionada(oferta.empresaUser)
 
-                    const interesRelacionado = DatosIntereses.filter(INTERES => INTERES.id == oferta.intereses);
-                    setInteresOfertaNombre(interesRelacionado.map(i => i.nombre_interes).join(', '))
+            const interesRelacionado = DatosIntereses.filter(INTERES => INTERES.id == oferta.intereses);
+            setInteresOfertaNombre(interesRelacionado.map(i => i.nombre_interes).join(', '))
 
-                    const EmpresaRelacionada = DatosUsers.filter(EMPRESA => EMPRESA.id == oferta.empresaUser);
-                    setEmpresaOferta(EmpresaRelacionada.map(i => i.first_name).join(', '))
+            const EmpresaRelacionada = DatosUsers.filter(EMPRESA => EMPRESA.id == oferta.empresaUser);
+            setEmpresaOferta(EmpresaRelacionada.map(i => i.first_name).join(', '))
 
-                  })
+          })
 
-              }
-          } catch (error) {
-              if (isMounted) {
-                  setErrorIntereses(error.message);
-                  setErrorOfertas(error.message);
-              }
-          }
+        }
+      
       };
   
       fetch();
   
-      return () => {
-          isMounted = false;
-      };
   }, [EstadoOferta]);
 
 
@@ -165,6 +161,19 @@ function Publicaciones() {
   function Volver2() {
     setContDetalles(true)
     setEditarInfo(false)
+  }
+
+  function VerPostulantes() {
+        Swal.fire({
+        icon: "info",
+        iconColor: "#2ae2b6",
+        text: "Pendiente",
+        confirmButtonColor: "#9ACD32",
+        background: "#1a1a1a",
+        color: "#ffffff",
+        showCancelButton: true,
+        cancelButtonText: "Cancelar",
+    })
   }
 
   function EditarOferta() {
@@ -728,25 +737,54 @@ function Publicaciones() {
 
             <div id='SectOfertasAdmin'>
 
-              <div id='containerOfAdmin'>
-                              
-                {Filtrado.map((oferta, index) => {
-                  let interesesRelacionados = Intereses.filter(INTERES => INTERES.id == oferta.intereses);
+              {!IsEmpresa && (
 
-                  let statusOferta = oferta.estado_oferta === "desactiva" ? "statusDesactiva" : "StatusActiva";
+                <div id='containerOfAdmin'>
+                    {Filtrado.map((oferta, index) => {
+                      let interesesRelacionados = Intereses.filter(INTERES => INTERES.id == oferta.intereses);
 
-                  return (
-                    <article className={statusOferta} onClick={() => VerDetallesOferta(oferta.id, oferta.estado_oferta)} key={index}>
-                      <h3>{oferta.titulo_oferta}</h3>
-                      <img className='imgOfertaAdmin' src={oferta.referenciaIMG_oferta} alt="Imagen de oferta"/>
-                      <p><b>Área de trabajo: </b>{interesesRelacionados.map(i => i.nombre_interes).join(', ')}</p>
-                      <p><b>Vacantes: </b>{oferta.vacantes_oferta}</p>
-                      <p><b>Ubicación: </b>{oferta.ubicacion_oferta}</p>
-                      <p><b>Fecha de Publicación:</b> {new Date(oferta.fecha_oferta).toLocaleDateString()}</p>
-                    </article>
-                  );
-                })}
-              </div>
+                      let statusOferta = oferta.estado_oferta === "desactiva" ? "statusDesactiva" : "StatusActiva";
+
+                      return (
+                        <article className={statusOferta} onClick={() => VerDetallesOferta(oferta.id, oferta.estado_oferta)} key={index}>
+                          <h3>{oferta.titulo_oferta}</h3>
+                          <img className='imgOfertaAdmin' src={oferta.referenciaIMG_oferta} alt="Imagen de oferta"/>
+                          <p><b>Área de trabajo: </b>{interesesRelacionados.map(i => i.nombre_interes).join(', ')}</p>
+                          <p><b>Vacantes: </b>{oferta.vacantes_oferta}</p>
+                          <p><b>Ubicación: </b>{oferta.ubicacion_oferta}</p>
+                          <p><b>Fecha de Publicación:</b> {new Date(oferta.fecha_oferta).toLocaleDateString()}</p>
+                        </article>
+                      );
+                    })}   
+                </div>
+              )}
+
+              
+              {IsEmpresa && (
+                <div id='containerOfAdmin'>
+                  
+                  {Filtrado.filter(oferta => oferta.empresaUser == idUserCookie).map((oferta, index) => {
+                    const interesesRelacionados = Intereses.filter(INTERES => INTERES.id === oferta.intereses);
+                    const statusOferta = oferta.estado_oferta === "desactiva" ? "statusDesactiva" : "StatusActiva";
+
+                    return (
+                      <article
+                        className={statusOferta}
+                        onClick={() => VerDetallesOferta(oferta.id, oferta.estado_oferta)}
+                        key={index}
+                      >
+                        <h3>{oferta.titulo_oferta}</h3>
+                        <img className="imgOfertaAdmin" src={oferta.referenciaIMG_oferta} alt="Imagen de oferta" />
+                        <p><b>Área de trabajo: </b>{interesesRelacionados.map(i => i.nombre_interes).join(', ')}</p>
+                        <p><b>Vacantes: </b>{oferta.vacantes_oferta}</p>
+                        <p><b>Ubicación: </b>{oferta.ubicacion_oferta}</p>
+                        <p><b>Fecha de Publicación:</b> {new Date(oferta.fecha_oferta).toLocaleDateString()}</p>
+                      </article>
+                    );
+                  })}
+
+                </div>
+              )}
 
 
             </div>
@@ -790,12 +828,20 @@ function Publicaciones() {
 
                     <div className="card-contenedorAdmin">
                       <h4> Descripción y requisitos: </h4>
-                      <div className="descripcionOferta">
+                      <div className="descripcionOfertaDashboard">
                         {DescripcionOferta}
                       </div>
                     </div>
 
                     <div className='contbtnAcciones'>
+                      {IsEmpresa && (
+                        <div>
+                          <button className='BtnEditar BtnPostulantes' onClick={(e) => VerPostulantes()} >Ver postulantes</button>
+                        </div>
+                      )}
+
+                      <div className='SubcontbtnAcciones' >
+
                         <button className='BtnEditar' onClick={(e) => EditarOferta()} >Editar</button>
 
                         {IsActivo && (
@@ -807,6 +853,7 @@ function Publicaciones() {
                         )}
 
                         <button className='BtnEliminar' onClick={(e) => EliminarOferta()} >Eliminar</button>
+                      </div>
                     </div>
                   </div>
 

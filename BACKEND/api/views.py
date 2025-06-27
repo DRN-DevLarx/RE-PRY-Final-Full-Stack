@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from rest_framework_simplejwt.views import TokenObtainPairView
 from django.core.mail import send_mail
 from django.utils import timezone
-
+from django.utils.crypto import get_random_string
 from django.core.cache import cache
 
 
@@ -153,7 +153,56 @@ class CYSMensajesViewSet(viewsets.ViewSet):
         
         return Response({'exito': 'Enviado con éxito'}, status=201)
 
-    
+class EnviarClaveTemporalViewSet(viewsets.ViewSet):
+    permission_classes = [AllowAny]
+
+    def create(self, request, *args, **kwargs):
+        
+        data = request.data
+        print(data)
+        
+        email = request.data.get("correo")
+        username = request.data.get("usuario")
+        
+        if not email or not username:
+            return Response({'error': 'Correo y nombre de usuario son obligatorios'}, status=400)
+
+        try:
+            user = User.objects.get(email=email, username=username)
+        except User.DoesNotExist:
+            return Response({'error': 'Usuario no encontrado con esos datos'}, status=404)
+
+        # Generar clave temporal (8 caracteres alfanuméricos)
+        clave_temporal = get_random_string(length=8)
+
+        # Guardar temporalmente
+        user.set_password(clave_temporal)
+        user.save()
+
+        # Enviar el correo
+        asunto = "Tu contraseña temporal"
+        cuerpo = f"""
+            Hola {user.first_name or user.username},
+
+            Se ha solicitado el restablecimiento de tu contraseña.
+
+            Tu nueva contraseña temporal es: {clave_temporal}
+
+            Te recomendamos cambiarla inmediatamente después de iniciar sesión.
+
+            Saludos,
+            El equipo de soporte
+                    """.strip()
+
+        send_mail(
+            subject=asunto,
+            message=cuerpo,
+            from_email=None,  # Usa tu configuración DEFAULT_FROM_EMAIL
+            recipient_list=[email],
+            fail_silently=False
+        )
+
+        return Response({'mensaje': 'Correo enviado con la contraseña temporal'}, status=200)
 
 class AuditoriaOfertasViewSet(viewsets.ModelViewSet):
     queryset = AuditoriaOfertas.objects.all()

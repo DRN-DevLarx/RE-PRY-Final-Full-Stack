@@ -15,6 +15,23 @@ async function GetEmpresa() {
     }
 }
 
+async function GetEmpresaByIds(ids) {
+    try {
+        const response = await fetch("http://127.0.0.1:8000/api/empresas/");
+        
+        if (!response.ok) {
+            throw new Error("Error al obtener las empresas");
+        }
+
+        const allEmpresas = await response.json();
+        return allEmpresas.filter(empresa => ids.includes(empresa.id)); // Filtra solo los IDs necesarios
+
+    } catch (error) {
+        console.error("Error al obtener los empresas por ID:", error);
+        throw error;
+    }
+}
+
 async function PostEmpresa(obj) {
     try {
         const response = await fetch("http://127.0.0.1:8000/api/empresas/", {
@@ -60,6 +77,27 @@ async function PutEmpresa(id, obj) {
     }
 }
 
+async function PutPachEmpresa(id, obj) {
+    try {
+        const response = await fetch(`http://127.0.0.1:8000/api/empresas/${id}/`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(obj)
+        });
+
+        if (!response.ok) {
+            throw new Error('Error al actualizar Empresa');
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error('Error al actualizar Empresa:', error);
+        throw error;
+    }
+}
+
 async function DeleteEmpresa(id) {
     try {
         const response = await fetch(`http://127.0.0.1:8000/api/empresas/${id}/`, {
@@ -77,5 +115,5 @@ async function DeleteEmpresa(id) {
     }
 }
 
-export default { GetEmpresa, PostEmpresa, PutEmpresa, DeleteEmpresa };
+export default { GetEmpresa, GetEmpresaByIds, PostEmpresa, PutEmpresa, PutPachEmpresa, DeleteEmpresa };
 

@@ -85,20 +85,6 @@ class Postulaciones(models.Model):
     
     def __str__(self):
         return f"Usuario: + {self.user}, Oferta: + {self.oferta}, Fecha de postulacion: + {self.fecha_postulacion}, Comentario: + {self.comentario}"  
-          
-# class CYSMensajes(models.Model):
-#     nombre = models.CharField(max_length=50, validators=[MinLengthValidator(3)])
-#     apellido = models.CharField(max_length=50, validators=[MinLengthValidator(3)])
-#     correo = models.EmailField(validators=[EmailValidator()])
-#     telefono = models.CharField(max_length=20, validators=[RegexValidator(r'^\+?1?\d{9,15}$')], blank=True, null=True)
-#     asunto = models.CharField(max_length=100, validators=[MinLengthValidator(3)])
-#     mensaje = models.TextField()
-#     fecha_envio = models.DateTimeField(auto_now_add=True)
-#     fingerprint = models.CharField(max_length=64)
-
-#     def __str__(self):
-#         return f"Nombre: + {self.nombre}, Apellido: + {self.apellido}, Mensaje: + {self.mensaje}, Fecha de mensaje: + {self.fecha_mensaje}"
-
 
 class AuditoriaOfertas(models.Model):
     oferta = models.ForeignKey(Ofertas, on_delete=models.CASCADE)

@@ -43,6 +43,7 @@
     height: 150px;
     border-radius: 50%;
     object-fit: cover;
+    box-shadow: 0px 0px 10px white;
 }
 
 .SubContPerfilAdmin1 {
@@ -54,6 +55,7 @@
     border-radius: 0 20px 20px 0;
     background-color: rgba(0, 0, 0, 0.355);
     padding-top: 50px;
+
 }
 
 .contbtnEditar {

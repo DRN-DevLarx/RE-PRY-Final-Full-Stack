@@ -8,7 +8,6 @@ import RegisterOferentes from '../pages/RegisterPageOferentes';
 import RegisterEmpresas from '../pages/RegisterPageEmpresas';
 import CYSPage from '../pages/CYSPage';
 import RestablecerPage from '../pages/RestablecerPage';
-import RestablecerPageConfirmar from '../pages/RestablecerPageConfirmar';
 import Publicar from '../pages/PublicarPage';
 import DashboardPage from '../pages/DashboardPage';
 import EditarPerfil from '../pages/EditarPerfil'
@@ -34,7 +33,6 @@ function Routing() {
             <Route  path='/registrarEmpresa' element={<RegisterEmpresas/>}/>
             <Route  path='/login' element={<Login/>}/>
             <Route  path='/restablecer' element={<RestablecerPage/>}/>
-            <Route  path='/restablecer/confirmar' element={<RestablecerPageConfirmar/>}/>
 {/* 
             <Route  path='/PrincipalPage' element={<PrincipalPage/>}/>
             <Route  path='/public' element={<Publicar/>}/>
