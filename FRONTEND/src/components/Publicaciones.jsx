@@ -67,20 +67,16 @@ function Publicaciones() {
   
 
   const [VistaPostulantes, setVistaPostulantes] = useState(false)
-  const [UsersPsotulados, setUsersPsotulados] = useState([])
+  const [UsersPostulados, setUsersPostulados] = useState([])
 
 
-    
-    const [DatosIntermedios, setDatosIntermedios] = useState([]);
+  const [DatosIntermedios, setDatosIntermedios] = useState([]);
 
-    const [Users2, setUsers2] = useState([]);
-    const [ErrorUsers, setErrorUsers] = useState(null);
-    
-    const [Usuarios, setUsuarios] = useState([]);
-    const [ErrorUsuarios, setErrorUsuarios] = useState(null);
-    
-    const [DatosGroups, setDatosGroups] = useState([]);
-    
+  const [Users2, setUsers2] = useState([]);
+  
+  const [Usuarios, setUsuarios] = useState([]);
+  
+  const [DatosGroups, setDatosGroups] = useState([]);
 
 
   let imgASubir = null;
@@ -93,95 +89,90 @@ function Publicaciones() {
     "putita", "meto", "cojo", "cojer"];
 
 
-  useEffect(() => {
-      const fetch = async () => {
+useEffect(() => {
+  const fetchData = async () => {
 
-        const userEncontrado = Usuarios.find((user) => user.referenciaIMG_oferente && user.referenciaIMG_oferente !== "null");
+    const userEncontrado = Usuarios.find(
+      (user) => user.referenciaIMG_oferente && user.referenciaIMG_oferente !== "null"
+    );
+    if (userEncontrado) {
+      setIMgUser(userEncontrado.referenciaIMG_oferente);
+    }
 
-        if (userEncontrado) {
-            setIMgUser(userEncontrado.referenciaIMG_oferente);
+    // Datos intermedios y usuarios relacionados
+    const datosIntermedios = await Users_UsuariosServices.GetUserUsuario();
+    if (datosIntermedios.length > 0) {
+      const userIds = datosIntermedios.map((item) => item.user);
+      const usuarioIds = datosIntermedios.map((item) => item.usuario);
+
+      const [datosUsers, datosUsuarios, datosGroups] = await Promise.all([
+        usersServices.GetUsersByIds(userIds),
+        usuariosServices.GetUsuariosByIds(usuarioIds),
+        User_groupsServices.GetUser_group()
+      ]);
+
+      if (datosUsers && datosUsuarios && datosGroups) {
+        setDatosIntermedios(datosIntermedios);
+        setUsers2(datosUsers);
+        setUsuarios(datosUsuarios);
+        setDatosGroups(datosGroups);
+      }
+    }
+
+    // Carga de datos generales
+    const [DatosIntereses, DatosOfertas, DatosUsers, DatosPostulaciones] = await Promise.all([
+      InteresesServices.GetIntereses(),
+      OfertasServices.GetOfertas(),
+      usersServices.GetUser(),
+      PostulacionesServices.GetPostulaciones()
+    ]);
+
+    // Estado y rol
+    if (EstadoOferta === "desactiva") setIsActivo(false);
+    if (Rol === "empresa") setIsEmpresa(true);
+
+    // Procesamiento de oferta seleccionada
+    if (DatosIntereses && DatosOfertas && DatosUsers) {
+      setIntereses(DatosIntereses);
+      setOfertas(DatosOfertas);
+      setUsers(DatosUsers);
+
+      const ofertaSeleccionada = DatosOfertas.find((dato) => dato.id === IDOferta);
+      if (ofertaSeleccionada) {
+        setTituloOferta(ofertaSeleccionada.titulo_oferta);
+        setPuestoOferta(ofertaSeleccionada.nombre_puesto_oferta);
+        setVacantesOferta(ofertaSeleccionada.vacantes_oferta);
+        setUbicacionOferta(ofertaSeleccionada.ubicacion_oferta);
+        setFechaOferta(ofertaSeleccionada.fecha_oferta);
+        setSalarioOferta(ofertaSeleccionada.salario_oferta);
+        setDescripcionOferta(ofertaSeleccionada.descripcion_oferta);
+        setRImagenOferta(ofertaSeleccionada.referenciaIMG_oferta);
+        setInteresOfertaID(ofertaSeleccionada.intereses);
+        setEmpresaDeOfertaSeleccionada(ofertaSeleccionada.empresaUser);
+
+        const interesRelacionado = DatosIntereses.find((i) => i.id === ofertaSeleccionada.intereses);
+        if (interesRelacionado) {
+          setInteresOfertaNombre(interesRelacionado.nombre_interes);
         }
 
-        const datosIntermedios = await Users_UsuariosServices.GetUserUsuario();
-
-        if (datosIntermedios.length > 0) {
-            const userIds = datosIntermedios.map(item => item.user);
-            const usuarioIds = datosIntermedios.map(item => item.usuario);
-
-            const datosUsers = await usersServices.GetUsersByIds(userIds);
-            const datosUsuarios = await usuariosServices.GetUsuariosByIds(usuarioIds);
-            const datosGroups = await User_groupsServices.GetUser_group();
-
-            if (datosUsers && datosUsuarios && datosGroups) {
-                setDatosIntermedios(datosIntermedios);
-                setUsers2(datosUsers);
-                setUsuarios(datosUsuarios);
-                setDatosGroups(datosGroups);
-            }
+        const empresaRelacionada = DatosUsers.find((e) => e.id === ofertaSeleccionada.empresaUser);
+        if (empresaRelacionada) {
+          setEmpresaOferta(empresaRelacionada.first_name);
         }
-        
-
-        const DatosIntereses = await InteresesServices.GetIntereses();
-        const DatosOfertas = await OfertasServices.GetOfertas();
-        const DatosUsers = await usersServices.GetUser();
-        const DatosPostulaciones = await PostulacionesServices.GetPostulaciones();
-
-        if(EstadoOferta == "desactiva") {
-          setIsActivo(false)
-        }
-        if(Rol == "empresa") {
-          setIsEmpresa(true)
-        }
-
-        if (DatosIntereses && DatosOfertas && DatosUsers) {
-          setIntereses(DatosIntereses);
-          setOfertas(DatosOfertas);
-          setUsers(DatosUsers);
-        
-        
-          DatosOfertas.filter((dato) => dato.id == IDOferta).map((oferta) => {
-                                        
-
-            setTituloOferta(oferta.titulo_oferta),
-            setPuestoOferta(oferta.nombre_puesto_oferta),
-            
-            setVacantesOferta(oferta.vacantes_oferta),
-            setUbicacionOferta(oferta.ubicacion_oferta),
-            setFechaOferta(oferta.fecha_oferta)
-            
-            setSalarioOferta(oferta.salario_oferta),
-            setDescripcionOferta(oferta.descripcion_oferta)
-            setRImagenOferta(oferta.referenciaIMG_oferta)
-              
-            setInteresOfertaID(oferta.intereses)
-            setEmpresaDeOfertaSeleccionada(oferta.empresaUser)
-
-            const interesRelacionado = DatosIntereses.filter(INTERES => INTERES.id == oferta.intereses);
-            setInteresOfertaNombre(interesRelacionado.map(i => i.nombre_interes).join(', '))
-
-            const EmpresaRelacionada = DatosUsers.filter(EMPRESA => EMPRESA.id == oferta.empresaUser);
-            setEmpresaOferta(EmpresaRelacionada.map(i => i.first_name).join(', '))
-
-          })
-
-          console.log(IDOferta);
-          
-          
-          DatosPostulaciones.filter((dato) => dato.oferta == IDOferta).map((Postulacion) => {
-              console.log(Postulacion),
-              setUsersPsotulados(Postulacion)
-          })
-
-          console.log("Hola2");
-
-
-        }
+      }
       
-      };
-  
-      fetch();
-  
-  }, [EstadoOferta, Usuarios]);
+      // Postulaciones relacionadas con la oferta
+      const postulantes = DatosPostulaciones.filter((dato) => dato.oferta === IDOferta);
+      if (postulantes.length > 0) {
+        setUsersPostulados(postulantes);        
+      }
+
+      console.log("Postulantes encontrados:", postulantes[0]?.oferta);
+    }
+  };
+
+  fetchData();
+}, [EstadoOferta]);
 
   function VerDetallesOferta(id, estado) {
     setContDetalles(true)
@@ -974,48 +965,39 @@ function Publicaciones() {
 
       <div>
         <div className="Cont2">
-            {DatosIntermedios.map((dato, index) => {
-                const user = Users2.find((u) => u.id == dato.user);
-                const usuario = Usuarios.find((us) => us.id == dato.usuario);
+          {DatosIntermedios.filter((dato) => UsersPostulados.some( (p) => p.oferta === IDOferta && p.user === dato.user)).map((dato, index) => {
+            const user = Users2.find((u) => u.id === dato.user);
+            const usuario = Usuarios.find((us) => us.id === dato.usuario);
 
+            if (!user || !usuario) return null;
 
+            const IMgUser2 =
+              usuario.referenciaIMG_oferente &&
+              usuario.referenciaIMG_oferente !== "null" &&
+              usuario.referenciaIMG_oferente !== ""
+                ? usuario.referenciaIMG_oferente
+                : IMgUser;
 
-                if (!user || !usuario) return null;
-
-                const IMgUser2 = usuario.referenciaIMG_oferente && usuario.referenciaIMG_oferente !== "null" && usuario.referenciaIMG_oferente !== "" ? usuario.referenciaIMG_oferente
-                    : IMgUser;
-
-                return (
-                <div onClick={(e) => VerUser(user.id)} className="User" key={index}>
-
-                    <div className='UserLeft'>
-                        <div className='UserIcon'>
-                            <img src={IMgUser2} alt="Imagen de usuario" style={{ width: "70px", height: "70px", borderRadius: "50%" }}/>
-                            {user.username}
-                        </div>
-                    </div>
-
-                    <div className='UserRight'>
-                        <p>Fecha de registro</p>
-                        {new Date(user.date_joined).toLocaleString()}
-                    </div>
+            return (
+              <div onClick={() => VerUser(user.id)} className="User" key={index}>
+                <div className="UserLeft">
+                  <div className="UserIcon">
+                    <img
+                      src={IMgUser2}
+                      alt="Imagen de usuario"
+                      style={{ width: "70px", height: "70px", borderRadius: "50%" }}
+                    />
+                    {user.username}
+                  </div>
                 </div>
-                );
-            })}
-        </div>
 
-
-        <div>
-
-          {UsersPsotulados && Object.keys(UsersPsotulados).length > 0 ? (
-            <>
-              <div>
-                {UsersPsotulados.referenciaPDF}
+                <div className="UserRight">
+                  <p>Fecha de registro</p>
+                  {new Date(user.date_joined).toLocaleString()}
+                </div>
               </div>
-            </>
-          ) : (
-            <p>No hay usuarios postulados aún.</p>
-          )}
+            );
+          })}
         </div>
       </div>
       )}
