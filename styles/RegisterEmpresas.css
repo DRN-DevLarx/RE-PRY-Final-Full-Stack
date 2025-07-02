@@ -1,0 +1,156 @@
+@import url('https://fonts.googleapis.com/css2?family=Shrikhand&display=swap');
+
+#bodyRegisterEmpresas {
+    background-image: url('../assets/wallpaperLogin.jfif');
+    background-size: 100% 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#contRegisterEmpresas{
+    background-color: transparent;
+    border: solid 1px gray;
+    width: 50%;
+    border-radius: 20px;
+    position: relative;
+    padding: 3% 5%;
+}
+
+#contRegisterEmpresas header {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+}
+
+#contRegisterEmpresas h1 {
+    text-align: center;
+    margin-bottom: -10px;
+    color: #2ae2b6;
+    font-family: "Shrikhand", serif;
+    font-style: normal;
+    margin-bottom: 20px;
+}
+
+#contRegisterEmpresas h2 {
+    margin-bottom: 20px;
+    color: white;
+    border-bottom: solid 3px #2ae2b6;
+    font-style: italic;
+}
+
+.DIVbtnREmpresa {
+    margin-top: 20px;
+    width: 100%;
+    text-align: center;
+}
+
+#contRegisterEmpresas span {
+    color: red;
+}
+
+.inputs1Empresas {
+    padding: 7px;
+    padding-left: 20px;
+    width: 100%;
+    border-radius: 10px;
+    border: solid 2px rgba(255, 255, 255, 0.636);
+    background-color: #222838;
+    color: #2ae2b6;
+}
+
+#contRegisterEmpresas input:focus {
+    border: solid #2ae2b6;
+    color: #2ae2b6;
+}
+
+#contRegisterEmpresas label {
+    color: white;
+}
+
+#btnsRegisterEmpresas {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.btnROferenteE {
+    background-color: gray;
+}
+
+.btnREmpresa{
+    background-color: #2ae2b6;
+}
+
+
+
+
+#btnsRegisterEmpresas button {
+    width: 47%;
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.btnNextRegisterEmpresas {
+    background-color: #d9d9d9;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    padding: 5px 15px;
+    margin: auto;
+}
+
+
+.inputs {
+    margin: 0 10px;
+    padding: 7px;
+    padding-left: 20px;
+    border-radius: 10px;
+    width: 44%;
+    border: solid 2px rgba(255, 255, 255, 0.636);
+    background-color: #222838;
+    color: #2ae2b6;
+}
+
+.inptNombreEmpresa {
+    grid-column: span 2;
+}
+
+.btnRegister {
+    background-color: #d9d9d9;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    padding: 5px 15px;
+    margin: auto;
+    width: 100%;
+}
+
+
+#ContInteresesEmpresas {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}   
+
+.ItemInteresEmpresas {
+    background-color: #222838;
+    color: #2ae2b6;
+    padding: 10px 15px;
+    margin: 5px;
+    cursor: pointer;
+    display: flex;
+    gap: 5px;
+}
+
+.ItemInteresEmpresas input {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+

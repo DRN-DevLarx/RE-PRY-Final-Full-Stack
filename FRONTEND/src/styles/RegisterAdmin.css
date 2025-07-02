@@ -125,3 +125,21 @@
 }
 
 
+
+
+
+
+/* @media ((min-width: 681px) and (max-width: 1068px)) {
+
+  .contRegisterAdmin {
+    wi;
+  }
+} */
+
+@media (max-width: 680px) {
+
+
+  #contRegisterAdmin {
+    width: 70%;
+  }
+}

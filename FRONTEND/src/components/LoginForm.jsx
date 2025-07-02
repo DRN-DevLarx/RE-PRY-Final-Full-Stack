@@ -2,15 +2,57 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2';
 import '../styles/login.css';
-import authService from "../services/authServices"
-
+import usersServices from '../services/usersServices';
 
 function LoginForm() {
 
   const [ValueUser, setValueUser] = useState('');
   const [ValuePass, setValuePass] = useState('');
+  
+  let IDuser = 0;
 
   const navigate = useNavigate();
+
+  async function FuntionActivarUser(id, objActivar, nuevaContra) {
+    
+    const ActivarUser = await usersServices.PutUserPatch(id, objActivar)
+
+    const objCredentials = {
+        username: ValueUser,
+        password: nuevaContra,
+    };
+
+    const response = await fetch("http://127.0.0.1:8000/api/token/", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(objCredentials)
+    });
+
+    const data = await response.json();
+
+    if(ActivarUser && response) {
+      Swal.fire({
+        icon: "success",
+        text: "La contraseña se ha cambiado éxitosamente.",
+        background: "#1a1a1a",
+        color: "#ffffff",
+        showConfirmButton: false,
+        showCancelButton: false,
+        timer: 1500,
+      });
+
+      document.cookie = `access_token=${data.access}; path=/; secure; SameSite=Strict`;
+      document.cookie = `refresh_token=${data.refresh}; path=/; secure; SameSite=Strict`;
+      document.cookie = `user_id=${data.user_id}; path=/; secure; SameSite=Strict`;
+      document.cookie = `role=${data.role}; path=/; secure; SameSite=Strict`;
+   
+      setTimeout(() => {
+        navigate("/PrincipalPage")
+      }, 1600);
+    }
+    
+
+  }
 
   async function IniciarSesion() {
 
@@ -21,7 +63,7 @@ function LoginForm() {
         background: "#1a1a1a", 
         color: "#ffffff",
         showConfirmButton: false,
-        timer: 3000,
+        timer: 1500,
       });
 
     } else {
@@ -29,7 +71,7 @@ function LoginForm() {
       const credentials = {
           username: ValueUser,
           password: ValuePass,
-      };      
+      };
 
       const response = await fetch("http://127.0.0.1:8000/api/token/", {
         method: "POST",
@@ -38,37 +80,108 @@ function LoginForm() {
       });
 
       const data = await response.json();
-      console.log(data);
-      
-        
+
+      IDuser = data.user_id;
+
       if (response.ok) {
+        if (!data.is_active) {
+
+          Swal.fire({
+              icon: "info",
+              title: "Digita tu nueva contraseña",
+              confirmButtonColor: "#2ae2b6",
+              background: "#1a1a1a",
+              color: "#ffffff",
+              confirmButtonText: "Aceptar",
+              showCancelButton: true,
+              cancelButtonText: "Cancelar",
+              allowOutsideClick: false,
+              allowEscapeKey: false,
+              reverseButtons: true,
+              html: `
+                  <input id="swal-input1" class="swal2-input" placeholder="Nueva contraseña">
+                  <input id="swal-input2" class="swal2-input" placeholder="Confirmar contraseña">
+              `,
+              focusConfirm: false,
+              preConfirm: () => {
+                  return [
+                      document.getElementById('swal-input1').value,
+                      document.getElementById('swal-input2').value
+                  ];
+              }
+          }).then((result) => {
+              if (!result.value[0] || !result.value[1]) {
+                  Swal.fire({
+                      icon: "error",
+                      iconColor: "#2ae2b6",
+                      text: "Digita la nueva contraseña.",
+                      background: "#1a1a1a",
+                      color: "#ffffff",
+                      showCancelButton: false,
+                      showConfirmButton: false,
+                      timer: 1500,
+                  });
+              } else if (result.value[0].length < 8) {
+                Swal.fire({
+                    icon: "error",
+                    iconColor: "#2ae2b6",
+                    text: "La contraseña debe tener al menos 8 caracteres.",
+                    confirmButtonColor: "#2ae2b6",
+                    background: "#1a1a1a",
+                    color: "#ffffff",
+                    showCancelButton: false,
+                    showConfirmButton: false,
+                    timer: 1500,
+                });
+              } else if (result.value[0] !== result.value[1]) {
+                  Swal.fire({
+                      icon: "error",
+                      iconColor: "#2ae2b6",
+                      text: "Las contraseñas no coinciden. Por favor verifica e intenta nuevamente.",
+                      confirmButtonColor: "#2ae2b6",
+                      background: "#1a1a1a",
+                      color: "#ffffff",
+                      showCancelButton: false,
+                      showConfirmButton: false,
+                      timer: 1500,
+                  });
+              } else {
+
+                  const obj = {
+                    password: result.value[0],
+                    is_active: true,
+                  }
+                  
+                  FuntionActivarUser(IDuser, obj, result.value[0],)
+              }
+          });
+
+        } else {
+            document.cookie = `access_token=${data.access}; path=/; secure; SameSite=Strict`;
+            document.cookie = `refresh_token=${data.refresh}; path=/; secure; SameSite=Strict`;
+            document.cookie = `user_id=${data.user_id}; path=/; secure; SameSite=Strict`;
+            document.cookie = `role=${data.role}; path=/; secure; SameSite=Strict`;
+            navigate("/PrincipalPage");
+        }
+
+      } else {
+          Swal.fire({
+            icon: "error",
+            text: "El usuario o contraseña son incorrectas. Intenta más tarde.",
+            confirmButtonColor: "#2ae2b6",
+            background: "#1a1a1a",
+            color: "red",
+            confirmButtonText: "Verificar",
+
+          });
+      }   
         
-          document.cookie = `access_token=${data.access}; path=/; secure; SameSite=Strict`;
-          document.cookie = `refresh_token=${data.refresh}; path=/; secure; SameSite=Strict`;
-          document.cookie = `user_id=${data.user_id}; path=/; secure; SameSite=Strict`;
-          document.cookie = `role=${data.role}; path=/; secure; SameSite=Strict`;
-          
-          navigate("/PrincipalPage");
-   
-      }
-      else {
-        Swal.fire({
-          icon: "error",
-          text: "El Usuario o contraseña es incorrecta. Porfavor intenta de nuevo",
-          background: "#1a1a1a",
-          color: "#ffffff",
-          showConfirmButton: false,
-          timer: 3000,
-        });
-      }
-        
-      
     }
   }
   
   function volver() {
     setTimeout(() => {
-        navigate(-1)       
+        navigate("/")       
     }, 200);
 
   }

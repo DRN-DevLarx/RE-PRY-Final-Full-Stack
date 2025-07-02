@@ -32,7 +32,7 @@ function Header() {
                   <Link to="/registrarse" className="btn-second">
                     Registrarse
                   </Link>
-                </li>
+                </li><br />
 
                   <li className="nav-item">
                   <Link to="/login" className="btn-prim">

@@ -413,7 +413,7 @@ ejecutarValidaciones();
             usuario: respuestaServer2.id,
             intereses: INTERES,
           };
-          await InteUsuariosServices.PostIntereses(datos_A_InteUsuarios);
+          await InteUsuariosServices.PostInteUser(datos_A_InteUsuarios);
         }
 
 
@@ -444,7 +444,12 @@ ejecutarValidaciones();
           background: "#1a1a1a",
           color: "#ffffff",
           showConfirmButton: false,
+          timer:1500,
         });
+
+        setTimeout(() => {
+          location.reload()
+        }, 1600);
 
 
       } catch (error) {

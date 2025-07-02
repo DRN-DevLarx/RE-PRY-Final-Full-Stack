@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import PerfilAdmin from '../components/PerfilAdmin'
 import Publicaciones from '../components/Publicaciones'
 import UserRegi from '../components/UserRegi'
-import Alerts from '../components/Alerts'
 import RegisterAdmin from "./RegisterAdmin";
 
 import ChatsNotifics from "./ChatsNotifics";
@@ -16,7 +15,6 @@ import usuariosServices from '../services/usuariosServices';
 import Users_UsuariosServices from '../services/Users_UsuariosServices';
 import empresasServices from "../services/empresasServices";
 import Users_EmpresasServices from "../services/Users_EmpresasServices";
-
 
 import "../styles/AsideDashboard.css";
 
@@ -79,7 +77,6 @@ const Menu = () => {
             { nombre: "Perfil", esPerfil: true, componente: <PerfilAdmin /> },
             { nombre: "Publicaciones", esPerfil: false, componente: <Publicaciones /> },
             { nombre: "Usuarios registrados", esPerfil: false, componente: <UserRegi /> },
-            { nombre: "Quejas", esPerfil: false, componente: <Alerts /> },
             { nombre: "Registrar admin", esPerfil: false, componente: <RegisterAdmin /> }
         ];
 

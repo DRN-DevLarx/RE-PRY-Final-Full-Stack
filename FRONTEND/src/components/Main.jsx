@@ -17,11 +17,13 @@ function Inicio() {
               
                 <p>¿Necesitas soporte? Escríbenos</p>
               </div>
+              
               <div className="capa2">
                 <a href="#about">Sobre nosotros</a>
                 <p> <Link to="/cys">Contacto y soporte</Link> </p>
-
+                <p> <Link to="/terminosYcondiciones">Términos y condiciones</Link> </p>
               </div>
+
             </div>
           </div>
           <div className="contenedor_texto_central">

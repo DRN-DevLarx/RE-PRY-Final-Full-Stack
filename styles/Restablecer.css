@@ -1,0 +1,137 @@
+@import url('https://fonts.googleapis.com/css2?family=Shrikhand&display=swap');
+
+
+#bodyRestablecer {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: url("../assets/wallpaperAbout.jpg");
+    background-size: cover;
+}
+
+#contRestablecer{
+    border: solid 1px gray;
+    width: 50%;
+    padding: 3% 10%;
+    border-radius: 20px;
+    position: relative;
+}
+
+#contRestablecer:hover {
+  box-shadow: 0 0 20px gray;
+}
+
+#contRestablecer header {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+}
+
+#contRestablecer h2 {
+    text-align: center;
+    margin-bottom: -10px;
+    color: #2ae2b6;
+    font-family: "Shrikhand", serif;
+    font-style: normal;
+    margin-bottom: 20px;
+}
+
+
+#contRestablecer span {
+    color: red;
+}
+
+#contRestablecer label {
+    color: white;
+}
+
+.input2 {
+    padding: 7px;
+    padding-left: 20px;
+    border-radius: 10px;
+    border: none;
+    background-color: transparent;
+    border: solid 1px gray;
+    color: #2ae2b6;
+    transition: all 0.1s ease; 
+    width: 100%;
+}
+
+.input2:focus {
+    color: #00bfa5; 
+    transform: scale(1.09);
+    box-shadow: 5px 5px 20px rgba(0, 191, 165, 0.7); 
+    border: 2px solid #00bfa5; 
+    outline: none; 
+}
+
+.DIVbtnRestablecer {
+    margin-top: 20px;
+    width: 100%;
+    text-align: center;
+}
+
+.btnRestablecerSolicitar {
+    background-color: #00bfa663;
+    border: 2px solid #00bfa663; 
+    border-radius: 10px;
+    color: white;
+    font-weight: bold;
+    padding: 10px 20px;
+    transition: all 0.1s ease;
+}
+
+.btnRestablecerSolicitar:hover {
+    background-color: #2ae2b6;
+    border: 2px solid #00bfa5;
+    color: black;
+    font-style: italic;
+    box-shadow: 5px 5px 1000px rgba(0, 191, 165, 0.7); 
+}
+
+@media (max-width: 780px) {
+
+    #contRestablecer {
+        width: 90%;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #contRestablecer header {
+        top: 10px;
+        left: 10px;
+    }
+
+    #contRestablecer h1 {
+        font-size: 24px;
+        margin-bottom: 15px;
+    }
+
+    #contRestablecer label {
+        font-size: 17px;    
+    }
+
+    .contVerificar {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .input2 {
+        width: 80%;
+    }
+
+    .DIVbtnRestablecer {
+        text-align: center;
+    }
+
+    .btnRestablecerSolicitar {
+        width: 100%;
+        font-size: 14px;
+        padding: 10px;
+        margin-top: 15px;
+    }
+}

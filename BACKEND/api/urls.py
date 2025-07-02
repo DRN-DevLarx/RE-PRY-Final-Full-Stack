@@ -2,7 +2,7 @@ from django.urls import path
 from rest_framework.routers import DefaultRouter
 from .views import (
     UsuariosViewSet, UsersViewSet, InteresesViewSet, InteresesUsuariosViewSet, Users_UsuariosViewSet, EmpresasViewSet,
-    OfertasViewSet, PostulacionesViewSet, AuditoriaOfertasViewSet, Users_EmpresasViewSet, auth_user_groups, 
+    OfertasViewSet, PostulacionesViewSet, AuditoriaOfertasViewSet, Users_EmpresasViewSet, auth_user_groupsView, 
     CustomTokenObtainPairView, UserDataView, CYSMensajesViewSet, EnviarClaveTemporalViewSet
 )
 
@@ -16,7 +16,7 @@ router.register(r'claveTemporal', EnviarClaveTemporalViewSet, basename='EnviarCl
 router.register(r'users', UsersViewSet)
 router.register(r'usuarios', UsuariosViewSet)
 router.register(r'users-usuarios', Users_UsuariosViewSet)
-router.register(r'user-group', auth_user_groups)
+router.register(r'user-group', auth_user_groupsView)
 router.register(r'intereses', InteresesViewSet)
 router.register(r'intereses-usuarios', InteresesUsuariosViewSet)
 router.register(r'empresas', EmpresasViewSet)

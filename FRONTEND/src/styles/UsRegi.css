@@ -1,56 +1,52 @@
 
-#PerfilUser {
-    color: white;
+.headerUltimasPublicaciones {
     display: flex;
-    height: 70vh;
-    margin: 50px auto;
-    padding: 0px 100px;
+    justify-content: space-around;
+    color: white;
+    background-color: #9293936a;
+    text-align: center;
+    padding: 17px;
+    margin-bottom: 20px;
+}
+.headerUltimasPublicaciones h3 {
+    width: 100%;
+}
+
+.headerUltimasPublicaciones svg:hover {
+    transform: scale(1.2);
 }
 
 .Cont2 {
-    width: 100%;
+    width: 90;
     height: 520px;
-    border-radius: 12px;
-    padding: 20px 150px;
+    padding: 20px 200px;
     overflow-y: auto;
 }
 
 .User {
   background-color: #0c4d3d98;
   border-radius: 8px;
-  padding: 10px 100px;
+  padding: 15px 60px;
   margin-bottom: 10px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
   color: white;
-  font-size: 18px;
-
   display: flex;
-
 }
 
 .User:hover {
     background-color: #2ae2b6;
-    transform: scale(1.03);
 }
 
 .UserLeft {
-  width: 50%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  text-align: left;
-}
-
-.UserIcon {
-  width: 30%;
+  width: 15%;
   text-align: center;
 }
 
 .UserRight {
-  width: 50%;
+  width: 85%;
+  text-align: right;
   display: flex;
   flex-direction: column;
-  align-items: end;
   justify-content: center;
 }
 
@@ -61,22 +57,75 @@
   font-weight: bold;
 }
 
+.user-card-header .user-icon {
+  font-size: 30px;
+}
+
 .user-card-body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: green;
-  padding-left: 10px;
+}
+
+#PerfilUser {
+  width: 100%;
+  height: 85vh;
+  overflow-y: scroll;
+  display: flex;
+  padding: 20px 100px;
+  color: white;
 }
 
 
+@media ((min-width: 781px) and (max-width: 1068px)) {
 
-.ImgEdit {
-  padding: 5px;
-  border: dashed;
+  .Cont2 {
+      height: 562px;
+      padding: 20px 100px;
+  }
+
+  #PerfilUser {
+    padding: 20px 60px;
+  }
 }
 
-.ImgEdit:hover {
-  transform: scale(1.05);
-  box-shadow: 0px 5px 25px white;
+@media (max-width: 780px) {
+
+  .Cont2 {
+      height: 56  0px;
+      padding: 20px 5px;
+  }
+
+  .User {
+    padding: 15px 30px;
+  }
+
+  .UserLeft {
+    width: 35%;
+  }
+
+  .UserRight {
+    width: 100%;
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+
+  #PerfilUser {
+
+    display: flex;
+    flex-direction: column;
+    padding: 20px 0px;
+    color: white;
+  }
+
+  .itemPerfil {
+    border-radius: 0%;
+    width: 100%;
+  }
+
+
+
 }

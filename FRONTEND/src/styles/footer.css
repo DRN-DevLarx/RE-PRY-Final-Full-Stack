@@ -1,56 +1,67 @@
-
-#footer{
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    background-color: #222838;
-    padding: 0 30px;
+.principalfooter {
+  margin-top: -170px;
+  z-index: 20;
 }
 
+#footer {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  background-color: #222838;
+  padding: 0 30px;
+}
 
 .FooterLeft h1 {
-    text-align: center;
-    color: #2ae2b6;
+  text-align: center;
+  color: #2ae2b6;
 }
 
-
 .FooterRight h1 {
-    text-align: center;
-    color: #2ae2b6;
+  text-align: center;
+  color: #2ae2b6;
 }
 
 .infoLeft {
-    text-align: center;
-    color: white;
-    width: 80%;
-    margin: auto;
+  text-align: center;
+  color: white;
+  width: 80%;
+  margin: auto;
 }
 
 .infoLeft a {
-    color: white;
-    text-decoration: none;
+  color: white;
+  text-decoration: none;
 }
 
 .infoRight {
-    line-height: 25px;
-    width: 90%;
-    margin: auto;
-    text-align: left;
+  line-height: 25px;
+  width: 90%;
+  margin: auto;
+  text-align: left;
 }
 
 .FooterLeft p {
-    text-align: left;
-    color: white;   
+  text-align: left;
+  color: white;
 }
 
 .FooterRight p {
-    text-align: center;
-    color: white;
+  text-align: center;
+  color: white;
 }
 
 .footer_footer {
-    color: #2ae2b6;
-    grid-column: span 2;
-    display: flex;  
-    justify-content: center;
-    align-items: center;
+  color: #2ae2b6;
+  grid-column: span 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media (max-width: 768px) {
+  #footer {
+    display: flex;
+    flex-direction: column;
+    padding: 20px 10px;
+    row-gap: 20px;
+  }
 }

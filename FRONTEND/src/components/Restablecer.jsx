@@ -54,23 +54,35 @@ function Restablecer() {
 
   function SolicitudCambio() {
 
-
-    if(!usuario) {
+    if(NomUsuario.trim() == "" || Email.trim() == "") {
       Swal.fire({
         icon: "error",
-        text: "EL usuario o correo electrónico no están registrados.",
+        text: "Rellena los campos primero.",
         confirmButtonColor: "#2ae2b6",
         background: "#1a1a1a",
         color: "#ffffff",
         showConfirmButton: false,
         timer: 2000,
       })
+    } else {
+      if(!usuario) {
+        Swal.fire({
+          icon: "error",
+          text: "EL usuario o correo electrónico no están registrados.",
+          confirmButtonColor: "#2ae2b6",
+          background: "#1a1a1a",
+          color: "#ffffff",
+          showConfirmButton: false,
+          timer: 2000,
+        })
+      }
+  
+      else {
+        console.log("Pasa");
+        Aserver()
+      }
     }
 
-    else {
-      console.log("Pasa");
-      Aserver()
-    }
     
 
     async function Aserver() {
@@ -88,7 +100,7 @@ function Restablecer() {
         Swal.fire({
             icon: "success",
             iconColor: "#2ae2b6",
-            text: "Mensaje enviado con éxito.",
+            text: "La contraseña temporal se ha enviado con éxito.",
             confirmButtonColor: "#2ae2b6",
             background: "#1a1a1a",
             color: "#ffffff",

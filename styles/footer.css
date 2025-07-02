@@ -1,0 +1,56 @@
+
+#footer{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    background-color: #222838;
+    padding: 0 30px;
+}
+
+
+.FooterLeft h1 {
+    text-align: center;
+    color: #2ae2b6;
+}
+
+
+.FooterRight h1 {
+    text-align: center;
+    color: #2ae2b6;
+}
+
+.infoLeft {
+    text-align: center;
+    color: white;
+    width: 80%;
+    margin: auto;
+}
+
+.infoLeft a {
+    color: white;
+    text-decoration: none;
+}
+
+.infoRight {
+    line-height: 25px;
+    width: 90%;
+    margin: auto;
+    text-align: left;
+}
+
+.FooterLeft p {
+    text-align: left;
+    color: white;   
+}
+
+.FooterRight p {
+    text-align: center;
+    color: white;
+}
+
+.footer_footer {
+    color: #2ae2b6;
+    grid-column: span 2;
+    display: flex;  
+    justify-content: center;
+    align-items: center;
+}

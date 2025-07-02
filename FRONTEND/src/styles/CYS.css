@@ -1,74 +1,116 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 
+* {
+  box-sizing: border-box;
+}
+
+
+.bi:hover {
+transform: scale(1.2);
+}
 #bodyCYS {
-    background-image: url(../assets/wallpaperOffers.jfif);
-    background-size: 100% 100%;
-    color: white;
-    font-family: 'Poppins', sans-serif;
-    height: 100vh;
+  min-height: 100vh;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
-#headerCYS{
-    padding: 20px 100px 0 100px;
-    color: #2ae2b6;
-
-    display: flex;
-    justify-content: space-between;
+#headerCYS {
+  padding: 20px 100px 0 100px;
+  color: #2ae2b6;
+  display: flex;
+  justify-content: space-between;
 }
-
+#headerCYS p:hover, #headerCYS h2:hover{
+    transform: scale(1.05); ;
+}
 #subMainCYS {
-    display: flex;
+  display: flex;
 }
 
 #form {
-    padding: 0px 100px;
-    width: 50%;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
+  padding: 0px 100px;
+  width: 50%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+#form input:focus, #form button:hover,#form textarea:focus{
+  transform: scale(1.1);
+  box-shadow: 0 10px 20px rgba(69, 116, 96, 0.995);
 
 }
 
 #IMG {
-    padding: 0 50px;
-    width: 50%;
+  padding: 0 50px;
+  width: 50%;
 }
 
-#form input, #form textarea {
-    padding: 10px;
-    border-radius: 10px;
-    border: none;
-    background-color: transparent;
-    border: solid 1px white;
-    padding-left: 20px;
-    color: white;
+#form input,
+#form textarea {
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  background-color: transparent;
+  border: solid 1px white;
+  padding-left: 20px;
+  color: white;
 }
 
 #form input:nth-child(3) {
-    grid-column: 1 / span 2;
+  grid-column: 1 / span 2;
 }
 
 #form textarea {
-    grid-column: 1 / span 2;
+  grid-column: 1 / span 2;
 }
 
 #form footer {
-    grid-column: 1 / span 2;
-    display: flex;
-    justify-content: center;
+  grid-column: 1 / span 2;
+  display: flex;
+  justify-content: center;
 }
 
 #form footer button {
-    background-color: #147a63;
-    color: black;
-    font-weight: bold;
-    font-size: 18px;
-    border: none;
-    padding: 7px 10px;
-    border-radius: 10px;
-    cursor: pointer;
-    width: 40%;
+  background-color: #147a63;
+  color: black;
+  font-weight: bold;
+  font-size: 18px;
+  border: none;
+  padding: 7px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  width: 40%;
 }
 
 #form footer button:hover {
-    background-color: #2ae2b6;
+  background-color: #2ae2b6;
+}
+
+/* 📱 Ajustes responsivos para celular */
+@media (max-width: 768px) {
+  #headerCYS {
+    padding: 20px;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  #subMainCYS {
+    flex-direction: column;
+  }
+
+  #form,
+  #IMG {
+    width: 100%;
+    padding: 20px;
+  }
+
+  #form {
+    grid-template-columns: 1fr;
+  }
+
+  #form footer button {
+    width: 100%;
+  }
 }

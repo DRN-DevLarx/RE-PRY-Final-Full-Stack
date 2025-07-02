@@ -17,6 +17,7 @@ import PrincipalPage from '../pages/PrincipalPage';
 import ApEmpleo from '../pages/ApEmpleo';
 import ChatNotif from'../pages/ChatNotif';
 import DetallesOfertaPage from '../pages/DetallesOfertaPage';
+import TerminosyCondicionesPage from '../pages/TerminosyCondicionesPage';
 
 import PrivateRoute from '../components/PrivateRoute';
 
@@ -33,6 +34,8 @@ function Routing() {
             <Route  path='/registrarEmpresa' element={<RegisterEmpresas/>}/>
             <Route  path='/login' element={<Login/>}/>
             <Route  path='/restablecer' element={<RestablecerPage/>}/>
+            <Route  path='/terminosYcondiciones' element={<TerminosyCondicionesPage/>}/>
+
 {/* 
             <Route  path='/PrincipalPage' element={<PrincipalPage/>}/>
             <Route  path='/public' element={<Publicar/>}/>

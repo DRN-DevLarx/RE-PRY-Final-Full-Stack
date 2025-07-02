@@ -62,22 +62,19 @@ function NavComponent() {
                     throw new Error(`Error en la respuesta del servidor: ${response.status}`);
                 } else {
 
-                  const userData = await response.json();                  
+                  const userData = await response.json();
+                                  
                   setUsers(userData);
-                  
-                    
+             
                 }
-  
-  
+
             } catch (error) {
                 console.error("Error en la solicitud:", error.message);
             }
-        
       }
 
       fetchUserData();
   }, [Rol]);
-  
       
   return (
     <div id='contbodyadmin'>

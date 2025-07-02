@@ -56,7 +56,6 @@ DEFAULT_AUTHENTICATION_CLASSES = [
     "ruta.a.CookieJWTAuthentication",
 ]
 
-
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
@@ -164,3 +163,8 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'darienaguilar3000@gmail.com'
 EMAIL_HOST_PASSWORD = 'depztcyrvjtvmrms'
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+]

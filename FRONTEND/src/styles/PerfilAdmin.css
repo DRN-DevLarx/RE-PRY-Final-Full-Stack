@@ -55,7 +55,6 @@
     border-radius: 0 20px 20px 0;
     background-color: rgba(0, 0, 0, 0.355);
     padding-top: 50px;
-
 }
 
 .contbtnEditar {
@@ -101,4 +100,47 @@
 }
 
 
+
+
+@media (max-width: 768px) {
+    
+    .headerDashboard {
+        margin-bottom: 0;
+    }
+    #PerfilAdmin {
+        color: white;
+        display: flex;
+        margin: 0;
+        padding: 0;
+    }
+
+
+    #PerfilAdmin {
+        color: white;
+        display: flex;
+        flex-direction: column;
+        height: 89vh;
+        overflow-y: scroll;
+    }
+
+    .itemPerfil {
+        width: 100%;
+        padding: 30px;
+    }
+
+    .SubContPerfilAdmin1 {
+        padding-bottom: 0;
+    }
+
+    .SubContPerfilAdmin2 {
+        border-radius: 0px;
+        padding-top: 0;
+        padding-left: 15%;
+    }
+
+    .contbtnEditar {
+        margin-top: -30px;
+    }
+
+}
 

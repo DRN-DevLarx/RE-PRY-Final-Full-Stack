@@ -1,5 +1,4 @@
 
-/* Contenedor principal de la barra */
 .barra {
   display: flex;
   align-items: center;
@@ -26,4 +25,17 @@
 
 .Bienvenida h2 {
   color: white;
+}
+
+
+@media (max-width: 768px) {
+  
+  .Bienvenida {
+    text-align: left;
+    width: 30%;
+    position: relative;
+    left: -20px;
+    overflow: hidden;
+  }
+
 }

@@ -1,0 +1,29 @@
+
+/* Contenedor principal de la barra */
+.barra {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: black;
+  padding: 15px 20px;
+}
+
+
+.izquierda {
+  display: flex;
+  align-items: center;
+}
+
+#tituloNav {
+  color: #2AE2B6;
+  font-size: 20px;
+}
+
+.Bienvenida {
+  text-align: left;
+  width: 40%;
+}
+
+.Bienvenida h2 {
+  color: white;
+}

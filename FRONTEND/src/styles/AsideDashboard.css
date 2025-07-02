@@ -5,12 +5,12 @@
 
 .asideDashboard {
     width: 20%;
+    min-width: 130px;
     height: 100vh;
     display: flex;
     flex-direction: column;
     background-color: #2ae2b798;
     text-align: center;
-    box-shadow: 5px 0px 30px gray;
 }
 
 .asideDashboard h3 {
@@ -39,17 +39,8 @@
     border-top: solid 0.5px ;
 }
 
-.contenedor:hover {
-    transform: scale(1.07);
-    background-color: #222838c4;
-    color: white;
-    box-shadow: -5px 10px 30px gray;
-}
-
 .contenedor.activo {
     background-color: #222838;
-    transform: scale(1.07);
-
     color: white;
     font-weight: bold;
     border: none;
@@ -57,4 +48,31 @@
 
 .contenido {
     width: 80%;
+}
+
+
+@media (max-width: 768px) {
+    .asideDashboard h3 {
+        padding: 20px 0;
+        font-size: 17px;
+        font-weight: bold;
+    }
+
+    .perfilDashboard img {
+        width: 70px;
+        height: 70px;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+    .contenedor {
+        padding: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-weight: bold;
+        border-bottom: solid 0.5px ;
+        border-top: solid 0.5px ;
+    }
+
 }

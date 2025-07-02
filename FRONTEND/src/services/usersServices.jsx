@@ -1,4 +1,6 @@
 
+import { fetchAutenticado } from "../services/Token/fetchAuth";
+
 async function GetUser() {
     try {
         const response = await fetch("http://127.0.0.1:8000/api/users/");
@@ -17,7 +19,7 @@ async function GetUser() {
 
 async function GetUsersByIds(ids) {
     try {
-        const response = await fetch("http://127.0.0.1:8000/api/users/");
+        const response = await fetchAutenticado("http://127.0.0.1:8000/api/users/");
         
         if (!response.ok) {
             throw new Error("Error al obtener los Users");
@@ -99,7 +101,7 @@ async function PutUserPatch(id, obj) {
 
 async function DeleteUser(id) {
     try {
-        const response = await fetch(`http://127.0.0.1:8000/api/users/${id}/`, {
+        const response = await fetchAutenticado(`http://127.0.0.1:8000/api/users/${id}/`, {
             method: 'DELETE',
         });
 
@@ -113,6 +115,13 @@ async function DeleteUser(id) {
         throw error;
     }
 }
+    
+// export async function GetUserData(id) {
+//   const res = await ObtenerAuth(`http://127.0.0.1:8000/api/users/${id}/`);
+//   const data = await res.json();
+//   return data;
+// }
+
 
 export default { GetUser, GetUsersByIds, PostUser, PutUser, PutUserPatch, DeleteUser };
 

@@ -13,6 +13,7 @@
     background-color: transparent;
     border: solid 1px gray;
     width: 50%;
+    min-width: 400px;
     border-radius: 20px;
     position: relative;
     padding: 3% 5%;
@@ -59,6 +60,11 @@
     background-color: #222838;
     color: #2ae2b6;
 }
+.inputs1Empresas:focus{
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 150, 136, 0.5); 
+  border-color: #009688;
+}
 
 #contRegisterEmpresas input:focus {
     border: solid #2ae2b6;
@@ -79,10 +85,17 @@
 .btnROferenteE {
     background-color: gray;
 }
+.btnROferenteE:hover{
+ transform: scale(1.1);
+}
 
 .btnREmpresa{
     background-color: #2ae2b6;
 }
+.btnREmpresa:hover{
+     transform: scale(1.1);
+}
+
 
 
 
@@ -103,6 +116,9 @@
     font-weight: bold;
     padding: 5px 15px;
     margin: auto;
+}
+.btnNextRegisterEmpresas:hover{
+    transform: scale(1.2);
 }
 
 
@@ -152,5 +168,57 @@
     height: 20px;
     cursor: pointer;
 }
+
+
+
+
+@media (max-width: 908px) {
+    #contRegisterEmpresas {
+        width: 65%;
+        min-width: auto;
+        margin: 0 auto; /* Centra horizontalmente */
+    }
+}
+
+@media (max-width: 708px) {
+
+    #bodyRegisterEmpresas {
+        background-image: url(../assets/wallpaperLogin.jfif); /* Asegúrate que esté en /public */
+        background-size: cover;           /* Ajusta para cubrir más ancho */
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+
+    /* Cuadro gris responsivo a la mitad (50%) y centrado */
+    #contRegisterEmpresas {
+        width: 85%;
+        min-width: auto;
+        margin: 0 auto; /* Centra horizontalmente */
+    }
+
+    .contInputs {
+        grid-template-columns: 1fr;
+    }
+
+    .inptCorreo {
+        grid-column: span 1;
+    }
+
+    /* Botones en fila al lado del otro */
+    #btnsRegister {
+        flex-direction: row;  /* Cambiado a fila */
+        justify-content: space-between;
+        gap: 10px;
+    }
+
+    #btnsRegister button {
+        width: 48%; /* Para que quepan lado a lado */
+    }
+
+    #ContIntereses {
+        grid-template-columns: 1fr;
+    }
+}
+
 
 

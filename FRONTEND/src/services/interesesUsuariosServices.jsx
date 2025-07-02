@@ -1,4 +1,6 @@
 
+import { fetchAutenticado } from "../services/Token/fetchAuth";
+
 async function GetInteUser() {
     try {
         const response = await fetch("http://127.0.0.1:8000/api/intereses-usuarios/");
@@ -61,7 +63,7 @@ async function PutInteUser(id, obj) {
 
 async function DeleteInteUser(id) {
     try {
-        const response = await fetch(`http://127.0.0.1:8000/api/intereses-usuarios/${id}/`, {
+        const response = await fetchAutenticado(`http://127.0.0.1:8000/api/intereses-usuarios/${id}/`, {
             method: 'DELETE',
         });
 

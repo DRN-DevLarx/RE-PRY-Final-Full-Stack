@@ -101,7 +101,10 @@
 .rectangulos{
     width: 100%;
     margin-top: -20%;
-    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
 }
 
 .derecha{
@@ -109,18 +112,20 @@
     top: 20%;
     right: 6%;  
     padding: 10px;
-    width: 50%;
+    width: 70%;
     max-width: 480px;
 }
 
 .capa1{
     background: hsla(160, 61%, 57%, 0.808);
     border: solid hsla(160, 61%, 57%, 0.808);
-    width: 60%;
+    width: 70%;
+    max-height: 60px;
+    margin: auto;
+    padding: 0 10px;
     text-align: center;
     color: black;
     font-weight: bold;
-    transform: translateX(50%);
     font-size: 14px;
     clip-path: polygon(0% 100%, 10% 0%, 90% 0%, 100% 100%);
 }
@@ -129,14 +134,13 @@
     background: black;
     transform: skew(-10deg);
     color: aliceblue;
+    width: 80%;
     display: flex;
-    gap: 30px;
-    font-size: 17px;
+    font-size: 15px;
     align-items: center;
     justify-content: center;
     border-radius: 5px;
-    margin-right: 20px;
-    margin-left: 80px;
+
 }
 
 .Inicio {
@@ -213,21 +217,19 @@
 #contP {
     display: flex;
     justify-content: center;
-}
-
-#containerCat {
     width: 100%;
     display: flex;
     flex-wrap: wrap;
     padding: 10px;
-    justify-content: center;
-    background-color: transparent;
+    gap: 20px;
 }
+
+
 
 #containerCat article {
     background-color: #2ae2b6;
     text-align: center;
-    padding: 0 20px;
+    padding: 10px 20px;
     width: 100%;
     border-radius: 10px;
     display: flex;
@@ -236,7 +238,7 @@
 }
 
 #about {
-    height: 600px;
+    height: auto;
     background-color: #222838;
     padding: 30px;
     color: white;
@@ -267,14 +269,6 @@
 }
 
 
-
-
-
-
-
-
-
-
 @media (max-width: 768px){
     .contenedor_texto_central{
         width: 80%;
@@ -296,5 +290,23 @@
     .rectangulos {
         margin-top: 5%;
         width: 100%;
+    }
+
+    
+    .text {
+        width: 100%;
+        line-height: 30px;
+        font-size: 17px;
+    }
+}
+
+@media (max-width: 468px){
+    
+    .rectangulos {
+        width: 100%;
+    }
+
+    .capa2 {
+        width: 160px;
     }
 }

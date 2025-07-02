@@ -1,5 +1,4 @@
-
-
+import { fetchAutenticado } from "../services/Token/fetchAuth";
 
 async function GetIntereses() {
     try {
@@ -61,7 +60,7 @@ async function PutIntereses(id, obj) {
 
 async function DeleteIntereses(id) {
     try {
-        const response = await fetch(`http://127.0.0.1:8000/api/intereses/${id}/`, {
+        const response = await fetchAutenticado(`http://127.0.0.1:8000/api/intereses/${id}/`, {
             method: 'DELETE',
         });
 

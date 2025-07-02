@@ -1,0 +1,74 @@
+
+#bodyCYS {
+    background-image: url(../assets/wallpaperOffers.jfif);
+    background-size: 100% 100%;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    height: 100vh;
+}
+
+#headerCYS{
+    padding: 20px 100px 0 100px;
+    color: #2ae2b6;
+
+    display: flex;
+    justify-content: space-between;
+}
+
+#subMainCYS {
+    display: flex;
+}
+
+#form {
+    padding: 0px 100px;
+    width: 50%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+
+}
+
+#IMG {
+    padding: 0 50px;
+    width: 50%;
+}
+
+#form input, #form textarea {
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    background-color: transparent;
+    border: solid 1px white;
+    padding-left: 20px;
+    color: white;
+}
+
+#form input:nth-child(3) {
+    grid-column: 1 / span 2;
+}
+
+#form textarea {
+    grid-column: 1 / span 2;
+}
+
+#form footer {
+    grid-column: 1 / span 2;
+    display: flex;
+    justify-content: center;
+}
+
+#form footer button {
+    background-color: #147a63;
+    color: black;
+    font-weight: bold;
+    font-size: 18px;
+    border: none;
+    padding: 7px 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    width: 40%;
+}
+
+#form footer button:hover {
+    background-color: #2ae2b6;
+}

@@ -15,9 +15,6 @@ import '../styles/DetallesOfer.css';
 function DetallesOfer() {
     const navigate = useNavigate()
 
-
-
-
     const [FiltroAreaTrabajo, setFiltroAreaTrabajo] = useState()
     const [FiltroUbicacion, setFiltroUbicacion] = useState("")
     const [FiltroSalario, setFiltroSalario] = useState("")
@@ -52,7 +49,7 @@ function DetallesOfer() {
                 const DatosUsers = await usersServices.GetUser();
 
 
-                if(Rol === "oferente"){
+                if(Rol === "oferente" || Rol === "admin"){
                   setIsOferente(true)
                 }
 

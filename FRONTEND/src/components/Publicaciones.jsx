@@ -5,17 +5,31 @@ import InteresesServices from '../services/interesesServices';
 import OfertasServices from '../services/ofertasServices';
 import usersServices from '../services/usersServices';
 
+
+import usuariosServices from '../services/usuariosServices';
+import Users_UsuariosServices from '../services/Users_UsuariosServices';
+import User_groupsServices from '../services/User_groupsServices';
+
+
 import cloudDinaryServices from '../services/cloudDinaryServices';
 import GetCookie from '../services/GetCookie';
+import UserRegi from '../components/UserRegi'
+import PostulacionesServices from '../services/PostulacionesServices';
 
 import { CerrarDashboard } from './CerrarDashboard';
 import Swal from 'sweetalert2';
 
 import "../styles/Publicaciones.css"
 
+
+
+
+
 function Publicaciones() {
 
   const navigate = useNavigate();
+
+  const [IMgUser, setIMgUser] = useState("https://res.cloudinary.com/dateuzds4/image/upload/v1750454292/FB_sby2fv.avif");
 
   const idUserCookie = GetCookie.getCookie("user_id")
   const Rol = GetCookie.getCookie("role")
@@ -29,10 +43,6 @@ function Publicaciones() {
   const [ContDetalles, setContDetalles] = useState(false)
   const [EditarInfo, setEditarInfo] = useState(false)
 
-  const [FiltroAreaTrabajo, setFiltroAreaTrabajo] = useState()
-  const [FiltroUbicacion, setFiltroUbicacion] = useState("")
-  const [FiltroSalario, setFiltroSalario] = useState("")
-  const [FiltroEstado, setFiltroEstado] = useState("")
   const [FiltroInput, setFiltroInput] = useState("")
 
   const [IsActivo, setIsActivo] = useState(true);
@@ -54,6 +64,24 @@ function Publicaciones() {
   const [FechaOferta, setFechaOferta] = useState("")
   const [DescripcionOferta, setDescripcionOferta] = useState("")
   const [RImagenOferta, setRImagenOferta] = useState(null)
+  
+
+  const [VistaPostulantes, setVistaPostulantes] = useState(false)
+  const [UsersPsotulados, setUsersPsotulados] = useState([])
+
+
+    
+    const [DatosIntermedios, setDatosIntermedios] = useState([]);
+
+    const [Users2, setUsers2] = useState([]);
+    const [ErrorUsers, setErrorUsers] = useState(null);
+    
+    const [Usuarios, setUsuarios] = useState([]);
+    const [ErrorUsuarios, setErrorUsuarios] = useState(null);
+    
+    const [DatosGroups, setDatosGroups] = useState([]);
+    
+
 
   let imgASubir = null;
 
@@ -67,9 +95,36 @@ function Publicaciones() {
 
   useEffect(() => {
       const fetch = async () => {
+
+        const userEncontrado = Usuarios.find((user) => user.referenciaIMG_oferente && user.referenciaIMG_oferente !== "null");
+
+        if (userEncontrado) {
+            setIMgUser(userEncontrado.referenciaIMG_oferente);
+        }
+
+        const datosIntermedios = await Users_UsuariosServices.GetUserUsuario();
+
+        if (datosIntermedios.length > 0) {
+            const userIds = datosIntermedios.map(item => item.user);
+            const usuarioIds = datosIntermedios.map(item => item.usuario);
+
+            const datosUsers = await usersServices.GetUsersByIds(userIds);
+            const datosUsuarios = await usuariosServices.GetUsuariosByIds(usuarioIds);
+            const datosGroups = await User_groupsServices.GetUser_group();
+
+            if (datosUsers && datosUsuarios && datosGroups) {
+                setDatosIntermedios(datosIntermedios);
+                setUsers2(datosUsers);
+                setUsuarios(datosUsuarios);
+                setDatosGroups(datosGroups);
+            }
+        }
+        
+
         const DatosIntereses = await InteresesServices.GetIntereses();
         const DatosOfertas = await OfertasServices.GetOfertas();
         const DatosUsers = await usersServices.GetUser();
+        const DatosPostulaciones = await PostulacionesServices.GetPostulaciones();
 
         if(EstadoOferta == "desactiva") {
           setIsActivo(false)
@@ -82,8 +137,8 @@ function Publicaciones() {
           setIntereses(DatosIntereses);
           setOfertas(DatosOfertas);
           setUsers(DatosUsers);
-          
-                          
+        
+        
           DatosOfertas.filter((dato) => dato.id == IDOferta).map((oferta) => {
                                         
 
@@ -109,14 +164,24 @@ function Publicaciones() {
 
           })
 
+          console.log(IDOferta);
+          
+          
+          DatosPostulaciones.filter((dato) => dato.oferta == IDOferta).map((Postulacion) => {
+              console.log(Postulacion),
+              setUsersPsotulados(Postulacion)
+          })
+
+          console.log("Hola2");
+
+
         }
       
       };
   
       fetch();
   
-  }, [EstadoOferta]);
-
+  }, [EstadoOferta, Usuarios]);
 
   function VerDetallesOferta(id, estado) {
     setContDetalles(true)
@@ -128,32 +193,26 @@ function Publicaciones() {
     CerrarDashboard(navigate)
   }
 
-  function filtrarOfertas(Ofertas, FiltroAreaTrabajo, FiltroUbicacion, FiltroSalario, FiltroEstado, FiltroInput) {
-    // Si todos los filtros están vacíos, devuelve la lista completa
-    if (
-      FiltroAreaTrabajo == "" || FiltroAreaTrabajo == undefined &&
-      FiltroUbicacion == "" &&
-      FiltroSalario == "" &&
-      FiltroEstado == "" &&
-      FiltroInput.trim() == ""
-    ) {
-      return Ofertas;
-    }
+  function filtrarOfertas(Ofertas, FiltroInput) {
+    if (!FiltroInput || FiltroInput.trim() === "") return Ofertas;
 
     return Ofertas.filter(oferta => {
-      const cumpleAreaTrabajo = FiltroAreaTrabajo != undefined ? oferta.intereses == FiltroAreaTrabajo: true;
-      const cumpleUbicacion = FiltroUbicacion != "" ? oferta.ubicacion_oferta.toLowerCase() == FiltroUbicacion.toLowerCase() : true;
-      const cumpleSalario = FiltroSalario != "" ? oferta.salario_oferta == FiltroSalario : true;
-      const cumpleEstado = FiltroEstado != "" ? oferta.estado_oferta.toLowerCase().includes(FiltroEstado.toLowerCase()) : true;
-      const cumpleInput = FiltroInput.trim() != "" ? oferta.titulo_oferta.toLowerCase().includes(FiltroInput.toLowerCase()) || oferta.ubicacion_oferta.toLowerCase() == FiltroInput.toLowerCase() || oferta.fecha_oferta.toLowerCase().includes(FiltroInput.toLowerCase()) : true;
-      
-      return cumpleAreaTrabajo && cumpleUbicacion && cumpleSalario && cumpleEstado && cumpleInput;
+      const input = FiltroInput.toLowerCase();
+
+      return (
+        oferta.titulo_oferta.toLowerCase().includes(input) ||
+        oferta.ubicacion_oferta.toLowerCase().includes(input) ||
+        oferta.salario_oferta?.toString().includes(input) ||
+        oferta.intereses_nombre?.toLowerCase().includes(input) || 
+        console.log(oferta.intereses_nombre)
+    
+      );
     });
   }
 
-  // Llamada a la función
-  let Filtrado = filtrarOfertas(Ofertas, FiltroAreaTrabajo, FiltroUbicacion, FiltroSalario, FiltroEstado, FiltroInput);
-  
+  let Filtrado = filtrarOfertas(Ofertas, FiltroInput);
+
+
   function Volver() {
     setContDetalles(false)
   }
@@ -164,17 +223,12 @@ function Publicaciones() {
   }
 
   function VerPostulantes() {
-        Swal.fire({
-        icon: "info",
-        iconColor: "#2ae2b6",
-        text: "Pendiente",
-        confirmButtonColor: "#9ACD32",
-        background: "#1a1a1a",
-        color: "#ffffff",
-        showCancelButton: true,
-        cancelButtonText: "Cancelar",
-    })
+    
+    setContDetalles(false)
+    setVistaPostulantes(true)
+
   }
+
 
   function EditarOferta() {
     setContDetalles(false)
@@ -201,7 +255,7 @@ function Publicaciones() {
               estado_oferta: "desactiva",
             }
 
-            const PutOferta = await OfertasServices.PutOfertas(IDOferta, obj)
+            const PutOferta = await OfertasServices.UpdateOferta(IDOferta, obj)
 
             if(PutOferta) {
                 Swal.fire({
@@ -243,7 +297,7 @@ function Publicaciones() {
               estado_oferta: "activas",
             }
 
-            const PutOferta = await OfertasServices.PutOfertas(IDOferta, obj)
+            const PutOferta = await OfertasServices.UpdateOferta(IDOferta, obj)
 
             if(PutOferta) {
                 Swal.fire({
@@ -281,7 +335,7 @@ function Publicaciones() {
 
           if (result.isConfirmed) {
 
-              const DeleteOfert = await OfertasServices.DeleteOfertas(IDOferta);
+              const DeleteOfert = await OfertasServices.DeleteOferta(IDOferta);
               
               if(DeleteOfert) {
                   Swal.fire({
@@ -410,6 +464,7 @@ function Publicaciones() {
         reader.readAsDataURL(file);
       });
     };
+    
     let IMGTemporal = null;
     
     const result = await Swal.fire({
@@ -622,7 +677,7 @@ function Publicaciones() {
           referenciaIMG_oferta: uploadedUrl,
       }
       
-      respuestaUpdateData = await OfertasServices.PutPatcOfertas(IDOferta, UpdateData);
+      respuestaUpdateData = await OfertasServices.UpdateOferta(IDOferta, UpdateData);
       
     }
     else {
@@ -635,7 +690,7 @@ function Publicaciones() {
         nombre_puesto_oferta: PuestoOferta,
         descripcion_oferta: DescripcionOferta,
       }
-      respuestaUpdateData = await OfertasServices.PutPatcOfertas(IDOferta, UpdateData);
+      respuestaUpdateData = await OfertasServices.UpdateOferta(IDOferta, UpdateData);
 
     }
 
@@ -664,11 +719,12 @@ function Publicaciones() {
     }
 
   }
-  
+    
+
   return (
     <div id='ContPerfilAdmin'>
 
-      {!ContDetalles && !EditarInfo && (
+      {!ContDetalles && !EditarInfo && !VistaPostulantes && (
         <div>
 
           <div className='headerDashboard'>
@@ -680,59 +736,10 @@ function Publicaciones() {
           </div>
         
           <div className='trabajosDAdmi'>
-            <div className='filtrosAdmin'>
-              
-              <select value={FiltroAreaTrabajo} onChange={(e) => setFiltroAreaTrabajo(e.target.value)}  name="" id="">
-                <option value="">Area de trabajo</option>
-                {Intereses.map((interes, index) => (
-                  <option key={index} value={interes.id}>
-                    {interes.nombre_interes}
-                  </option>
-                ))}
-              </select>
 
-              <select value={FiltroUbicacion} onChange={(e) => setFiltroUbicacion(e.target.value)}  className='filtroUbicacion' name="">
-                <option value="">Ubicación</option>
-                <option value="Puntarenas">Puntarenas</option>
-                <option value="Pitahaya">Pitahaya</option>
-                <option value="Chomes">Chomes</option>
-                <option value="Barranca">Barranca</option>
-                <option value="Chacarita">Chacarita</option>
-                <option value="Acapulco">Acapulco</option>
-                <option value="Arancibia">Arancibia</option>
-                <option value="Espiritu_santo">Espíritu Santo</option>
-                <option value="San Juan grande">San Juan Grande</option>
-                <option value="Macacona">Macacona</option>
-                <option value="San Rafael">San Rafael</option>
-                <option value="San Jeronimo">San Jerónimo</option>
-                <option value="Miramar">Miramar</option>
-                <option value="La Union">La Unión</option>
-                <option value="San Isidro">San Isidro</option>
-              </select>
-
-            <select value={FiltroSalario} onChange={(e) => setFiltroSalario(e.target.value)}  className='SalarioFiltro' name="">
-                <option value="">Salario</option>
-                <option value="₡100,000 - ₡300,000"> ₡100,000 - ₡300,000</option>
-                <option value="₡300,000 - ₡500,000"> ₡300,000 - ₡500,000</option>
-                <option value="₡500,000 - ₡700,000"> ₡500,000 - ₡700,000</option>
-                <option value="₡700,000 - ₡900,00"> ₡700,000 - ₡900,000</option>
-                <option value="₡900,000 - ₡1,100,000"> ₡900,000 - ₡1,100,000</option>
-                <option value="₡1,100,000 - ₡1,300,000"> ₡1,100,000 - ₡1,300,000</option>
-                <option value="₡1,300,000 - ₡1,600,000"> ₡1,300,000 - ₡1,600,000</option>
-                <option value="₡1,600,000 - ₡2,000,000"> ₡1,600,000 - ₡2,000,000</option>
-                <option value="₡2,000,000 - ₡2,500,000"> ₡2,000,000 - ₡2,500,000</option>
-                <option value="₡2,500,000 - ₡3,000,000"> ₡2,500,000 - ₡3,000,000</option>
-            </select>
-
-              
-              <select value={FiltroEstado} onChange={(e) => setFiltroEstado(e.target.value)} name="" id="">
-                  <option value="">Estado</option>
-                  <option value="activas">Activas</option>
-                  <option value="desactiva">Desactivas</option>
-              </select>
-
-              <input value={FiltroInput} onChange={(e) => setFiltroInput(e.target.value)} type="text" placeholder='Palabra clave' /> 
-
+            <br />
+            <div className="barra-busqueda">
+              <input type="text" placeholder="Buscar ofertas por título, ubicación o área" value={FiltroInput} onChange={(e) => setFiltroInput(e.target.value)} />
             </div>
 
             <div id='SectOfertasAdmin'>
@@ -836,7 +843,7 @@ function Publicaciones() {
                     <div className='contbtnAcciones'>
                       {IsEmpresa && (
                         <div>
-                          <button className='BtnEditar BtnPostulantes' onClick={(e) => VerPostulantes()} >Ver postulantes</button>
+                          <button className='BtnPostulantes' onClick={(e) => VerPostulantes()} >Ver postulantes</button>
                         </div>
                       )}
 
@@ -845,14 +852,14 @@ function Publicaciones() {
                         <button className='BtnEditar' onClick={(e) => EditarOferta()} >Editar</button>
 
                         {IsActivo && (
-                            <button className='BtnDesactivar' onClick={(e) => DesactivarOferta()} >Desactivar</button>
+                            <button className='boton-desactivar' onClick={(e) => DesactivarOferta()} >Desactivar</button>
                         )}
 
                         {!IsActivo && (
-                            <button className='BtnActivar' onClick={(e) => ActivarOferta()} >Activar</button>
+                            <button className='boton-activar' onClick={(e) => ActivarOferta()} >Activar</button>
                         )}
 
-                        <button className='BtnEliminar' onClick={(e) => EliminarOferta()} >Eliminar</button>
+                        <button className='boton-eliminar' onClick={(e) => EliminarOferta()} >Eliminar</button>
                       </div>
                     </div>
                   </div>
@@ -952,7 +959,7 @@ function Publicaciones() {
                 <h4> Descripción y requisitos: </h4>
 
                 <textarea className='descripcionOfertaTextarea' value={DescripcionOferta} onChange={(e) => setDescripcionOferta(e.target.value)} > </textarea>
-              </div>
+              </div><br />
                 
               <div className='contbtnEditar' style={{ textAlign: "right", width: "95%" }}>
                   <button onClick={GuardarCambios} >Guardar Cambios</button>
@@ -963,7 +970,60 @@ function Publicaciones() {
         </div>
       )}
 
+      {VistaPostulantes && (
+
+      <div>
+        <div className="Cont2">
+            {DatosIntermedios.map((dato, index) => {
+                const user = Users2.find((u) => u.id == dato.user);
+                const usuario = Usuarios.find((us) => us.id == dato.usuario);
+
+
+
+                if (!user || !usuario) return null;
+
+                const IMgUser2 = usuario.referenciaIMG_oferente && usuario.referenciaIMG_oferente !== "null" && usuario.referenciaIMG_oferente !== "" ? usuario.referenciaIMG_oferente
+                    : IMgUser;
+
+                return (
+                <div onClick={(e) => VerUser(user.id)} className="User" key={index}>
+
+                    <div className='UserLeft'>
+                        <div className='UserIcon'>
+                            <img src={IMgUser2} alt="Imagen de usuario" style={{ width: "70px", height: "70px", borderRadius: "50%" }}/>
+                            {user.username}
+                        </div>
+                    </div>
+
+                    <div className='UserRight'>
+                        <p>Fecha de registro</p>
+                        {new Date(user.date_joined).toLocaleString()}
+                    </div>
+                </div>
+                );
+            })}
+        </div>
+
+
+        <div>
+
+          {UsersPsotulados && Object.keys(UsersPsotulados).length > 0 ? (
+            <>
+              <div>
+                {UsersPsotulados.referenciaPDF}
+              </div>
+            </>
+          ) : (
+            <p>No hay usuarios postulados aún.</p>
+          )}
+        </div>
+      </div>
+      )}
+
+
+
     </div>
+    
   );
 }
 

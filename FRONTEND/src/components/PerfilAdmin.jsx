@@ -157,27 +157,27 @@ function PerfilAdmin() {
     }
 
     const CambioImagen = (e) => {
-    const file = e.target.files[0];
+        const file = e.target.files[0];
 
-    if (file) {
-        const validTypes = ['image/jpeg', 'image/png', 'image/webp'];
-        const validExtensions = ['.jpg', '.jpeg', '.png', '.webp'];
-        const fileExtension = file.name.substring(file.name.lastIndexOf('.')).toLowerCase();
+        if (file) {
+            const validTypes = ['image/jpeg', 'image/png', 'image/webp'];
+            const validExtensions = ['.jpg', '.jpeg', '.png', '.webp'];
+            const fileExtension = file.name.substring(file.name.lastIndexOf('.')).toLowerCase();
 
-        if (!validTypes.includes(file.type) || !validExtensions.includes(fileExtension)) {
-        Swal.fire({
-            icon: 'error',
-            title: 'Formato no permitido',
-            text: 'Solo se permiten archivos JPG, JPEG, PNG o WEBP.',
+            if (!validTypes.includes(file.type) || !validExtensions.includes(fileExtension)) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Formato no permitido',
+                text: 'Solo se permiten archivos JPG, JPEG, PNG o WEBP.',
 
-        });
-        e.target.value = ''; // Limpia el input
-        return;
+            });
+            e.target.value = ''; // Limpia el input
+            return;
+            }
+
+            setVistaIMG(URL.createObjectURL(file));
+            setImagenSeleccionada(file);
         }
-
-        setVistaIMG(URL.createObjectURL(file));
-        setImagenSeleccionada(file);
-    }
     };
 
     const manejarEliminarImagen = () => {

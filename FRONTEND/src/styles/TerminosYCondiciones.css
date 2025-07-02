@@ -1,0 +1,108 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+html {
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+  margin: 0;
+  padding: 0;
+}
+
+#contenedorTerminos {
+  padding: 50px;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.Flecha .svgTYC {
+  position: fixed;
+  left: 1.5%;
+}
+
+#cardTerminos {
+  background-color: #1e293b;
+  border: 1px solid #2ae2b6;
+  border-radius: 20px;
+  padding: 40px;
+  max-width: 90vw;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+}
+
+#cardTerminos h1 {
+  color: #2ae2b6;
+  text-align: center;
+  font-size: clamp(24px, 5vw, 32px);
+  margin-bottom: 30px;
+  font-weight: bold;
+}
+
+#cardTerminos h2 {
+  color: #2ae2b6;
+  margin-top: 30px;
+  font-size: 20px;
+  transition: transform 0.3s ease-in-out;
+}
+
+#cardTerminos h2:hover {
+  transform: scale(1.03);
+}
+
+#cardTerminos p {
+  text-align: justify;
+  line-height: 1.8;
+  color: #e0e0e0;
+}
+
+.spa {
+  text-shadow: 0px 5px 20px white;
+  color: wheat;
+  font-weight: bold;
+}
+
+
+@media (max-width: 768px) {
+  .svgTYC {
+    position: relative;
+    left: 20px;
+    top: 20px;
+  }
+
+  #contenedorTerminos {
+    padding: 20px;
+    padding-bottom: 50px;
+  }
+
+  #cardTerminos {
+    padding: 20px;
+    margin-top: 50px;
+  }
+
+  #cardTerminos h1 {
+    font-size: 24px;
+  }
+
+  #cardTerminos h2 {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  #cardTerminos {
+    padding: 15px;
+  }
+
+  #cardTerminos h1 {
+    font-size: 20px;
+  }
+
+  #cardTerminos h2 {
+    font-size: 16px;
+  }
+}
+

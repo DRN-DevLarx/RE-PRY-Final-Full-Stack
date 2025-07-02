@@ -71,33 +71,28 @@ function UserRegi() {
     const [VistaIMG, setVistaIMG] = useState(null);
 
     useEffect(() => {
-    let isMounted = true;
 
     const fetchData = async () => {
-            const datosIntermedios = await Users_UsuariosServices.GetUserUsuario();
+        const datosIntermedios = await Users_UsuariosServices.GetUserUsuario();
 
-            if (datosIntermedios.length > 0) {
-                const userIds = datosIntermedios.map(item => item.user);
-                const usuarioIds = datosIntermedios.map(item => item.usuario);
+        if (datosIntermedios.length > 0) {
+            const userIds = datosIntermedios.map(item => item.user);
+            const usuarioIds = datosIntermedios.map(item => item.usuario);
 
-                const datosUsers = await usersServices.GetUsersByIds(userIds);
-                const datosUsuarios = await usuariosServices.GetUsuariosByIds(usuarioIds);
-                const datosGroups = await User_groupsServices.GetUser_group();
+            const datosUsers = await usersServices.GetUsersByIds(userIds);
+            const datosUsuarios = await usuariosServices.GetUsuariosByIds(usuarioIds);
+            const datosGroups = await User_groupsServices.GetUser_group();
 
-                if (isMounted) {
-                    setDatosIntermedios(datosIntermedios);
-                    setUsers(datosUsers);
-                    setUsuarios(datosUsuarios);
-                    setDatosGroups(datosGroups);
-                }
+            if (datosUsers && datosUsuarios && datosGroups) {
+                setDatosIntermedios(datosIntermedios);
+                setUsers(datosUsers);
+                setUsuarios(datosUsuarios);
+                setDatosGroups(datosGroups);
             }
+        }
     }
 
     fetchData();
-
-    return () => {
-        isMounted = false;
-    };
     }, []);
        
 
@@ -150,15 +145,7 @@ function UserRegi() {
 
 
     
-    // Usuarios.filter((user) => {
-    //     console.log(idUser);
-    //     console.log(IDusuario);
-        
-        
-    //     if(user.id == IDusuario && user.referenciaIMG_oferente != "" && user.referenciaIMG_oferente != "null" && user.referenciaIMG_oferente != null) {
-    //         setIMgUser(user.referenciaIMG_oferente)
-    //     }
-    // })
+
 
     const InsertIMGDefault = (e) => {
         setIMgUser("https://res.cloudinary.com/dateuzds4/image/upload/v1750454292/FB_sby2fv.avif")
@@ -641,7 +628,6 @@ function UserRegi() {
         </svg>
       </div>
 
-
     {!ContVerUser && (
 
         <div className="Cont2">
@@ -736,14 +722,14 @@ function UserRegi() {
                                     <button className='BtnEditar' onClick={(e) => EditarPerfil()} >Editar</button>
 
                                     {IsActivo && (
-                                        <button className='BtnDesactivar' onClick={(e) => DesactivarUsuario()} >Desactivar</button>
+                                        <button className='boton-desactivar' onClick={(e) => DesactivarUsuario()} >Desactivar</button>
                                     )}
 
                                     {!IsActivo && (
-                                        <button className='BtnActivar' onClick={(e) => ActivarUsuario()} >Activar</button>
+                                        <button className='boton-activar' onClick={(e) => ActivarUsuario()} >Activar</button>
                                     )}
 
-                                    <button className='BtnEliminar' onClick={(e) => EliminarUsuario()} >Eliminar</button>
+                                    <button className='boton-eliminar' onClick={(e) => EliminarUsuario()} >Eliminar</button>
                                 </div>
 
                             </div>

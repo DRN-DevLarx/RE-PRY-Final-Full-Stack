@@ -24,9 +24,6 @@ from .serializers import (
 
 UserGroup = User.groups.through
 
-class CustomTokenObtainPairView(TokenObtainPairView):
-    serializer_class = CustomTokenObtainPairSerializer
-
 # ------------------- Registro de Usuario -------------------
 class RegisterUserView(CreateAPIView):
     queryset = User.objects.all()
@@ -72,7 +69,7 @@ class Users_UsuariosViewSet(viewsets.ModelViewSet):
     permission_classes = [AllowAny]
 
 
-class auth_user_groups(viewsets.ModelViewSet):
+class auth_user_groupsView(viewsets.ModelViewSet):
     queryset = UserGroup.objects.all()
     serializer_class = user_groupsSerializer
     permission_classes = [AllowAny]
@@ -177,6 +174,7 @@ class EnviarClaveTemporalViewSet(viewsets.ViewSet):
 
         # Guardar temporalmente
         user.set_password(clave_temporal)
+        user.is_active = False
         user.save()
 
         # Enviar el correo
@@ -187,8 +185,6 @@ class EnviarClaveTemporalViewSet(viewsets.ViewSet):
             Se ha solicitado el restablecimiento de tu contraseña.
 
             Tu nueva contraseña temporal es: {clave_temporal}
-
-            Te recomendamos cambiarla inmediatamente después de iniciar sesión.
 
             Saludos,
             El equipo de soporte
@@ -207,3 +203,13 @@ class EnviarClaveTemporalViewSet(viewsets.ViewSet):
 class AuditoriaOfertasViewSet(viewsets.ModelViewSet):
     queryset = AuditoriaOfertas.objects.all()
     serializer_class = AuditoriaOfertasSerializer
+
+class CustomTokenObtainPairView(TokenObtainPairView):
+    def post(self, request, *args, **kwargs):
+        serializer = CustomTokenObtainPairSerializer(data=request.data)
+        
+        if serializer.is_valid():
+            return Response(serializer.validated_data, status=status.HTTP_200_OK)
+        
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

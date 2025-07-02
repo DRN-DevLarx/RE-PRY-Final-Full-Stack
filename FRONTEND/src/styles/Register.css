@@ -46,6 +46,11 @@
     width: 100%;
     text-align: center;
 }
+.DIVbtnR:hover{
+    transform: scale(1.2);
+    
+
+}
 
 #contRegister span {
     color: red;
@@ -85,6 +90,11 @@
     background-color: #222838;
     color: #2ae2b6;
 }
+.inputs1:focus{
+ transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 150, 136, 0.5); /* sombra con color */
+  border-color: #009688;
+}
 
 #contRegister input:focus {
     border: solid #2ae2b6;
@@ -101,9 +111,15 @@
     justify-content: space-between;
     margin-bottom: 20px;
 }
+.btnRE:hover{
+  transform: scale(1.1);
+}
 
 .btnROferente {
     background-color: #2ae2b6;
+}
+.btnROferente:hover{
+ transform: scale(1.1);
 }
 
 .btnRE{
@@ -139,8 +155,6 @@
     width: 100%;
 }
 
-
-
 #ContIntereses {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -163,3 +177,50 @@
 }
 
 
+@media (max-width: 908px) {
+    #contRegister {
+        width: 65%;
+        min-width: auto;
+        margin: 0 auto; /* Centra horizontalmente */
+    }
+}
+
+@media (max-width: 708px) {
+
+    #bodyRegister {
+    background-image: url(../assets/wallpaperLogin.jfif); /* Asegúrate que esté en /public */
+    background-size: cover;           /* Ajusta para cubrir más ancho */
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+  /* Cuadro gris responsivo a la mitad (50%) y centrado */
+  #contRegister {
+    width: 85%;
+    min-width: auto;
+    margin: 0 auto; /* Centra horizontalmente */
+  }
+
+  .contInputs {
+    grid-template-columns: 1fr;
+  }
+
+  .inptCorreo {
+    grid-column: span 1;
+  }
+
+  /* Botones en fila al lado del otro */
+  #btnsRegister {
+    flex-direction: row;  /* Cambiado a fila */
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  #btnsRegister button {
+    width: 48%; /* Para que quepan lado a lado */
+  }
+
+  #ContIntereses {
+    grid-template-columns: 1fr;
+  }
+}

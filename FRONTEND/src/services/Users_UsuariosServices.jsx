@@ -1,5 +1,5 @@
 
-
+import { fetchAutenticado } from "../services/Token/fetchAuth";
 
 async function GetUserUsuario() {
     try {

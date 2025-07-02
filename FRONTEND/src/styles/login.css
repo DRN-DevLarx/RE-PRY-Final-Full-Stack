@@ -9,13 +9,24 @@
     justify-content: center;
 }
 
-#contLogin{
+#contLogin {
     background-color: transparent;
     border: solid 1px gray;
     width: 50%;
     padding: 3% 10%;
     border-radius: 20px;
     position: relative;
+    transition: transform 0.3s ease;
+}
+
+#contLogin:hover {
+    transform: scale(1.05);
+}
+
+
+#contLogin:hover .btnLogin {
+    transform: scale(0.952);
+    transition: transform 0.3s ease;
 }
 
 #contLogin header {
@@ -33,6 +44,12 @@
     margin-bottom: 20px;
 }
 
+#contLogin input:focus {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 150, 136, 0.5);
+    border-color: #009688;
+}
+
 .Restablecer {
     color: white;
     text-decoration: none;
@@ -41,8 +58,8 @@
 }
 
 .Restablecer:hover {
-    color: blue;
-    text-decoration: underline;
+    color: #2ae2b6!important;
+    text-decoration: none !important;
 }
 
 .DIVbtnR {
@@ -79,14 +96,14 @@
 }
 
 .LINK {
-    color: #2ae2b6;
+    color: white;
     text-decoration: none;
     font-weight: bold;
 }
 
 .LINK:hover {
-    color: blue;
-    text-decoration: underline;
+    color: #00bfa5;
+    text-decoration: none !important;
 }
 
 .btnLogin {
@@ -96,4 +113,42 @@
     font-weight: bold;
     padding: 5px 15px;
     margin: auto;
+    transition: all 0.2s ease;
+}
+
+
+.btnLogin:hover {
+    background-color: #00bfa5;
+    color: white;
+    transform: scale(1.05);
+    box-shadow: 0 0 12px rgba(0, 255, 204, 0.8);
+}
+
+
+
+
+
+@media (max-width: 908px) {
+    #contLogin {
+        width: 65%;
+        min-width: auto;
+        margin: 0 auto; /* Centra horizontalmente */
+    }
+}
+
+@media (max-width: 708px) {
+
+    #bodyLogin {
+        background-image: url(../assets/wallpaperLogin.jfif); /* Asegúrate que esté en /public */
+        background-size: cover;           /* Ajusta para cubrir más ancho */
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+
+    /* Cuadro gris responsivo a la mitad (50%) y centrado */
+    #contLogin {
+        width: 85%;
+        min-width: auto;
+        margin: 0 auto; /* Centra horizontalmente */
+    }
 }
