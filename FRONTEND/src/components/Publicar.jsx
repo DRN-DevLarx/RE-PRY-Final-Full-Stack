@@ -165,29 +165,11 @@ const CambioImagen = (e) => {
       return true;
     };
 
-    const validarPalabrasProhibidas = (datos) => {
-      if (palabrasProhibidas.some((palabra) => datos.some((dato) => dato.toLowerCase().includes(palabra)))) {
-        Swal.fire({
-          icon: "error",
-          text: "Un campo contiene información no permitida, por favor verifica e intenta nuevamente.",
-          confirmButtonColor: "#2ae2b6",
-          background: "#1a1a1a",
-          color: "#ffffff",
-          confirmButtonText: "Verificar",
-        });
-        return false;
-      }
-      return true;
-    };
-
-
     const ejecutarValidaciones = () => {
-      const datosUsuario = [Titulo, NombrePuesto, Nvacantes, Lugar, AreaTrabajo, Salario, Descripcion];
 
       if (
         ValidarOfertaExistente(NombrePuesto, Lugar, AreaTrabajo, IDEmpresa) &&
-        validarCampos(Titulo, NombrePuesto, Nvacantes, Lugar, AreaTrabajo, Salario, Descripcion) &&
-        validarPalabrasProhibidas(datosUsuario)
+        validarCampos(Titulo, NombrePuesto, Nvacantes, Lugar, AreaTrabajo, Salario, Descripcion)
       ) {
         
         PostearOferta()
@@ -215,7 +197,7 @@ const CambioImagen = (e) => {
           salario_oferta: Salario,
           descripcion_oferta: Descripcion,
           referenciaIMG_oferta: uploadedUrl,
-          estado_oferta: "activa",
+          estado_oferta: "activas",
           empresaUser: Number(IDEmpresa),
         }
 

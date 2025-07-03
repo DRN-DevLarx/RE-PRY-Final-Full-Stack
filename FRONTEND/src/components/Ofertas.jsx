@@ -11,11 +11,8 @@ function Ofertas() {
 
   const navigate = useNavigate();
   const [Intereses, setIntereses] = useState([]);
-  const [ErrorIntereses, setErrorIntereses] =  useState(null);
-
   const [Ofertas, setOfertas] = useState([]);
-  const [ErrorOfertas, setErrorOfertas] = useState(null);
-
+  
 
   const [FiltroInput, setFiltroInput] = useState("")
 
@@ -27,30 +24,18 @@ function Ofertas() {
   }
   
   useEffect(() => {
-      let isMounted = true;
       const fetch = async () => {
-          try {
-              const DatosIntereses = await InteresesServices.GetIntereses();
-              const DatosOfertas = await OfertasServices.GetOfertas();
+        const DatosIntereses = await InteresesServices.GetIntereses();
+        const DatosOfertas = await OfertasServices.GetOfertas();
 
-              if (isMounted) {
-                  setIntereses(DatosIntereses);
-                  setOfertas(DatosOfertas);
-              }
-          } catch (error) {
-              if (isMounted) {
-                  setErrorIntereses(error.message);
-                  setErrorOfertas(error.message);
-              }
-          }
+        if (DatosIntereses && DatosOfertas) {
+            setIntereses(DatosIntereses);
+            setOfertas(DatosOfertas);
+        }
+    
       };
   
       fetch();
-  
-      return () => {
-          isMounted = false;
-      };
-      
   }, []);
   
   const VerDetalles = (id) => {    
@@ -108,16 +93,27 @@ function Ofertas() {
             {UsuarioLogiado && (
               <div id='SectOfertas'>
                 <div id='containerOf'>
-                  {Filtrado.map((oferta, index) => (oferta.estado_oferta == "activas") && (
-                    <article onClick={(e) => VerDetalles(oferta.id)} key={index}>
-                      <h3>{oferta.titulo_oferta}</h3>
-                      <img className='imgOferta' src={oferta.referenciaIMG_oferta} alt=""/>
-                      <p><b>Interes: </b>{oferta.intereses}</p>
-                      <p><b>Vacantes: </b>{oferta.vacantes_oferta}</p>
-                      <p><b>Ubicacion: </b> {oferta.ubicacion_oferta}</p>
-                      <p><b>Fecha de Publicación:</b> {new Date(oferta.fecha_oferta).toLocaleDateString()}</p>
-                    </article>
-                  ))}
+                  {Filtrado.map((oferta, index) => {
+                    if (oferta.estado_oferta === "activas") {
+                      const interesesRelacionados = Intereses.filter(
+                        (INTERES) => INTERES.id === oferta.intereses
+                      );
+
+                      return (
+                        <article onClick={() => VerDetalles(oferta.id)} key={index}>
+                          <h3>{oferta.titulo_oferta}</h3>
+                          <img className='imgOferta' src={oferta.referenciaIMG_oferta} alt="" />
+                          <p> <b>Área de trabajo: </b> {interesesRelacionados.map((i) => i.nombre_interes).join(", ")}</p>
+                          <p> <b>Vacantes: </b>{oferta.vacantes_oferta} </p>
+                          <p> <b>Ubicación: </b>{oferta.ubicacion_oferta} </p>
+                          <p> <b>Fecha de Publicación: </b> {new Date(oferta.fecha_oferta).toLocaleDateString()} </p>
+                        </article>
+                      );
+                    }
+
+                    return null; // Importante para evitar que el map devuelva `undefined`
+                  })}
+
                 </div>
               </div>
             )}

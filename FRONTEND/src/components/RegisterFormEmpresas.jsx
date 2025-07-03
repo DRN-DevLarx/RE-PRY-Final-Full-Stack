@@ -121,18 +121,6 @@ function RegisterForm2() {
     
     const regex = /^[0-9]+$/;
 
-    if (!regex.test(Identificacion) || Identificacion.length !== 10) {
-        Swal.fire({
-            icon: "info",
-            text: "La identificación debe tener 10 dígitos o el siguiente formato: 0-000-000000",
-            confirmButtonColor: "#2ae2b6",
-            background: "#1a1a1a",
-            color: "red",
-            confirmButtonText: "Verificar",
-            iconColor: "#2ae2b6",
-        });
-    }
-
     if (IDEmpresa !== ConfirmacionID) {
         Swal.fire({
             icon: "error",

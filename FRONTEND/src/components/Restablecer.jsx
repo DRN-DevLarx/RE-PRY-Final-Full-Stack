@@ -87,49 +87,65 @@ function Restablecer() {
 
     async function Aserver() {
 
+      Swal.fire({
+        allowOutsideClick: false,
+        showConfirmButton: false,
+        background: 'rgba(0,0,0,0.1)',
+        backdrop: 'rgba(0,0,0,0.3)',
+        html: `
+          <div style="display: flex; flex-direction: column; align-items: center;">
+            <div class="swal2-spinner"></div>
+            <p style="margin-top: 10px; font-size: 14px; color: #555;">Cargando...</p>
+          </div>
+        `,
+        didOpen: () => {
+          Swal.showLoading();
+        }
+      });
+
+
       const data = {
         correo: email,
         usuario: username,
       };
       
-      const respuestaRestablecer = await EmailDjangoServices.ClaveTemporal(data);
-
-      console.log(respuestaRestablecer.status);
-      
-      if (respuestaRestablecer.status === 200) {
-        Swal.fire({
-            icon: "success",
-            iconColor: "#2ae2b6",
-            text: "La contraseña temporal se ha enviado con éxito.",
+      try {
+        const respuestaRestablecer = await EmailDjangoServices.ClaveTemporal(data);
+          
+        if (respuestaRestablecer.status === 200) {
+          Swal.fire({
+              icon: "success",
+              iconColor: "#2ae2b6",
+              text: "La contraseña temporal se ha enviado con éxito.",
+              confirmButtonColor: "#2ae2b6",
+              background: "#1a1a1a",
+              color: "#ffffff",
+              timer:2000,
+              showConfirmButton: false,
+          });
+          setTimeout(() => {
+            navigate("/login")        
+          }, 2100);
+  
+        } else if (respuestaRestablecer.status === 429) {
+  
+          Swal.fire({
+            icon: "warning",
+            iconColor: "#DC143C",
+            text: "Haz alcanzado el limíte de envíos por hoy. Intenta otro día.",
             confirmButtonColor: "#2ae2b6",
             background: "#1a1a1a",
             color: "#ffffff",
             timer:2000,
             showConfirmButton: false,
-        });
-        setTimeout(() => {
-          navigate("/login")        
-        }, 2100);
-
-      } else if (respuestaRestablecer.status === 429) {
-
-        Swal.fire({
-          icon: "warning",
-          iconColor: "#DC143C",
-          text: "Haz alcanzado el limíte de envíos por hoy. Intenta otro día.",
-          confirmButtonColor: "#2ae2b6",
-          background: "#1a1a1a",
-          color: "#ffffff",
-          timer:2000,
-          showConfirmButton: false,
-        });
-
-        setTimeout(() => {
-          navigate("/login")        
-        }, 2100);
-
-      } else {
-
+          });
+  
+          setTimeout(() => {
+            navigate("/login")        
+          }, 2100);
+        }
+        
+      } catch (error) {
         Swal.fire({
           icon: "error",
           iconColor: "#2ae2b6",
@@ -140,11 +156,13 @@ function Restablecer() {
           timer:2000,
           showConfirmButton: false,
         });
-
+  
         setTimeout(() => {
           navigate("/login")        
         }, 2100);
-      }      
+        
+      }
+   
     }
     
   }

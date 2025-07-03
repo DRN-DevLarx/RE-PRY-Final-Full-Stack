@@ -51,11 +51,11 @@
 
 .item {
   display: flex;
-
   gap: 5px;
   padding: 0 5px;
   color: #30eec5;
   font-size: 1.2rem;
+  
 }
 
 .b {
@@ -91,6 +91,16 @@
 
 .card-contenedor h4 {
     align-self: start;
+}
+
+.VerEmpresa {
+  text-decoration: underline;
+  position: relative;
+  top: 10px;
+}
+
+.VerEmpresa:hover {
+  color: blue ;
 }
 
 .descripcionOferta {

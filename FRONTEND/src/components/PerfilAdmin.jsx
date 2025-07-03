@@ -168,6 +168,8 @@ function PerfilAdmin() {
             Swal.fire({
                 icon: 'error',
                 title: 'Formato no permitido',
+                background: "#1a1a1a",
+                color: "#ffffff",                
                 text: 'Solo se permiten archivos JPG, JPEG, PNG o WEBP.',
 
             });
@@ -480,11 +482,16 @@ function PerfilAdmin() {
             if (respuestaServer) {
                 Swal.fire({
                     icon: "success",
-                    text: "Registro exitoso.",
+                    text: "Información actualizada con exito.",
                     background: "#1a1a1a",
                     color: "#ffffff",
                     showConfirmButton: false,
-                });
+                    timer: 1000,
+                })
+
+                setTimeout(() => {
+                    location.reload()
+                }, 1100);
             }
         }
         else {
