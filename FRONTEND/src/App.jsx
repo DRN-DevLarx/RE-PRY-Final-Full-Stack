@@ -2,15 +2,15 @@
 import Routing from "./routes/routing"
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useEffect } from "react";
-import { verificarExpiracionAccess } from "./services/Token/verificarExpiracion";
+import VerificarExpiracion from "./services/Token/VerificarExpiracion";
 
 function App() {
 
 useEffect(() => {
   const interval = setInterval(() => {
-    verificarExpiracionAccess();
+    VerificarExpiracion();
     // console.log("Revisa");
-  }, 300 * 100); // Cada 5 minutos
+  }, 300 * 100); // Cada 3 minutos
 
   return () => clearInterval(interval);
 }, []);

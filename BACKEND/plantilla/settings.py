@@ -26,8 +26,11 @@ SECRET_KEY = 'django-insecure-x17#h^q_n!y4v&v6%ff7bl)khjle(&a3b5oi(5k9=^s8dyk3^5
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = [
+    "127.0.0.1",
+    "localhost",
+    "mysql://root:eXSwJIVEnvREBxHOEnCiCIQROJjBGdmH@tramway.proxy.rlwy.net:25008/railway"  #URL pública de Railway
+]
 
 # Application definition
 
@@ -101,15 +104,18 @@ WSGI_APPLICATION = 'plantilla.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'emplea_tico',
+        'NAME': 'railway',
         'USER': 'root',
-        'PASSWORD':'1234',
-        'HOST': '127.0.0.1',
-        'PORT':'3306'
-
+        'PASSWORD':'eXSwJIVEnvREBxHOEnCiCIQROJjBGdmH',
+        'HOST': 'tramway.proxy.rlwy.net',
+        'PORT':'25008',
+        # 'OPTIONS': {
+        #     "auth_plugin": "mysql_native_password"
+        # },
     }
 }
 

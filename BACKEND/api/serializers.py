@@ -47,13 +47,6 @@ class UsersSerializer(serializers.ModelSerializer):
         fields = "__all__"
         extra_kwargs = {'password': {'write_only': True}}
 
-    # def validate(self, attrs):
-    #     data = super().validate(attrs)
-    #     # Obtener el grupo del usuario (rol)
-    #     groups = self.user.groups.values_list('name', flat=True)
-    #     data['role'] = groups[0] if groups else None
-    #     return data
-    
     def create(self, validated_data):
         user = User.objects.create_user(**validated_data)
         return user
@@ -103,9 +96,42 @@ class AuditoriaOfertasSerializer(serializers.ModelSerializer):
     class Meta:
         model = AuditoriaOfertas
         fields = "__all__"
+ 
 
+# class CustomTokenObtainPairSerializer(serializers.Serializer):
+#     username = serializers.CharField()
+#     password = serializers.CharField(write_only=True)
 
-    
+#     def validate(self, attrs):
+#         username = attrs.get("username")
+#         password = attrs.get("password")
+
+#         try:
+#             user = User.objects.get(username=username)
+#         except User.DoesNotExist:
+#             raise serializers.ValidationError({
+#                 "error_code": "invalid_credentials",
+#                 "message": "Credenciales incorrectas."
+#             })
+
+#         if not user.check_password(password):
+#             raise serializers.ValidationError({
+#                 "error_code": "invalid_credentials",
+#                 "message": "Credenciales incorrectas."
+#             })
+
+#         # Si llegamos hasta acá, el usuario es válido (activo o no)
+#         refresh = RefreshToken.for_user(user)
+
+#         groups = user.groups.values_list('name', flat=True)
+
+#         return {
+#             'access': str(refresh.access_token),
+#             'refresh': str(refresh),
+#             'user_id': user.id,
+#             'role': groups[0] if groups else None,
+#             'is_active': user.is_active
+#         }
 
 class CustomTokenObtainPairSerializer(serializers.Serializer):
     username = serializers.CharField()
@@ -129,17 +155,21 @@ class CustomTokenObtainPairSerializer(serializers.Serializer):
                 "message": "Credenciales incorrectas."
             })
 
-        # Si llegamos hasta acá, el usuario es válido (activo o no)
+        # Crear el token
         refresh = RefreshToken.for_user(user)
+        access_token = refresh.access_token
 
+        # Agregar campos personalizados al access token
         groups = user.groups.values_list('name', flat=True)
 
+        access_token['role'] = groups[0] if groups else None
+        access_token['user_id'] = user.id
+        access_token['is_active'] = user.is_active
+        
         return {
-            'access': str(refresh.access_token),
+            'access': str(access_token),
             'refresh': str(refresh),
             'user_id': user.id,
             'role': groups[0] if groups else None,
             'is_active': user.is_active
         }
-
-

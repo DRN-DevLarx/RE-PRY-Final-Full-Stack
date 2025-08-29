@@ -20,9 +20,7 @@ import { CerrarDashboard } from './CerrarDashboard';
 import Swal from 'sweetalert2';
 
 import "../styles/Publicaciones.css"
-
-
-
+import { jwtDecode } from "jwt-decode";
 
 
 function Publicaciones() {
@@ -31,8 +29,10 @@ function Publicaciones() {
 
   const [IMgUser, setIMgUser] = useState("https://res.cloudinary.com/dateuzds4/image/upload/v1750454292/FB_sby2fv.avif");
 
-  const idUserCookie = GetCookie.getCookie("user_id")
-  const Rol = GetCookie.getCookie("role")
+  const accessToken = GetCookie.getCookie("access_token");
+  const Rol = jwtDecode(accessToken).role;
+  const idUserCookie = jwtDecode(accessToken).user_id;
+  
   
   const [Intereses, setIntereses] = useState([]);
 

@@ -11,6 +11,7 @@ import {useNavigate} from "react-router-dom";
 import GetCookie from '../services/GetCookie';
 
 import '../styles/DetallesOfer.css';
+import { jwtDecode } from "jwt-decode";
 
 function DetallesOfer() {
     const navigate = useNavigate()
@@ -38,12 +39,14 @@ function DetallesOfer() {
     const [DescripcionOferta, setDescripcionOferta] = useState("")
     const [RImagenOferta, setRImagenOferta] = useState("")
 
-    const IdOferta = GetCookie.getCookie("IdOferta");
-    const Rol = GetCookie.getCookie("role");
-
     const [IsOferente, setIsOferente] = useState(false)
-    
     const [ContEmpresa, setContEmpresa] = useState(false)
+    
+    const IdOferta = GetCookie.getCookie("IdOferta");
+
+    const accessToken = GetCookie.getCookie("access_token");
+    const Rol = jwtDecode(accessToken).role;
+    
 
     useEffect(() => {
         const fetch = async () => {
@@ -53,7 +56,7 @@ function DetallesOfer() {
                 const DatosUsers = await usersServices.GetUser();
 
 
-                if(Rol === "oferente" || Rol === "admin"){
+                if(Rol === "oferente"){
                   setIsOferente(true)
                 }
 

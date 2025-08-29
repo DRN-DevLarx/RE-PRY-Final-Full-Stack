@@ -8,7 +8,9 @@ function LoginForm() {
 
   const [ValueUser, setValueUser] = useState('');
   const [ValuePass, setValuePass] = useState('');
+  const [ValueAccessToken, setValueAccessToken] = useState('');
   
+
   let IDuser = 0;
 
   const navigate = useNavigate();
@@ -43,15 +45,14 @@ function LoginForm() {
 
       document.cookie = `access_token=${data.access}; path=/; secure; SameSite=Strict`;
       document.cookie = `refresh_token=${data.refresh}; path=/; secure; SameSite=Strict`;
-      document.cookie = `user_id=${data.user_id}; path=/; secure; SameSite=Strict`;
-      document.cookie = `role=${data.role}; path=/; secure; SameSite=Strict`;
-   
+      
+      setValueAccessToken(data.access)
+
       setTimeout(() => {
         navigate("/PrincipalPage")
       }, 1600);
     }
-    
-
+  
   }
 
   async function IniciarSesion() {
@@ -159,8 +160,8 @@ function LoginForm() {
         } else {
             document.cookie = `access_token=${data.access}; path=/; secure; SameSite=Strict`;
             document.cookie = `refresh_token=${data.refresh}; path=/; secure; SameSite=Strict`;
-            document.cookie = `user_id=${data.user_id}; path=/; secure; SameSite=Strict`;
-            document.cookie = `role=${data.role}; path=/; secure; SameSite=Strict`;
+
+            setValueAccessToken(data.access)
             navigate("/PrincipalPage");
         }
 
@@ -183,9 +184,8 @@ function LoginForm() {
     setTimeout(() => {
         navigate("/")       
     }, 200);
-
   }
-
+  
   return (
     <div id='bodyLogin'>
       <div id='contLogin'>

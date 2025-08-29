@@ -29,7 +29,7 @@ const PrivateRoute = ({ element }) => {
       });
     }
   }, [isAuthenticated, isRedirecting]); // Dependemos de isAuthenticated y isRedirecting
-
+  
   // Redirigimos al login cuando se cambia el estado isRedirecting
   useEffect(() => {
     if (isRedirecting) {

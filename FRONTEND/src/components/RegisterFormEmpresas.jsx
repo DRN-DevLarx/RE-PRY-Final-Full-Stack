@@ -61,15 +61,10 @@ function RegisterForm2() {
     navigate('/registrarEmpresa')
   }
 
-
-  
-
-
   const simbolosNoPermitidos = [
     " ", "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "[", "]",
     "{", "}", ":", ";", "'", '"', "<", ">", "/", "\\", "|", "=", "+"
   ];
-
 
   const palabrasProhibidas = [
     "admin", "superuser", "password", "puta", "madre","pendejo", "mierda", "caca", "culo", "verga", "coño",

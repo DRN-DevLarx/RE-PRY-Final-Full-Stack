@@ -10,7 +10,6 @@ class Intereses(models.Model):
     def __str__(self):
         return f"{self.nombre_interes}"
 
-
 class Usuarios (models.Model):
     identificacion_oferente = models.IntegerField(unique=True)
     telefono_oferente = models.CharField(unique=True, max_length=20, blank=True, null=True)
@@ -21,9 +20,7 @@ class Usuarios (models.Model):
     user_info = models.ManyToManyField(User, through='Users_Usuarios', related_name='Usuarios')
 
     def __str__(self):
-        return f"Identificacion: {self.identificacion_oferente}, Estado: {self.estado_oferente}"  
-
-    
+        return f"Identificacion: {self.identificacion_oferente}, Estado: {self.estado_oferente}" 
 
 class InteresesUsuarios(models.Model):
     usuario = models.ForeignKey(Usuarios, on_delete=models.CASCADE)

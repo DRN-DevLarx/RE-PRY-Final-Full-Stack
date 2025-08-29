@@ -6,6 +6,7 @@ import GetCookie from '../services/GetCookie';
 import Swal from 'sweetalert2';
 
 import "../styles/ofertas.css";
+import { jwtDecode } from "jwt-decode";
 
 function Ofertas() {
 
@@ -32,7 +33,6 @@ function Ofertas() {
             setIntereses(DatosIntereses);
             setOfertas(DatosOfertas);
         }
-    
       };
   
       fetch();

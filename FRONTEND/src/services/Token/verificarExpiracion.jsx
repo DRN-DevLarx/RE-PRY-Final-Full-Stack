@@ -1,13 +1,15 @@
 import { jwtDecode } from "jwt-decode";
 import { getCookie, clearSessionCookies } from "./sessionManager";
-
 import Swal from "sweetalert2";
 
-export function verificarExpiracionAccess() {
+function VerificarExpiracion(mensaje) {
 
   const access = getCookie("access_token");
+  const accessRecibido = mensaje;
 
-  if (!access) return;
+  if (!access || access != accessRecibido) {
+    // console.log("No hay token o el token ha cambiado");    
+  }
 
   try {
     const { exp } = jwtDecode(access);
@@ -34,3 +36,5 @@ export function verificarExpiracionAccess() {
     console.error("Error al decodificar el access token:", error);
   }
 }
+
+export default VerificarExpiracion;

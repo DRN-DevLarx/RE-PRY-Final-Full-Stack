@@ -14,6 +14,8 @@ import empresasServices from "../services/empresasServices";
 import Users_EmpresasServices from "../services/Users_EmpresasServices";
 
 import "../styles/AsideDashboard.css";
+import { jwtDecode } from "jwt-decode";
+
 
 const Menu = () => {
     let IMgUser = "https://res.cloudinary.com/dw65xvmgp/image/upload/v1749743238/FB_chiuol.avif";
@@ -57,10 +59,13 @@ const Menu = () => {
     const [Usuarios, setUsuarios] = useState([]);
     const [Empresas, setEmpresas] = useState([]);
     
-    const RolUser = GetCookie.getCookie("role");
-    const IDUser = GetCookie.getCookie("user_id");
+    const accessToken = GetCookie.getCookie("access_token");
+    const RolUser = jwtDecode(accessToken).role;
+    const IDUser = jwtDecode(accessToken).user_id;
+    
     const IDusuario = DatosIntermedios.find(item => item.user == IDUser)?.usuario;
     const IDempresa = DatosIntermediosEmpresas.find(item => item.user == IDUser)?.empresa;
+    
 
     let Opciones = [];
 

@@ -6,6 +6,7 @@ import PostulacionesServices from '../services/PostulacionesServices';
 
 import GetCookie from '../services/GetCookie';
 import cloudDinaryServices from '../services/cloudDinaryServices';
+import { jwtDecode } from "jwt-decode";
 
 const AplicacionEmpleo = () => {
   const [pdfPreviewUrl, setPdfPreviewUrl] = useState(null);
@@ -15,8 +16,10 @@ const AplicacionEmpleo = () => {
 
   const navigate = useNavigate();
 
-  const userid  = GetCookie.getCookie("user_id");
   const idOferta = GetCookie.getCookie("IdOferta");
+
+  const accessToken = GetCookie.getCookie("access_token");
+  const userid = jwtDecode(accessToken).user_id;  
 
   useEffect(() => {
       const fetch = async () => {

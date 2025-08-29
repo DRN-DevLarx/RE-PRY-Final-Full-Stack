@@ -14,6 +14,8 @@ import Swal from 'sweetalert2';
 
 import '../styles/PerfilAdmin.css'
 import Users_EmpresasServices from '../services/Users_EmpresasServices';
+import { jwtDecode } from "jwt-decode";
+
 
 function PerfilAdmin() {
     const navigate = useNavigate();
@@ -38,10 +40,9 @@ function PerfilAdmin() {
     const [TelefonoAEditar, setTelefonoAEditar] = useState("")
     const [CorreoAEditar, setCorreoAEditar] = useState("")
 
-
-    const Rol = GetCookie.getCookie("role")
-    const IDUser = GetCookie.getCookie("user_id")
-
+    const accessToken = GetCookie.getCookie("access_token");
+    const Rol = jwtDecode(accessToken).role;
+    const IDUser = jwtDecode(accessToken).user_id;
 
 
     const [IDusuario, setIDusuario] = useState();

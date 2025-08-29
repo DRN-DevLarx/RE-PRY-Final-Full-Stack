@@ -28,7 +28,8 @@ function Publicar() {
   const [Salario, setSalario] = useState("")
   const [Descripcion, setDescripcion] = useState("")
 
-  const IDEmpresa = GetCookie.getCookie("user_id")
+  const accessToken = GetCookie.getCookie("access_token");
+  const IDEmpresa = jwtDecode(accessToken).user_id;
 
   const [ImagenSeleccionada, setImagenSeleccionada] = useState(null);
   const [VistaIMG, setVistaIMG] = useState(null);

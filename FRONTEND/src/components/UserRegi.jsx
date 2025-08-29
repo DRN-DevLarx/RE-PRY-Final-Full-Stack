@@ -12,6 +12,8 @@ import Swal from 'sweetalert2';
 import cloudDinaryServices from '../services/cloudDinaryServices';
 
 import '../styles/UsRegi.css';
+import { jwtDecode } from "jwt-decode";
+
 
 function UserRegi() {
 
@@ -54,7 +56,9 @@ function UserRegi() {
     const [idUser, setidUser] = useState()
     const IDusuario = DatosIntermedios.find(item => item.user == idUser)?.usuario;    
 
-    const idUserCookie = GetCookie.getCookie("user_id")
+    const accessToken = GetCookie.getCookie("access_token");
+    const idUserCookie = jwtDecode(accessToken).user_id;
+    
 
     const [Identificacion, setIdentificacion] = useState("")
     const [ContraAdmin, setContraAdmin] = useState("")
@@ -135,16 +139,13 @@ function UserRegi() {
         (user) =>
         user.id == IDusuario &&
         user.referenciaIMG_oferente &&
-        user.referenciaIMG_oferente !== "null"
+        user.referenciaIMG_oferente == "null"
     );
 
     if (userEncontrado) {
         setIMgUser(userEncontrado.referenciaIMG_oferente);
     }
     }, [Usuarios, IDusuario]);
-
-
-    
 
 
     const InsertIMGDefault = (e) => {

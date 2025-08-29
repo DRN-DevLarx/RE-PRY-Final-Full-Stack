@@ -427,7 +427,6 @@ ejecutarValidaciones();
         
 
         // Post a la tabla intermedia de auth_user_groups
-
         const datos_A_auth_user_groups = {
           user: respuestaServer.id,
           group: 2,   // Rol Oferente
@@ -435,9 +434,7 @@ ejecutarValidaciones();
 
         console.log(await User_groupsServices.PostUser_group(datos_A_auth_user_groups));
         
-        
-
-        
+      
         Swal.fire({
           icon: "success",
           text: "Registro exitoso.",
@@ -463,8 +460,6 @@ ejecutarValidaciones();
         });
       }
     }
-
-
   }
 
   function ROferente() {
@@ -474,10 +469,6 @@ ejecutarValidaciones();
   function REmpresa () {
     navigate('/registrarEmpresa')
   }
-
-
-
-
   
   return (
     <div id='bodyRegister'>

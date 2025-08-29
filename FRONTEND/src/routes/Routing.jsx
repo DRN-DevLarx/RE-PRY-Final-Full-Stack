@@ -2,7 +2,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import Inicio from '../pages/InicioPage';
-
 import Login from '../pages/LoginPage';
 import RegisterOferentes from '../pages/RegisterPageOferentes';
 import RegisterEmpresas from '../pages/RegisterPageEmpresas';
@@ -11,19 +10,15 @@ import RestablecerPage from '../pages/RestablecerPage';
 import Publicar from '../pages/PublicarPage';
 import DashboardPage from '../pages/DashboardPage';
 import EditarPerfil from '../pages/EditarPerfil'
-
 import PrincipalPage from '../pages/PrincipalPage';
-
 import ApEmpleo from '../pages/ApEmpleo';
 import ChatNotif from'../pages/ChatNotif';
 import DetallesOfertaPage from '../pages/DetallesOfertaPage';
 import TerminosyCondicionesPage from '../pages/TerminosyCondicionesPage';
-
 import PrivateRoute from '../components/PrivateRoute';
 
 function Routing() {
   return (
-
 
     <Router>
         <Routes >
