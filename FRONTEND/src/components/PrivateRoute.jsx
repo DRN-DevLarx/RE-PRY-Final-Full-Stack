@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import GetCookie from '../services/GetCookie';
+import { getCookie } from "../services/Token/sessionManager";
 
 // Componente PrivateRoute para proteger rutas privadas
 const PrivateRoute = ({ element }) => {
@@ -10,7 +10,7 @@ const PrivateRoute = ({ element }) => {
 
   // const isAuthenticated = localStorage.getItem('usuarioActual'); // Verificamos si el usuario está autenticado
   
-  const isAuthenticated = GetCookie.getCookie("access_token");
+  const isAuthenticated = getCookie("access_token");
 
   useEffect(() => {
     // Si el usuario no está autenticado, mostramos el mensaje de alerta

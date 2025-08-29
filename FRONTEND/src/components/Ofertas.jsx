@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import InteresesServices from '../services/interesesServices';
 import OfertasServices from '../services/ofertasServices';
-import GetCookie from '../services/GetCookie';
+import { getCookie } from "../services/Token/sessionManager";
 import Swal from 'sweetalert2';
 
 import "../styles/ofertas.css";
@@ -18,7 +18,7 @@ function Ofertas() {
   const [FiltroInput, setFiltroInput] = useState("")
 
   let UsuarioLogiado = false;
-  const Access_token = GetCookie.getCookie("access_token");
+  const Access_token = getCookie("access_token");
 
   if (Access_token) {
     UsuarioLogiado = true;

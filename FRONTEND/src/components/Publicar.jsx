@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import InteresesServices from '../services/interesesServices';
 import ofertasServices from '../services/ofertasServices';
 import Swal from 'sweetalert2';
-import GetCookie from '../services/GetCookie'
+import { getCookie } from "../services/Token/sessionManager";
 import cloudDinaryServices from '../services/cloudDinaryServices';
 
 import '../styles/public.css';
@@ -28,7 +28,7 @@ function Publicar() {
   const [Salario, setSalario] = useState("")
   const [Descripcion, setDescripcion] = useState("")
 
-  const accessToken = GetCookie.getCookie("access_token");
+  const accessToken = getCookie("access_token");
   const IDEmpresa = jwtDecode(accessToken).user_id;
 
   const [ImagenSeleccionada, setImagenSeleccionada] = useState(null);

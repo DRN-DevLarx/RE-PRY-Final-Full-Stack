@@ -7,7 +7,7 @@ import User_groupsServices from '../services/User_groupsServices';
 import { useState, useEffect } from 'react'
 
 import {CerrarDashboard} from "./CerrarDashboard"
-import GetCookie from '../services/GetCookie';
+import { getCookie } from "../services/Token/sessionManager";
 import Swal from 'sweetalert2';
 import cloudDinaryServices from '../services/cloudDinaryServices';
 
@@ -55,11 +55,9 @@ function UserRegi() {
 
     const [idUser, setidUser] = useState()
     const IDusuario = DatosIntermedios.find(item => item.user == idUser)?.usuario;    
-
-    const accessToken = GetCookie.getCookie("access_token");
+    const accessToken = getCookie("access_token");
     const idUserCookie = jwtDecode(accessToken).user_id;
     
-
     const [Identificacion, setIdentificacion] = useState("")
     const [ContraAdmin, setContraAdmin] = useState("")
     const [UsuarioAEditar, setUsuarioAEditar] = useState("")

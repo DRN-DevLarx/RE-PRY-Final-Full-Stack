@@ -5,7 +5,7 @@ import UserRegi from '../components/UserRegi';
 import RegisterAdmin from "./RegisterAdmin";
 import ChatsNotifics from "./ChatsNotifics";
 
-import GetCookie from "../services/GetCookie";
+import { getCookie } from "../services/Token/sessionManager";
 
 import usersServices from '../services/usersServices';
 import usuariosServices from '../services/usuariosServices';
@@ -59,7 +59,7 @@ const Menu = () => {
     const [Usuarios, setUsuarios] = useState([]);
     const [Empresas, setEmpresas] = useState([]);
     
-    const accessToken = GetCookie.getCookie("access_token");
+    const accessToken = getCookie("access_token");
     const RolUser = jwtDecode(accessToken).role;
     const IDUser = jwtDecode(accessToken).user_id;
     

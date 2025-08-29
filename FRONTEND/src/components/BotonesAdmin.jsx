@@ -1,18 +1,20 @@
 import React from 'react'
 import {useNavigate} from "react-router-dom"
 import "../styles/BotonesAdmin.css"
+import { VerificarToken } from "../services/Token/fetchAuth";
 
 function BotonesAdmin() {
   const navigate = useNavigate()
 
-  function IrDashboar() {
+  async function IrDashboar() {
+    await VerificarToken();
       navigate("/dashboard");
   }
 
-  function IrPublicar() {
-      navigate("/public");
+  async function IrPublicar() {
+    await VerificarToken();
+    navigate("/public");
   }
-
 
   return (
     <div>

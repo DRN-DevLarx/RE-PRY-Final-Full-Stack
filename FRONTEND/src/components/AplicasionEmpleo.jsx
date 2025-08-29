@@ -4,7 +4,8 @@ import '../styles/AplicasionEmpleo.css';
 import Swal from "sweetalert2";
 import PostulacionesServices from '../services/PostulacionesServices';
 
-import GetCookie from '../services/GetCookie';
+import { getCookie } from "../services/Token/sessionManager";
+
 import cloudDinaryServices from '../services/cloudDinaryServices';
 import { jwtDecode } from "jwt-decode";
 
@@ -16,9 +17,8 @@ const AplicacionEmpleo = () => {
 
   const navigate = useNavigate();
 
-  const idOferta = GetCookie.getCookie("IdOferta");
-
-  const accessToken = GetCookie.getCookie("access_token");
+  const idOferta = getCookie("IdOferta");
+  const accessToken = getCookie("access_token");
   const userid = jwtDecode(accessToken).user_id;  
 
   useEffect(() => {

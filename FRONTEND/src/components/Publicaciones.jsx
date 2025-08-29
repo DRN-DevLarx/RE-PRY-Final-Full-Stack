@@ -12,7 +12,7 @@ import User_groupsServices from '../services/User_groupsServices';
 
 
 import cloudDinaryServices from '../services/cloudDinaryServices';
-import GetCookie from '../services/GetCookie';
+import { getCookie } from "../services/Token/sessionManager";
 import UserRegi from '../components/UserRegi'
 import PostulacionesServices from '../services/PostulacionesServices';
 
@@ -29,7 +29,7 @@ function Publicaciones() {
 
   const [IMgUser, setIMgUser] = useState("https://res.cloudinary.com/dateuzds4/image/upload/v1750454292/FB_sby2fv.avif");
 
-  const accessToken = GetCookie.getCookie("access_token");
+  const accessToken = getCookie("access_token");
   const Rol = jwtDecode(accessToken).role;
   const idUserCookie = jwtDecode(accessToken).user_id;
   

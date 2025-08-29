@@ -8,7 +8,7 @@ import usersServices from '../services/usersServices';
 
 import {useNavigate} from "react-router-dom";
 
-import GetCookie from '../services/GetCookie';
+import { getCookie } from "../services/Token/sessionManager";
 
 import '../styles/DetallesOfer.css';
 import { jwtDecode } from "jwt-decode";
@@ -42,9 +42,9 @@ function DetallesOfer() {
     const [IsOferente, setIsOferente] = useState(false)
     const [ContEmpresa, setContEmpresa] = useState(false)
     
-    const IdOferta = GetCookie.getCookie("IdOferta");
+    const IdOferta = getCookie("IdOferta");
 
-    const accessToken = GetCookie.getCookie("access_token");
+    const accessToken = getCookie("access_token");
     const Rol = jwtDecode(accessToken).role;
     
 

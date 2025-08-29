@@ -1,24 +1,25 @@
 import React, { useState, useEffect } from 'react'
 import {useNavigate} from "react-router-dom"
 import BotonesAdmin from "./BotonesAdmin"
-import GetCookie from '../services/GetCookie'
+import { getCookie } from "../services/Token/sessionManager";
 import Swal from 'sweetalert2'
 import { jwtDecode } from "jwt-decode";
-import {CerrarSesion} from '../services/Token/sessionManager'
+import {CerrarSesion, CerrarSesionPorSeguridad} from '../services/Token/sessionManager'
+import { VerificarExpiracion } from '../services/Token/tokenUtils'
+import { VerificarToken } from '../services/Token/fetchAuth';
 
 import "../styles/NavPrincipal.css"
 
 function NavComponent() {
 
-  const navigate = useNavigate()
   const [Users, setUsers] = useState([]);
-  const accessToken = GetCookie.getCookie("access_token");
+  const accessToken = getCookie("access_token");
 
   const Rol = jwtDecode(accessToken).role;
   const [IsAdmin, setIsAdmin] = useState(false)
     
-  function BTNCerrarSesion() {
-  
+  async function BTNCerrarSesion() {
+    
     Swal.fire({
       background: "#1a1a1a",
       icon: "question",
@@ -48,26 +49,35 @@ function NavComponent() {
             setIsAdmin(true);
           }
 
-          const response = await fetch(`http://127.0.0.1:8000/api/user-data/`, {
-            method: "GET",
-            
-            headers: {
-              "Content-Type": "application/json",
-              "Authorization": `Bearer ${accessToken}`
-              }
-            });
-            
-          if (!response.ok) {
-              CerrarSesion();
-          } else {
-            const userData = await response.json();
-            setUsers(userData);
-        
+          const response = await VerificarToken();
+          if (response == false) {
+            CerrarSesionPorSeguridad();
+          } 
+          else {
+            setUsers(response);
           }
+
+
+          // const response = await fetch(`http://127.0.0.1:8000/api/user-data/`, {
+          //   method: "GET",
+            
+          //   headers: {
+          //     "Content-Type": "application/json",
+          //     "Authorization": `Bearer ${accessToken}`
+          //     }
+          //   });
+            
+          // if (!response.ok) {
+          //     CerrarSesion();
+          // } else {
+          //   const userData = await response.json();
+          //   setUsers(userData);
+        
+          // }
       }
 
       fetchUserData();
-  }, [Rol]);
+  }, []);
       
   return (
     <div id='contbodyadmin'>

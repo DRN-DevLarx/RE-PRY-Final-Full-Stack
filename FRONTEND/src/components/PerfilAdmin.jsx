@@ -8,7 +8,7 @@ import empresasServices from '../services/empresasServices';
 
 import { CerrarDashboard } from './CerrarDashboard';
 
-import GetCookie from '../services/GetCookie';
+import { getCookie } from "../services/Token/sessionManager";
 import cloudDinaryServices from '../services/cloudDinaryServices';
 import Swal from 'sweetalert2';
 
@@ -40,7 +40,7 @@ function PerfilAdmin() {
     const [TelefonoAEditar, setTelefonoAEditar] = useState("")
     const [CorreoAEditar, setCorreoAEditar] = useState("")
 
-    const accessToken = GetCookie.getCookie("access_token");
+    const accessToken = getCookie("access_token");
     const Rol = jwtDecode(accessToken).role;
     const IDUser = jwtDecode(accessToken).user_id;
 
